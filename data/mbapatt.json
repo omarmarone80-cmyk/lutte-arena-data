@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "nom": "Tournoi de Pikine",
+        "date": "2026-05-10",
+        "lieu": "Arène de Pikine",
+        "description": "Les meilleurs espoirs de la lutte s'affrontent pour ce tournoi de Mbapatt.",
+        "participants": ["Ama Baldé", "Zarco", "Franc"],
+        "estTermine": false
+    },
+    {
+        "id": 2,
+        "nom": "Challenge des Parcelles",
+        "date": "2026-06-15",
+        "lieu": "Arène des Parcelles Assainies",
+        "description": "Tournoi annuel de Mbapatt réunissant 8 lutteurs prometteurs.",
+        "participants": ["Bébé Diène", "Ngala", "Malick Niang"],
+        "estTermine": false
+    }
+]

@@ -1,0 +1,272 @@
+{
+    "Ada Fass": {
+        "victoires": 12,
+        "defaites": 4,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 16,
+        "ecurie": "Fass Benno",
+        "historique": ["Victoire vs Eumeu Sène (2025)"],
+        "photo": "images/lutteurs/ada_fass.jpg"
+    },
+    "Eumeu Sène": {
+        "victoires": 12,
+        "defaites": 10,
+        "nuls": 2,
+        "sansVerdict": 1,
+        "combats": 25,
+        "ecurie": "Tysinger",
+        "historique": ["Victoire vs Balla Gaye 2 (2015)"],
+        "photo": "images/lutteurs/eumeu_sene.jpg"
+    },
+    "Liss Ndiago": {
+        "victoires": 9,
+        "defaites": 3,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 12,
+        "ecurie": "Diamageune",
+        "historique": ["Victoire vs Diop 2 (2024)"],
+        "photo": "images/lutteurs/liss_ndiago.jpg"
+    },
+    "Diop 2": {
+        "victoires": 11,
+        "defaites": 1,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 12,
+        "ecurie": "Yeumbeul",
+        "historique": ["Défaite vs Liss Ndiago (2024)"],
+        "photo": "images/lutteurs/diop_2.jpg"
+    },
+    "Gris Bordeaux": {
+        "victoires": 11,
+        "defaites": 12,
+        "nuls": 0,
+        "sansVerdict": 2,
+        "combats": 25,
+        "ecurie": "Fass",
+        "historique": ["Défaite vs Balla Gaye 2 (2022)"],
+        "photo": "images/lutteurs/gris_bordeaux.jpg"
+    },
+    "Siteu": {
+        "victoires": 13,
+        "defaites": 6,
+        "nuls": 0,
+        "sansVerdict": 1,
+        "combats": 20,
+        "ecurie": "Lansar",
+        "historique": ["Victoire vs Balla Gaye 2 (2025)"],
+        "photo": "images/lutteurs/siteu.jpg"
+    },
+    "Mbaye Gouy Gui": {
+        "victoires": 13,
+        "defaites": 5,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 18,
+        "ecurie": "Baol",
+        "historique": [],
+        "photo": "images/lutteurs/mbaye_gouy_gui.jpg"
+    },
+    "Niang Mballo": {
+        "victoires": 9,
+        "defaites": 1,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 10,
+        "ecurie": "Parcelle",
+        "historique": [],
+        "photo": "images/lutteurs/niang_mballo.jpg"
+    },
+    "Reug Reug": {
+        "victoires": 35,
+        "defaites": 2,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 37,
+        "ecurie": "Thiaroye",
+        "historique": [],
+        "photo": "images/lutteurs/reug_reug.jpg"
+    },
+    "Boy Niang 2": {
+        "victoires": 26,
+        "defaites": 9,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 35,
+        "ecurie": "Pikine",
+        "historique": ["Victoire vs Balla Gaye 2 (2023)"],
+        "photo": "images/lutteurs/boy_niang_2.jpg"
+    },
+    "Prince": {
+        "victoires": 8,
+        "defaites": 1,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 10,
+        "ecurie": "Pikine",
+        "historique": [],
+        "photo": "images/lutteurs/prince.jpg"
+    },
+    "Lac 2": {
+        "victoires": 16,
+        "defaites": 2,
+        "nuls": 2,
+        "sansVerdict": 1,
+        "combats": 21,
+        "ecurie": "Guediawaye",
+        "historique": ["Victoire vs Boy Niang 2 (2017)"],
+        "photo": "images/lutteurs/lac_2.jpg"
+    },
+    "Balla Gaye 2": {
+        "victoires": 23,
+        "defaites": 7,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 30,
+        "ecurie": "Guediawaye",
+        "historique": ["Victoire vs Gris Bordeaux (2022)", "Défaite vs Boy Niang 2 (2023)"],
+        "photo": "images/lutteurs/balla_gaye_2.jpg"
+    },
+    "Moussa Ndoye": {
+        "victoires": 8,
+        "defaites": 4,
+        "nuls": 1,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "Fass",
+        "historique": [],
+        "photo": "images/lutteurs/moussa_ndoye.jpg"
+    },
+    "Gris 2": {
+        "victoires": 5,
+        "defaites": 6,
+        "nuls": 0,
+        "sansVerdict": 1,
+        "combats": 12,
+        "ecurie": "Fass",
+        "historique": [],
+        "photo": "images/lutteurs/gris_2.jpg"
+    },
+    "Bou Siteu": {
+        "victoires": 10,
+        "defaites": 3,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "Lansar",
+        "historique": [],
+        "photo": "images/lutteurs/bou_siteu.jpg"
+    },
+    "Ousmane Toucouleur": {
+        "victoires": 4,
+        "defaites": 8,
+        "nuls": 1,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/ousmane_toucouleur.jpg"
+    },
+    "Ordinateur": {
+        "victoires": 7,
+        "defaites": 5,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 12,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/ordinateur.jpg"
+    },
+    "Obeuly": {
+        "victoires": 6,
+        "defaites": 7,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/obeuly.jpg"
+    },
+    "Talfa": {
+        "victoires": 9,
+        "defaites": 4,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/talfa.jpg"
+    },
+    "Lac Rose": {
+        "victoires": 8,
+        "defaites": 5,
+        "nuls": 1,
+        "sansVerdict": 0,
+        "combats": 14,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/lac_rose.jpg"
+    },
+    "Bakary Sakho": {
+        "victoires": 7,
+        "defaites": 6,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/bakary_sakho.jpg"
+    },
+    "Pape Ndoye": {
+        "victoires": 10,
+        "defaites": 3,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/pape_ndoye.jpg"
+    },
+    "Sokh Bou Ndaw": {
+        "victoires": 6,
+        "defaites": 7,
+        "nuls": 1,
+        "sansVerdict": 0,
+        "combats": 14,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/sokh_bou_ndaw.jpg"
+    },
+    "Goro Sock": {
+        "victoires": 8,
+        "defaites": 5,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/goro_sock.jpg"
+    },
+    "Sokh": {
+        "victoires": 9,
+        "defaites": 4,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 13,
+        "ecurie": "",
+        "historique": [],
+        "photo": "images/lutteurs/sokh.jpg"
+    },
+    "Secret": {
+        "victoires": 0,
+        "defaites": 0,
+        "nuls": 0,
+        "sansVerdict": 0,
+        "combats": 0,
+        "ecurie": "",
+        "historique": [],
+        "photo": ""
+    }
+}

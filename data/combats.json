@@ -1,0 +1,144 @@
+[
+    {
+        "id": 1,
+        "date": "2026-04-19",
+        "jourSemaine": "Dimanche",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Ada Fass",
+            "lutteur2": "Eumeu Sène",
+            "ecurie1": "Fass Benno",
+            "ecurie2": "Tysinger",
+            "type": "Duel de générations"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": true
+    },
+    {
+        "id": 2,
+        "date": "2026-04-26",
+        "jourSemaine": "Dimanche",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Liss Ndiago",
+            "lutteur2": "Diop 2",
+            "ecurie1": "Diamageune",
+            "ecurie2": "Yeumbeul",
+            "type": "Combat important"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": false
+    },
+    {
+        "id": 3,
+        "date": "2026-05-02",
+        "jourSemaine": "Samedi",
+        "lieu": "Paris, France",
+        "estInternational": true,
+        "vedette": {
+            "lutteur1": "Siteu",
+            "lutteur2": "Gris Bordeaux",
+            "ecurie1": "Lansar",
+            "ecurie2": "Fass",
+            "type": "Combat international"
+        },
+        "petitsCombats": [
+            { "lutteur1": "Moussa Ndoye", "lutteur2": "Gris 2" },
+            { "lutteur1": "Bou Siteu", "lutteur2": "Ousmane Toucouleur" },
+            { "lutteur1": "Ordinateur", "lutteur2": "Obeuly" }
+        ],
+        "estGrandCombat": true
+    },
+    {
+        "id": 4,
+        "date": "2026-06-07",
+        "jourSemaine": "Dimanche",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Reug Reug",
+            "lutteur2": "Boy Niang 2",
+            "ecurie1": "Thiaroye",
+            "ecurie2": "Pikine",
+            "type": "Combat vedette"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": true
+    },
+    {
+        "id": 5,
+        "date": "2026-06-14",
+        "jourSemaine": "Dimanche",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Prince",
+            "lutteur2": "Lac 2",
+            "ecurie1": "Pikine",
+            "ecurie2": "Guediawaye",
+            "type": "Combat important"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": false
+    },
+    {
+        "id": 6,
+        "date": "2026-06-27",
+        "jourSemaine": "Samedi",
+        "lieu": "Toronto, Canada",
+        "estInternational": true,
+        "vedette": {
+            "lutteur1": "Talfa",
+            "lutteur2": "Lac Rose",
+            "ecurie1": "A confirmer",
+            "ecurie2": "A confirmer",
+            "type": "Combat international"
+        },
+        "petitsCombats": [
+            { "lutteur1": "Mbaye Gouy Gui", "lutteur2": "Bakary Sakho" },
+            { "lutteur1": "Pape Ndoye", "lutteur2": "Sokh Bou Ndaw" },
+            { "lutteur1": "Goro Sock", "lutteur2": "Sokh" }
+        ],
+        "estGrandCombat": true
+    },
+    {
+        "id": 7,
+        "date": "2026-07-??",
+        "jourSemaine": "Juillet 2026",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Mbaye Gouy Gui",
+            "lutteur2": "Niang Mballo",
+            "ecurie1": "Baol",
+            "ecurie2": "Parcelle",
+            "type": "Combat important"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": false
+    },
+    {
+        "id": 8,
+        "date": "2026-08-??",
+        "jourSemaine": "Août 2026",
+        "lieu": "Arène Nationale",
+        "vedette": {
+            "lutteur1": "Balla Gaye 2",
+            "lutteur2": "Secret",
+            "ecurie1": "Guediawaye",
+            "ecurie2": "A confirmer",
+            "type": "Super combat"
+        },
+        "petitsCombats": [
+            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
+        ],
+        "estGrandCombat": true
+    }
+]

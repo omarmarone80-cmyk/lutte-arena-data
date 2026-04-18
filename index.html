@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<!-- 🔔 FIREBASE CLOUD MESSAGING -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+  // 🔥 REMPLACEZ PAR VOTRE CONFIGURATION FIREBASE
+  const firebaseConfig = {
+    apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
+    authDomain: "lutte-arena.firebaseapp.com",
+    projectId: "lutte-arena",
+    storageBucket: "lutte-arena.firebasestorage.app",
+    messagingSenderId: "616045902205",
+    appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // Fonction pour demander la permission et obtenir le token
+  async function requestNotificationPermission() {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        console.log("✅ Permission accordée");
+        const currentToken = await getToken(messaging, {
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU" // 🔥 REMPLACEZ PAR VOTRE CLÉ VAPID
+        });
+        if (currentToken) {
+          console.log("📱 Token FCM :", currentToken);
+          // Stocker le token pour l'admin
+          localStorage.setItem('fcm_token', currentToken);
+          showToast('🔔 Notifications activées !');
+        } else {
+          console.log("❌ Aucun token");
+        }
+      } else {
+        console.log("❌ Permission refusée");
+      }
+    } catch (err) {
+      console.error("Erreur :", err);
+    }
+  }
+
+  // Rendre la fonction accessible globalement
+  window.requestNotificationPermission = requestNotificationPermission;
+
+  // Gérer les notifications au premier plan
+  onMessage(messaging, (payload) => {
+    console.log("📩 Notification au premier plan :", payload);
+    const notificationTitle = payload.notification?.title || 'Lutte Arena';
+    const notificationOptions = {
+      body: payload.notification?.body || '',
+      icon: '/lutte-arena-data/icon.png'
+    };
+    if (Notification.permission === "granted") {
+      new Notification(notificationTitle, notificationOptions);
+    }
+    showToast(payload.notification?.body || 'Nouvelle notification');
+  });
+
+  // Demander la permission automatiquement après 2 secondes
+  setTimeout(() => {
+    if (Notification.permission === 'default') {
+      requestNotificationPermission();
+    }
+  }, 2000);
+
+  console.log('🔥 Firebase Messaging initialisé');
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Lutte Arena · Calendrier 2026</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f7fb;padding-bottom:20px;opacity:0;animation:fadeIn 0.2s forwards;}
+        @keyframes fadeIn{to{opacity:1;}}
+        .refresh-indicator{position:fixed;top:0;left:0;width:100%;height:0;background:#0f5c3f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:height 0.2s;overflow:hidden;z-index:500;}
+        .refresh-indicator.pulling{height:50px;}
+        .refresh-indicator.refreshing{height:50px;background:#1a8c5c;}
+        .refresh-spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:10px;}
+        @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+        .drawer{position:fixed;top:0;left:-280px;width:280px;height:100%;background:#fff;z-index:2000;transition:left 0.3s;box-shadow:2px 0 10px rgba(0,0,0,0.1);}
+        .drawer.open{left:0;}
+        .drawer-header{background:#0f5c3f;padding:32px 24px;color:#fff;}
+        .drawer-header h3{font-size:20px;}
+        .drawer-header p{font-size:12px;opacity:0.8;}
+        .drawer-menu{list-style:none;padding:16px 0;}
+        .drawer-menu li a{display:flex;align-items:center;gap:14px;padding:14px 24px;color:#334155;text-decoration:none;font-size:15px;font-weight:500;cursor:pointer;}
+        .drawer-menu li a:active{background:#f1f5f9;color:#0f5c3f;}
+        .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:1999;display:none;}
+        .overlay.show{display:block;}
+        .menu-btn{position:fixed;top:16px;left:16px;width:48px;height:48px;background:transparent;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:101;font-size:22px;color:#1e293b;}
+        .menu-btn:active{background:#f1f5f9;}
+        .header{padding:16px 60px 12px;text-align:center;background:#fff;border-bottom:1px solid #eef2f6;position:relative;}
+        .header h1{font-size:20px;color:#0f5c3f;}
+        .sous-titre{font-size:11px;color:#94a3b8;}
+        .header-icons{position:absolute;top:16px;right:16px;display:flex;gap:16px;}
+        .icon-btn{background:transparent;border:none;font-size:20px;cursor:pointer;padding:8px;border-radius:12px;}
+        .icon-btn:active{background:#f1f5f9;}
+        .search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1500;transform:translateY(-100%);transition:transform 0.3s;}
+        .search-overlay.open{transform:translateY(0);}
+        .search-header-popup{display:flex;align-items:center;padding:16px;border-bottom:1px solid #eef2f6;gap:12px;}
+        .search-back{background:transparent;border:none;font-size:24px;cursor:pointer;padding:8px;}
+        .search-input-popup{flex:1;border:none;outline:none;font-size:16px;padding:12px 0;}
+        .search-cancel-popup{color:#0f5c3f;font-weight:600;cursor:pointer;}
+        .search-results-popup{padding:16px;max-height:calc(100% - 70px);overflow-y:auto;}
+        .search-result-item{padding:16px;border-bottom:1px solid #eef2f6;cursor:pointer;}
+        .search-result-item:active{background:#f8fafc;}
+        .calendar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1600;display:none;justify-content:center;align-items:center;}
+        .calendar-modal{background:#fff;margin:20px;border-radius:24px;padding:24px;max-width:320px;text-align:center;}
+        .calendar-close{background:#0f5c3f;color:#fff;border:none;border-radius:30px;padding:12px 24px;font-weight:600;cursor:pointer;}
+        .tabs{display:flex;background:#fff;padding:0 16px;gap:4px;border-bottom:1px solid #eef2f6;}
+        .tab{flex:1;text-align:center;padding:12px 0;font-weight:600;font-size:14px;cursor:pointer;color:#64748b;border-bottom:2px solid transparent;}
+        .tab.active{color:#0f5c3f;border-bottom-color:#0f5c3f;}
+        .tab:active{background:#f8fafc;}
+        .page{display:none;}
+        .page.active-page{display:block;}
+        .sub-tabs{display:flex;background:#fff;padding:8px 16px;gap:8px;border-bottom:1px solid #eef2f6;}
+        .sub-tab{flex:1;text-align:center;padding:10px 0;font-weight:500;font-size:13px;cursor:pointer;color:#64748b;background:#f8fafc;border-radius:20px;transition:all 0.2s;}
+        .sub-tab:active{opacity:0.8;}
+        .sub-tab.active{background:#0f5c3f;color:#fff;}
+        .sub-page{display:none;}
+        .sub-page.active-sub{display:block;}
+        .combat-list{padding:8px 0;}
+        .combat-item-card{background:#fff;margin:8px 16px;border-radius:16px;overflow:hidden;border:1px solid #eef2f6;}
+        .combat-preview{padding:14px 16px;cursor:pointer;}
+        .combat-preview:active{background:#fafafa;}
+        .combat-date{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+        .date-badge{font-size:11px;font-weight:600;color:#0f5c3f;background:#e8f5ed;padding:3px 10px;border-radius:20px;}
+        .date-badge.aujourdhui{background:#fee2e2;color:#dc2626;}
+        .date-badge.international{background:#fef3c7;color:#d97706;}
+        .combat-lieu{font-size:11px;color:#94a3b8;margin-bottom:10px;}
+        .combat-teams{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+        .team{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+        .team-photo{width:50px;height:50px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .team-photo img{width:100%;height:100%;object-fit:cover;loading:lazy;}
+        .team-name{font-weight:700;font-size:13px;text-align:center;cursor:pointer;padding:4px;}
+        .team-name:active{color:#0f5c3f;}
+        .team-ecurie{font-size:9px;color:#0f5c3f;}
+        .vs-circle{background:#f1f5f9;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#0f5c3f;}
+        .share-btn{background:transparent;border:none;cursor:pointer;padding:8px;border-radius:20px;}
+        .share-btn:active{background:#f1f5f9;}
+        .notification-bell{background:transparent;border:none;font-size:18px;cursor:pointer;padding:8px;border-radius:20px;color:#94a3b8;}
+        .notification-bell:active{background:#f1f5f9;}
+        .notification-bell.active{color:#0f5c3f;}
+        .petits-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;background:#f8fafc;border-top:1px solid #eef2f6;}
+        .petits-header:active{background:#eef2f6;}
+        .petits-title{font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+        .petits-title::before{content:"🥊";font-size:12px;}
+        .toggle-arrow{font-size:12px;color:#0f5c3f;transition:transform 0.3s;}
+        .toggle-arrow.rotated{transform:rotate(180deg);}
+        .petits-combats-list{padding:0 16px 12px 16px;display:none;}
+        .petits-combats-list.open{display:block;}
+        .petit-combat-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f6;}
+        .petit-combat-left{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;padding:4px;}
+        .petit-combat-left:active{background:#f8fafc;border-radius:8px;}
+        .petit-combat-right{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end;cursor:pointer;padding:4px;}
+        .petit-combat-right:active{background:#f8fafc;border-radius:8px;}
+        .petit-photo{width:30px;height:30px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .petit-photo img{width:100%;height:100%;object-fit:cover;loading:lazy;}
+        .petit-nom{font-size:12px;font-weight:500;}
+        .petit-vs{background:#fff;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;color:#0f5c3f;margin:0 8px;}
+        .detail-page{position:fixed;top:0;left:0;width:100%;height:100%;background:#f8fafc;z-index:1000;overflow-y:auto;transform:translateX(100%);transition:transform 0.3s;}
+        .detail-page.open{transform:translateX(0);}
+        .detail-header{background:linear-gradient(135deg,#0f5c3f,#1a8c5c);padding:20px 16px;color:#fff;position:sticky;top:0;}
+        .detail-back{background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:24px;width:48px;height:48px;border-radius:24px;cursor:pointer;margin-bottom:10px;}
+        .detail-back:active{background:rgba(255,255,255,0.3);}
+        .detail-combatants{display:flex;align-items:stretch;justify-content:space-between;gap:12px;margin-top:10px;}
+        .detail-team{flex:1;text-align:center;background:rgba(255,255,255,0.1);border-radius:20px;padding:12px 8px;cursor:pointer;}
+        .detail-team:active{background:rgba(255,255,255,0.2);}
+        .detail-photo{width:70px;height:70px;border-radius:50%;background:#fff;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .detail-photo img{width:100%;height:100%;object-fit:cover;loading:lazy;}
+        .detail-name{font-size:15px;font-weight:700;}
+        .detail-ecurie{font-size:10px;opacity:0.9;margin-top:4px;}
+        .detail-stats{display:flex;justify-content:center;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.2);}
+        .detail-stat{text-align:center;}
+        .detail-stat-value{font-size:14px;font-weight:800;}
+        .detail-stat-label{font-size:8px;opacity:0.8;}
+        .detail-vs{background:rgba(255,255,255,0.2);width:50px;height:50px;border-radius:25px;display:flex;align-items:center;justify-content:center;font-weight:800;align-self:center;}
+        .detail-info{background:#fff;margin:16px;border-radius:20px;padding:16px;border:1px solid #eef2f6;}
+        .section-title{font-size:14px;font-weight:700;color:#0f5c3f;margin-bottom:12px;}
+        .detail-petit-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eef2f6;}
+        .btn-fermer-detail{background:#0f5c3f;color:#fff;border:none;border-radius:14px;padding:16px;font-weight:600;width:100%;cursor:pointer;margin-top:16px;}
+        .btn-fermer-detail:active{background:#0a4a32;}
+        #modalFiche{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1100;justify-content:center;align-items:center;}
+        .fiche-content{background:#fff;margin:20px;border-radius:28px;padding:20px;max-width:360px;max-height:80vh;overflow-y:auto;}
+        .fiche-header{text-align:center;margin-bottom:16px;}
+        .fiche-photo{width:80px;height:80px;border-radius:50%;background:#e2e8f0;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .fiche-photo img{width:100%;height:100%;object-fit:cover;loading:lazy;}
+        .stat-grid-fiche{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+        .stat-card-fiche{background:#f8fafc;border-radius:12px;padding:10px;text-align:center;}
+        .historique-item{padding:10px 0;border-bottom:1px solid #eef2f6;font-size:12px;}
+        .btn-fermer-fiche{background:#f1f5f9;border:none;border-radius:14px;padding:14px;width:100%;margin-top:16px;cursor:pointer;font-weight:600;}
+        .btn-fermer-fiche:active{background:#e2e8f0;}
+        .empty-message{text-align:center;padding:60px 20px;color:#94a3b8;}
+        footer{text-align:center;font-size:10px;color:#94a3b8;padding:16px;}
+        .grand-combat-badge{background:#fef3c7;color:#d97706;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;margin-left:8px;text-transform:uppercase;}
+        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;}
+        .admin-link{position:fixed;bottom:20px;right:20px;width:50px;height:50px;background:#0f5c3f;border-radius:25px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:100;cursor:pointer;opacity:0.3;}
+        .admin-link:active{opacity:0.6;}
+        .toast-message{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 24px;border-radius:30px;z-index:10000;font-size:14px;font-weight:600;animation:fadeInOut 2s;}
+        @keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,20px);}20%{opacity:1;transform:translate(-50%,0);}80%{opacity:1;transform:translate(-50%,0);}100%{opacity:0;transform:translate(-50%,-20px);}}
+        .tournoi-card{background:#fff;margin:8px 16px;border-radius:16px;padding:16px;border:1px solid #eef2f6;}
+        .tournoi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+        .tournoi-nom{font-weight:700;font-size:16px;color:#0f5c3f;}
+        .tournoi-date{font-size:12px;background:#e8f5ed;color:#0f5c3f;padding:4px 10px;border-radius:20px;}
+        .tournoi-lieu{font-size:12px;color:#64748b;margin-bottom:8px;}
+        .tournoi-desc{font-size:13px;color:#334155;margin-bottom:12px;}
+        .participants-title{font-size:12px;font-weight:600;color:#0f5c3f;margin-bottom:8px;}
+        .participants-list{display:flex;flex-wrap:wrap;gap:8px;}
+        .participant-badge{background:#f1f5f9;padding:4px 12px;border-radius:20px;font-size:12px;color:#334155;}
+        .tournoi-status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+        .tournoi-status.termine{background:#fee2e2;color:#dc2626;}
+        .tournoi-status.a-venir{background:#e8f5ed;color:#0f5c3f;}
+        .skeleton-card{background:#fff;margin:8px 16px;border-radius:16px;padding:16px;border:1px solid #eef2f6;}
+        .skeleton-line{height:16px;background:linear-gradient(90deg,#e0e0e0 25%,#f0f0f0 50%,#e0e0e0 75%);background-size:200% 100%;animation:loading 1.5s infinite;border-radius:8px;margin-bottom:12px;}
+        @keyframes loading{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+        .skeleton-photo{width:50px;height:50px;border-radius:50%;background:#e0e0e0;margin:0 auto;}
+    </style>
+</head>
+<body>
+
+<div class="refresh-indicator" id="refreshIndicator"><div id="refreshContent"></div></div>
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner" style="width:50px;height:50px;border:4px solid #f3f3f3;border-top:4px solid #0f5c3f;border-radius:50%;animation:spin 1s linear infinite;"></div>
+    <p style="margin-top:20px;color:#0f5c3f;">Chargement de Lutte Arena...</p>
+</div>
+
+<div class="menu-btn" onclick="toggleDrawer()">☰</div>
+<div class="drawer" id="drawer">
+    <div class="drawer-header"><h3>Lutte Arena</h3><p>La Référence de la Lutte</p></div>
+    <ul class="drawer-menu">
+        <li><a onclick="fermerDrawer(); changerPage('arene')"><span>🏠</span> Accueil</a></li>
+        <li><a onclick="fermerDrawer(); showContact()"><span>📞</span> Contact</a></li>
+        <li><a onclick="fermerDrawer(); showPartnership()"><span>🤝</span> Partenariat</a></li>
+    </ul>
+</div>
+<div class="overlay" id="overlay" onclick="fermerDrawer()"></div>
+
+<div class="header">
+    <h1>LUTTE ARENA</h1>
+    <div class="sous-titre">Calendrier officiel 2026</div>
+    <div class="header-icons">
+        <button class="icon-btn" onclick="openSearchOverlay()">🔍</button>
+        <button class="icon-btn" onclick="openCalendarOverlay()">📅</button>
+    </div>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+    <div class="search-header-popup">
+        <button class="search-back" onclick="closeSearchOverlay()">←</button>
+        <input type="text" class="search-input-popup" id="searchInputPopup" placeholder="Rechercher un combat ou un tournoi..." oninput="rechercherDansPopup()">
+        <span class="search-cancel-popup" onclick="clearSearchPopup()">Annuler</span>
+    </div>
+    <div class="search-results-popup" id="searchResultsPopup"></div>
+</div>
+
+<div class="calendar-overlay" id="calendarOverlay" onclick="closeCalendarOverlay()">
+    <div class="calendar-modal" onclick="event.stopPropagation()">
+        <h3>📅 Date du jour</h3>
+        <div id="calendarDate"></div>
+        <div id="calendarDay"></div>
+        <button class="calendar-close" onclick="closeCalendarOverlay()">Fermer</button>
+    </div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="changerPage('arene')">Arène</div>
+    <div class="tab" onclick="changerPage('mbapatt')">Mbapatt</div>
+    <div class="tab" onclick="changerPage('info')">Info</div>
+</div>
+
+<div id="arene-subtabs" class="sub-tabs">
+    <div class="sub-tab active" onclick="changerSubPage('mois')">📅 Combats du mois</div>
+    <div class="sub-tab" onclick="changerSubPage('saison')">🏆 Grands combats</div>
+</div>
+
+<div id="page-arene" class="page active-page">
+    <div id="sub-mois" class="sub-page active-sub">
+        <div class="combat-list" id="arene-mois-container">
+            <div class="skeleton-card">
+                <div class="skeleton-line" style="width:40%"></div>
+                <div class="skeleton-line" style="width:70%"></div>
+                <div style="display:flex;align-items:center;gap:12px;margin-top:16px;">
+                    <div class="skeleton-photo"></div>
+                    <div style="flex:1"><div class="skeleton-line"></div></div>
+                    <div class="skeleton-photo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="sub-saison" class="sub-page">
+        <div class="combat-list" id="arene-saison-container">
+            <div class="skeleton-card"><div class="skeleton-line" style="width:40%"></div><div class="skeleton-line"></div></div>
+        </div>
+    </div>
+</div>
+
+<div id="page-mbapatt" class="page">
+    <div class="combat-list" id="mbapatt-container">
+        <div class="skeleton-card"><div class="skeleton-line" style="width:50%"></div><div class="skeleton-line"></div></div>
+    </div>
+</div>
+
+<div id="page-info" class="page"><div id="news-container"></div></div>
+
+<footer>© 2026 Lutte Arena · 100% Gratuit</footer>
+
+<div id="detailPage" class="detail-page">
+    <div class="detail-header"><button class="detail-back" onclick="closeDetailPage()">←</button><div class="detail-combatants" id="detail-combatants"></div></div>
+    <div id="detail-content" style="padding:16px;"></div>
+</div>
+
+<div id="modalFiche"><div class="fiche-content">
+    <div class="fiche-header"><div class="fiche-photo" id="fiche-photo"></div><div class="fiche-nom" id="fiche-nom"></div><div class="fiche-ecurie" id="fiche-ecurie"></div></div>
+    <div class="stat-grid-fiche">
+        <div class="stat-card-fiche"><div id="stat-victoires">0</div><div>Victoires</div></div>
+        <div class="stat-card-fiche"><div id="stat-defaites">0</div><div>Défaites</div></div>
+        <div class="stat-card-fiche"><div id="stat-nuls">0</div><div>Nuls</div></div>
+        <div class="stat-card-fiche"><div id="stat-sansVerdict">0</div><div>Sans verdict</div></div>
+    </div>
+    <div id="total-combats" style="text-align:center;font-size:13px;font-weight:600;">Total: 0 combats</div>
+    <div style="margin-top:16px;"><div style="font-weight:700;margin-bottom:8px;">📋 DERNIERS COMBATS</div><div id="historique-combats-lutteur"></div></div>
+    <button class="btn-fermer-fiche" onclick="fermerFiche()">Fermer</button>
+</div></div>
+
+<div class="admin-link" id="adminLink" onclick="ouvrirAdmin()">⚙️</div>
+
+<script>
+// ============================================================
+// CONFIGURATION & VERSION
+// ============================================================
+const APP_VERSION = '2.0.0';
+const CONFIG = { DATA_URL: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/' };
+
+// Nettoyage du cache si version différente
+if (localStorage.getItem('app_version') !== APP_VERSION) {
+    localStorage.clear();
+    if ('caches' in window) caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
+    localStorage.setItem('app_version', APP_VERSION);
+}
+
+// ============================================================
+// VARIABLES GLOBALES
+// ============================================================
+let areneData = [], lutteursData = {}, newsData = [], mbapattData = [], photos = {};
+
+// ============================================================
+// SERVICE WORKER
+// ============================================================
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/lutte-arena-data/sw.js').then(() => console.log('✅ SW enregistré'));
+}
+
+// ============================================================
+// PULL TO REFRESH AMÉLIORÉ
+// ============================================================
+let startY = 0, currentY = 0, isPulling = false, isRefreshing = false, canPull = true;
+const PULL_THRESHOLD = 80;
+const refreshIndicator = document.getElementById('refreshIndicator');
+const refreshContent = document.getElementById('refreshContent');
+
+document.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0 && !isRefreshing && canPull) {
+        startY = e.touches[0].pageY;
+        isPulling = true;
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (!isPulling || isRefreshing) return;
+    currentY = e.touches[0].pageY;
+    const pullDistance = currentY - startY;
+    if (pullDistance > 5 && window.scrollY === 0) {
+        e.preventDefault();
+        const pullHeight = Math.min(pullDistance * 0.5, 80);
+        refreshIndicator.style.height = pullHeight + 'px';
+        refreshIndicator.classList.add('pulling');
+        refreshContent.innerHTML = pullDistance < PULL_THRESHOLD ? '⬇️ Tirer pour rafraîchir' : '✅ Relâcher pour rafraîchir';
+    }
+}, { passive: false });
+
+document.addEventListener('touchend', async (e) => {
+    if (!isPulling || isRefreshing) { isPulling = false; return; }
+    const pullDistance = currentY - startY;
+    if (pullDistance >= PULL_THRESHOLD && window.scrollY === 0) {
+        isRefreshing = true;
+        canPull = false;
+        refreshIndicator.style.height = '50px';
+        refreshIndicator.classList.add('refreshing');
+        refreshIndicator.classList.remove('pulling');
+        refreshContent.innerHTML = '<div style="display:flex;align-items:center;"><div class="refresh-spinner"></div> Mise à jour...</div>';
+        await rafraichirDonnees();
+        refreshContent.innerHTML = '✅ Données mises à jour !';
+        setTimeout(() => {
+            refreshIndicator.style.height = '0';
+            refreshIndicator.classList.remove('refreshing');
+            isRefreshing = false;
+            canPull = true;
+        }, 1000);
+    } else {
+        refreshIndicator.style.height = '0';
+        refreshIndicator.classList.remove('pulling');
+    }
+    isPulling = false;
+    startY = 0; currentY = 0;
+});
+
+// ============================================================
+// CHARGEMENT DES DONNÉES
+// ============================================================
+async function rafraichirDonnees() {
+    try {
+        const timestamp = Date.now();
+        const [combatsRes, lutteursRes, newsRes, mbapattRes] = await Promise.all([
+            fetch(CONFIG.DATA_URL + 'data/combats.json?t=' + timestamp),
+            fetch(CONFIG.DATA_URL + 'data/lutteurs.json?t=' + timestamp),
+            fetch(CONFIG.DATA_URL + 'data/news.json?t=' + timestamp),
+            fetch(CONFIG.DATA_URL + 'data/mbapatt.json?t=' + timestamp).catch(() => ({ json: () => [] }))
+        ]);
+        areneData = await combatsRes.json();
+        lutteursData = await lutteursRes.json();
+        newsData = await newsRes.json();
+        mbapattData = await mbapattRes.json();
+        photos = {};
+        for (let nom in lutteursData) if (lutteursData[nom].photo) photos[nom] = CONFIG.DATA_URL + lutteursData[nom].photo;
+        afficherListeCombats();
+        afficherNews();
+        afficherMbapatt();
+        localStorage.setItem('lutte_arena_cache', JSON.stringify({ areneData, lutteursData, newsData, mbapattData, photos, timestamp: Date.now() }));
+        return true;
+    } catch (error) {
+        console.warn('⚠️ Mode hors ligne');
+        showToast('📴 Mode hors ligne - données en cache');
+        return false;
+    }
+}
+
+async function chargerDonnees() {
+    const cache = localStorage.getItem('lutte_arena_cache');
+    if (cache) {
+        try {
+            const data = JSON.parse(cache);
+            areneData = data.areneData || [];
+            lutteursData = data.lutteursData || {};
+            newsData = data.newsData || [];
+            mbapattData = data.mbapattData || [];
+            photos = data.photos || {};
+            afficherListeCombats();
+            afficherNews();
+            afficherMbapatt();
+        } catch(e) {}
+    }
+    await rafraichirDonnees();
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-message';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+}
+
+// ============================================================
+// FONCTIONS D'AFFICHAGE
+// ============================================================
+function getPhotoHtml(lutteur){
+    if(!lutteur) return '<div class="team-photo">?</div>';
+    let url = photos[lutteur];
+    if(url) return `<div class="team-photo"><img src="${url}" alt="${lutteur}" loading="lazy" onerror="this.parentElement.innerHTML='?';"> </div>`;
+    let init = lutteur.split(' ').map(w=>w.charAt(0)).join('').substring(0,2);
+    return `<div class="team-photo">${init}</div>`;
+}
+
+function getPhotoDetail(lutteur){
+    if(!lutteur) return '<div class="detail-photo">?</div>';
+    let url = photos[lutteur];
+    if(url) return `<div class="detail-photo"><img src="${url}" alt="${lutteur}" loading="lazy" onerror="this.parentElement.innerHTML='?';"> </div>`;
+    let init = lutteur.split(' ').map(w=>w.charAt(0)).join('').substring(0,2);
+    return `<div class="detail-photo">${init}</div>`;
+}
+
+function getPhotoMini(lutteur){
+    if(!lutteur) return '<div class="petit-photo">?</div>';
+    let url = photos[lutteur];
+    if(url) return `<div class="petit-photo"><img src="${url}" alt="${lutteur}" loading="lazy" onerror="this.parentElement.innerHTML='?';"> </div>`;
+    let init = lutteur.split(' ').map(w=>w.charAt(0)).join('').substring(0,2);
+    return `<div class="petit-photo">${init}</div>`;
+}
+
+function formaterDate(j){
+    if(!j.date) return j.jourSemaine || 'Date à confirmer';
+    if(j.date.includes("??")) return j.jourSemaine;
+    try {
+        let parts = j.date.split('-');
+        let mois = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+        return `${j.jourSemaine} ${parts[2]} ${mois[parseInt(parts[1])-1]}`;
+    } catch(e) {
+        return j.jourSemaine || 'Date à confirmer';
+    }
+}
+
+function genererCarteCombat(c, i, prefix) {
+    let badgeClass = "", badgeText = formaterDate(c);
+    if(c.estInternational) badgeClass="international";
+    let combatId = `${prefix}_${i}`;
+    let notifActive = false;
+    try{ notifActive = JSON.parse(localStorage.getItem('combat_notifications')||'{}')[combatId]; }catch(e){}
+    let petitsListHtml = '';
+    if(c.petitsCombats && c.petitsCombats.length){
+        for(let p of c.petitsCombats){
+            if(p.lutteur1==="A confirmer" || !p.lutteur1) petitsListHtml += `<div class="petit-combat-row"><div class="petit-combat-left" style="justify-content:center;"><span class="petit-nom" style="color:#94a3b8;">📅 À confirmer</span></div></div>`;
+            else petitsListHtml += `<div class="petit-combat-row"><div class="petit-combat-left" onclick="event.stopPropagation(); afficherFicheLutteur('${p.lutteur1}')">${getPhotoMini(p.lutteur1)}<span class="petit-nom">${p.lutteur1}</span></div><div class="petit-vs">VS</div><div class="petit-combat-right" onclick="event.stopPropagation(); afficherFicheLutteur('${p.lutteur2}')"><span class="petit-nom">${p.lutteur2}</span>${getPhotoMini(p.lutteur2)}</div></div>`;
+        }
+    } else petitsListHtml = `<div class="petit-combat-row"><div class="petit-combat-left" style="justify-content:center;"><span class="petit-nom" style="color:#94a3b8;">📅 À confirmer</span></div></div>`;
+    let grandBadge = c.estGrandCombat ? '<span class="grand-combat-badge">GRAND COMBAT</span>' : '';
+    let moisBadge = c.estCombatMois ? '<span style="background:#e0f2fe;color:#0369a1;padding:2px 8px;border-radius:20px;font-size:9px;margin-left:4px;">COMBAT DU MOIS</span>' : '';
+    return `
+        <div class="combat-item-card">
+            <div class="combat-preview" onclick="openDetailPage(${i})">
+                <div class="combat-date">
+                    <span class="date-badge ${badgeClass}">${badgeText}${grandBadge}${moisBadge}</span>
+                    <div style="display:flex;gap:8px;">
+                        <button class="share-btn" onclick="partagerCombat(areneData[${i}], event)"><span>📤</span></button>
+                        <button class="notification-bell ${notifActive ? 'active' : ''}" id="bell-${combatId}" onclick="toggleNotification('${combatId}', event)">🔔</button>
+                    </div>
+                </div>
+                <div class="combat-lieu">📍 ${c.lieu || 'Lieu à confirmer'}</div>
+                <div class="combat-teams">
+                    <div class="team">${getPhotoHtml(c.vedette.lutteur1)}<div class="team-name" onclick="event.stopPropagation(); afficherFicheLutteur('${c.vedette.lutteur1}')">${c.vedette.lutteur1}</div><div class="team-ecurie">${c.vedette.ecurie1||''}</div></div>
+                    <div class="vs-circle">VS</div>
+                    <div class="team">${getPhotoHtml(c.vedette.lutteur2)}<div class="team-name" onclick="event.stopPropagation(); afficherFicheLutteur('${c.vedette.lutteur2}')">${c.vedette.lutteur2}</div><div class="team-ecurie">${c.vedette.ecurie2||''}</div></div>
+                </div>
+                ${c.resultat ? `<div style="margin-top:12px;padding:8px;background:#fef3c7;border-radius:8px;text-align:center;font-size:12px;font-weight:600;color:#92400e;">🏆 ${c.resultat.vainqueur === 'lutteur1' ? c.vedette.lutteur1 : c.resultat.vainqueur === 'lutteur2' ? c.vedette.lutteur2 : 'Match nul'} ${c.resultat.details ? '('+c.resultat.details+')' : ''}</div>` : ''}
+            </div>
+            <div class="petits-header" onclick="togglePetitsCombats(${i})">
+                <div class="petits-title">Petits combats</div>
+                <div class="toggle-arrow" id="arrow-${i}">▼</div>
+            </div>
+            <div class="petits-combats-list" id="petits-list-${i}">${petitsListHtml}</div>
+        </div>
+    `;
+}
+
+function afficherListeCombats(){
+    let containerMois = document.getElementById('arene-mois-container');
+    let containerSaison = document.getElementById('arene-saison-container');
+    if(!containerMois || !containerSaison) return;
+    if(!areneData.length){ 
+        containerMois.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; 
+        containerSaison.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; 
+        return; 
+    }
+    let htmlMois = '', htmlSaison = '';
+    for(let i=0; i<areneData.length; i++){
+        let c = areneData[i];
+        if(c.estGrandCombat) htmlSaison += genererCarteCombat(c, i, 'saison');
+        else if(c.estCombatMois) htmlMois += genererCarteCombat(c, i, 'mois');
+        else htmlMois += genererCarteCombat(c, i, 'mois');
+    }
+    containerMois.innerHTML = htmlMois || '<div class="empty-message">📅 Aucun combat ce mois-ci</div>';
+    containerSaison.innerHTML = htmlSaison || '<div class="empty-message">🏆 Aucun grand combat programmé</div>';
+}
+
+function afficherNews(){
+    let container = document.getElementById('news-container');
+    if(!container) return;
+    let html = newsData.map(n=>`<div style="background:#fff;margin:12px 16px;border-radius:16px;padding:16px;border:1px solid #eef2f6;"><div style="font-weight:700;">${n.title}</div><div style="font-size:11px;color:#94a3b8;margin:8px 0;">📅 ${n.date}</div><div style="font-size:13px;">${n.excerpt}</div><div class="news-full" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid #eef2f6;">${n.full}</div><button style="background:#f1f5f9;border:none;padding:8px 16px;border-radius:20px;margin-top:10px;" onclick="this.previousElementSibling.style.display='block';this.style.display='none';">Lire la suite</button></div>`).join('');
+    container.innerHTML = html || '<div class="empty-message">📰 Aucune actualité</div>';
+}
+
+function afficherMbapatt(){
+    const container = document.getElementById('mbapatt-container');
+    if(!container) return;
+    if(!mbapattData || mbapattData.length === 0){ container.innerHTML = '<div class="empty-message">🏆 Aucun tournoi Mbapatt programmé</div>'; return; }
+    let html = '';
+    mbapattData.forEach(t => {
+        const participantsHtml = t.participants.map(p => `<span class="participant-badge">${p}</span>`).join('');
+        const statusClass = t.estTermine ? 'termine' : 'a-venir';
+        const statusText = t.estTermine ? 'Terminé' : 'À venir';
+        html += `<div class="tournoi-card"><div class="tournoi-header"><span class="tournoi-nom">${t.nom}</span><span class="tournoi-date">📅 ${t.date}</span></div><div class="tournoi-lieu">📍 ${t.lieu}</div><div class="tournoi-desc">${t.description || ''}</div><div class="participants-title">👥 Participants</div><div class="participants-list">${participantsHtml}</div><div style="margin-top:12px;display:flex;justify-content:flex-end;"><span class="tournoi-status ${statusClass}">${statusText}</span></div></div>`;
+    });
+    container.innerHTML = html;
+}
+
+function afficherFicheLutteur(nom){
+    let d = lutteursData[nom];
+    if(!d){ alert(`Aucune info pour ${nom}`); return; }
+    document.getElementById('fiche-nom').innerHTML = nom;
+    document.getElementById('fiche-ecurie').innerHTML = d.ecurie || '';
+    document.getElementById('stat-victoires').innerHTML = d.victoires || 0;
+    document.getElementById('stat-defaites').innerHTML = d.defaites || 0;
+    document.getElementById('stat-nuls').innerHTML = d.nuls || 0;
+    document.getElementById('stat-sansVerdict').innerHTML = d.sansVerdict || 0;
+    document.getElementById('total-combats').innerHTML = `Total: ${d.combats || 0} combats`;
+    let url = photos[nom];
+    document.getElementById('fiche-photo').innerHTML = url ? `<div class="fiche-photo"><img src="${url}" alt="${nom}" loading="lazy"></div>` : `<div class="fiche-photo">${nom.charAt(0)}</div>`;
+    document.getElementById('historique-combats-lutteur').innerHTML = d.historique?.map(h=>`<div class="historique-item">${h}</div>`).join('') || '<div class="historique-item">Aucun combat récent</div>';
+    document.getElementById('modalFiche').style.display = 'flex';
+}
+
+function openDetailPage(idx){
+    let c = areneData[idx];
+    if(!c) return;
+    let d1 = lutteursData[c.vedette.lutteur1]||{}, d2 = lutteursData[c.vedette.lutteur2]||{};
+    document.getElementById('detail-combatants').innerHTML = `
+        <div class="detail-team" onclick="afficherFicheLutteur('${c.vedette.lutteur1}')">${getPhotoDetail(c.vedette.lutteur1)}<div class="detail-name">${c.vedette.lutteur1}</div><div class="detail-ecurie">${c.vedette.ecurie1||''}</div><div class="detail-stats"><div class="detail-stat"><div class="detail-stat-value">${d1.combats||'?'}</div><div class="detail-stat-label">Combats</div></div><div class="detail-stat"><div class="detail-stat-value">${d1.victoires||'?'}</div><div class="detail-stat-label">Victoires</div></div><div class="detail-stat"><div class="detail-stat-value">${d1.defaites||'?'}</div><div class="detail-stat-label">Défaites</div></div></div></div>
+        <div class="detail-vs">VS</div>
+        <div class="detail-team" onclick="afficherFicheLutteur('${c.vedette.lutteur2}')">${getPhotoDetail(c.vedette.lutteur2)}<div class="detail-name">${c.vedette.lutteur2}</div><div class="detail-ecurie">${c.vedette.ecurie2||''}</div><div class="detail-stats"><div class="detail-stat"><div class="detail-stat-value">${d2.combats||'?'}</div><div class="detail-stat-label">Combats</div></div><div class="detail-stat"><div class="detail-stat-value">${d2.victoires||'?'}</div><div class="detail-stat-label">Victoires</div></div><div class="detail-stat"><div class="detail-stat-value">${d2.defaites||'?'}</div><div class="detail-stat-label">Défaites</div></div></div></div>
+    `;
+    let petitsHtml = '';
+    if(c.petitsCombats && c.petitsCombats.length){
+        for(let p of c.petitsCombats){
+            if(p.lutteur1==="A confirmer") petitsHtml += `<div class="detail-petit-row"><div style="text-align:center;width:100%;color:#94a3b8;">📅 À confirmer</div></div>`;
+            else petitsHtml += `<div class="detail-petit-row"><div style="display:flex;align-items:center;gap:10px;flex:1;" onclick="afficherFicheLutteur('${p.lutteur1}')">${getPhotoMini(p.lutteur1)}<span>${p.lutteur1}</span></div><div style="background:#e2e8f0;padding:2px 8px;border-radius:20px;">VS</div><div style="display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end;" onclick="afficherFicheLutteur('${p.lutteur2}')"><span>${p.lutteur2}</span>${getPhotoMini(p.lutteur2)}</div></div>`;
+        }
+    } else petitsHtml = `<div class="detail-petit-row"><div style="text-align:center;width:100%;color:#94a3b8;">📅 À confirmer</div></div>`;
+    let resultatHtml = '';
+    if(c.resultat){
+        let vainqueurNom = c.resultat.vainqueur === 'lutteur1' ? c.vedette.lutteur1 : c.resultat.vainqueur === 'lutteur2' ? c.vedette.lutteur2 : 'Match nul';
+        resultatHtml = `<div class="detail-info" style="background:#fef3c7;"><div class="section-title">🏆 RÉSULTAT</div><div style="text-align:center;font-weight:700;color:#92400e;">${vainqueurNom} ${c.resultat.details ? '('+c.resultat.details+')' : ''}</div></div>`;
+    }
+    document.getElementById('detail-content').innerHTML = `
+        <div class="detail-info"><div class="section-title">📅 INFORMATIONS</div><div style="padding:8px 0;"><strong>Date :</strong> ${formaterDate(c)}</div><div style="padding:8px 0;"><strong>Lieu :</strong> ${c.lieu}</div><div style="padding:8px 0;"><strong>Type :</strong> ${c.vedette.type||'Combat classique'}</div></div>
+        ${resultatHtml}
+        <div class="detail-info"><div class="section-title">🥊 PETITS COMBATS</div>${petitsHtml}</div>
+        <button class="btn-fermer-detail" onclick="closeDetailPage()">Fermer</button>
+    `;
+    document.getElementById('detailPage').classList.add('open');
+}
+
+// ============================================================
+// FONCTIONS UTILITAIRES
+// ============================================================
+function toggleDrawer(){ document.getElementById('drawer').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+function fermerDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+function changerPage(page){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('page-arene').classList.remove('active-page');
+    document.getElementById('page-mbapatt').classList.remove('active-page');
+    document.getElementById('page-info').classList.remove('active-page');
+    document.getElementById(`page-${page}`).classList.add('active-page');
+    document.getElementById('arene-subtabs').style.display = page === 'arene' ? 'flex' : 'none';
+}
+function changerSubPage(sub){
+    document.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('sub-mois').classList.remove('active-sub');
+    document.getElementById('sub-saison').classList.remove('active-sub');
+    document.getElementById(`sub-${sub}`).classList.add('active-sub');
+}
+function togglePetitsCombats(idx){
+    let list = document.getElementById(`petits-list-${idx}`);
+    let arrow = document.getElementById(`arrow-${idx}`);
+    if(list){ list.classList.toggle('open'); if(arrow) arrow.classList.toggle('rotated'); }
+}
+function toggleNotification(combatId,event){
+    event.stopPropagation();
+    let notifs = JSON.parse(localStorage.getItem('combat_notifications')||'{}');
+    let bell = document.getElementById(`bell-${combatId}`);
+    if(notifs[combatId]){ delete notifs[combatId]; bell.classList.remove('active'); }
+    else { notifs[combatId]=true; bell.classList.add('active'); }
+    localStorage.setItem('combat_notifications',JSON.stringify(notifs));
+}
+function partagerCombat(combat,event){
+    event.stopPropagation();
+    let text = `🔥 ${combat.vedette.lutteur1} 🆚 ${combat.vedette.lutteur2} le ${formaterDate(combat)} à ${combat.lieu}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
+}
+function fermerFiche(){ document.getElementById('modalFiche').style.display = 'none'; }
+function closeDetailPage(){ document.getElementById('detailPage').classList.remove('open'); }
+function showContact(){ alert("📞 CONTACT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
+function showPartnership(){ alert("🤝 PARTENARIAT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
+function openSearchOverlay(){ document.getElementById('searchOverlay').classList.add('open'); document.getElementById('searchInputPopup').focus(); }
+function closeSearchOverlay(){ document.getElementById('searchOverlay').classList.remove('open'); }
+function clearSearchPopup(){ document.getElementById('searchInputPopup').value=''; rechercherDansPopup(); }
+function rechercherDansPopup(){
+    let term = document.getElementById('searchInputPopup').value.toLowerCase().trim();
+    let container = document.getElementById('searchResultsPopup');
+    if(!term){ container.innerHTML='<div style="padding:40px;text-align:center;">🔍 Rechercher...</div>'; return; }
+    let resultsCombats = areneData.filter(c=>`${c.vedette.lutteur1} ${c.vedette.lutteur2} ${c.lieu}`.toLowerCase().includes(term));
+    let resultsMbapatt = mbapattData.filter(t=>`${t.nom} ${t.lieu} ${t.participants.join(' ')}`.toLowerCase().includes(term));
+    if(!resultsCombats.length && !resultsMbapatt.length){ container.innerHTML='<div style="padding:40px;text-align:center;">😕 Aucun résultat</div>'; return; }
+    let html = '';
+    resultsCombats.forEach(r=>{ let idx = areneData.indexOf(r); html += `<div class="search-result-item" onclick="closeSearchOverlay(); openDetailPage(${idx})"><div style="font-weight:600;">🥊 ${r.vedette.lutteur1} 🆚 ${r.vedette.lutteur2}</div><div style="font-size:11px;color:#94a3b8;">${formaterDate(r)} · ${r.lieu}</div></div>`; });
+    resultsMbapatt.forEach(t=>{ html += `<div class="search-result-item" onclick="closeSearchOverlay(); changerPage('mbapatt')"><div style="font-weight:600;">🏆 ${t.nom}</div><div style="font-size:11px;color:#94a3b8;">${t.date} · ${t.lieu}</div></div>`; });
+    container.innerHTML = html;
+}
+function openCalendarOverlay(){
+    let d = new Date();
+    document.getElementById('calendarDate').innerHTML = d.toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('calendarDay').innerHTML = d.toLocaleDateString('fr-FR',{weekday:'long'});
+    document.getElementById('calendarOverlay').style.display = 'flex';
+}
+function closeCalendarOverlay(){ document.getElementById('calendarOverlay').style.display = 'none'; }
+
+let adminTapCount = 0;
+function ouvrirAdmin(){
+    adminTapCount++;
+    if(adminTapCount >= 5){
+        const password = prompt('Mot de passe administrateur:');
+        if(password === 'lutte2026') alert('✅ Mode admin activé !\n\nURL: ' + CONFIG.DATA_URL + 'admin/');
+        adminTapCount = 0;
+    }
+    setTimeout(()=>{ adminTapCount = 0; }, 2000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload = function(){
+    chargerDonnees();
+    if("Notification" in window && Notification.permission === 'default') Notification.requestPermission();
+};
+
+// Exposer globalement
+window.toggleDrawer=toggleDrawer; window.fermerDrawer=fermerDrawer; window.showContact=showContact; window.showPartnership=showPartnership;
+window.changerPage=changerPage; window.changerSubPage=changerSubPage; window.afficherFicheLutteur=afficherFicheLutteur; window.fermerFiche=fermerFiche;
+window.openDetailPage=openDetailPage; window.closeDetailPage=closeDetailPage; window.openSearchOverlay=openSearchOverlay;
+window.closeSearchOverlay=closeSearchOverlay; window.clearSearchPopup=clearSearchPopup; window.rechercherDansPopup=rechercherDansPopup;
+window.openCalendarOverlay=openCalendarOverlay; window.closeCalendarOverlay=closeCalendarOverlay;
+window.togglePetitsCombats=togglePetitsCombats; window.toggleNotification=toggleNotification; window.partagerCombat=partagerCombat;
+window.ouvrirAdmin=ouvrirAdmin;
+</script>
+</body>
+</html>
