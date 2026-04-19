@@ -33,6 +33,7 @@
           console.log("📱 Token FCM :", currentToken);
           // Stocker le token pour l'admin
           localStorage.setItem('fcm_token', currentToken);
+alert('📱 Token FCM : ' + currentToken);
           showToast('🔔 Notifications activées !');
         } else {
           console.log("❌ Aucun token");
