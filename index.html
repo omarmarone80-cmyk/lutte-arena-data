@@ -3,11 +3,12 @@
 <head>
 
 <!-- 🔔 FIREBASE CLOUD MESSAGING -->
+<!-- 🔔 FIREBASE CLOUD MESSAGING -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
-  // 🔥 REMPLACEZ PAR VOTRE CONFIGURATION FIREBASE
+  // Configuration Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
     authDomain: "lutte-arena.firebaseapp.com",
@@ -20,6 +21,21 @@
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
 
+  // Fonction pour s'abonner au topic
+  async function subscribeToTopic(token, topic) {
+    try {
+      console.log('✅ Abonnement au topic :', topic);
+      localStorage.setItem('subscribed_to_topic', 'true');
+      localStorage.setItem('topic_name', topic);
+      // La fonction showToast est définie dans le script principal
+      if (typeof showToast === 'function') {
+        showToast('🔔 Notifications de groupe activées !');
+      }
+    } catch (error) {
+      console.error('❌ Erreur abonnement topic :', error);
+    }
+  }
+
   // Fonction pour demander la permission et obtenir le token
   async function requestNotificationPermission() {
     try {
@@ -27,14 +43,19 @@
       if (permission === "granted") {
         console.log("✅ Permission accordée");
         const currentToken = await getToken(messaging, {
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU" // 🔥 REMPLACEZ PAR VOTRE CLÉ VAPID
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
         });
         if (currentToken) {
           console.log("📱 Token FCM :", currentToken);
-          // Stocker le token pour l'admin
           localStorage.setItem('fcm_token', currentToken);
-alert('📱 Token FCM : ' + currentToken);
-          showToast('🔔 Notifications activées !');
+          alert('📱 Votre token FCM : ' + currentToken);
+          
+          // S'abonner au topic "tous_les_utilisateurs"
+          await subscribeToTopic(currentToken, 'tous_les_utilisateurs');
+          
+          if (typeof showToast === 'function') {
+            showToast('🔔 Notifications activées !');
+          }
         } else {
           console.log("❌ Aucun token");
         }
@@ -60,7 +81,9 @@ alert('📱 Token FCM : ' + currentToken);
     if (Notification.permission === "granted") {
       new Notification(notificationTitle, notificationOptions);
     }
-    showToast(payload.notification?.body || 'Nouvelle notification');
+    if (typeof showToast === 'function') {
+      showToast(payload.notification?.body || 'Nouvelle notification');
+    }
   });
 
   // Demander la permission automatiquement après 2 secondes
@@ -72,6 +95,14 @@ alert('📱 Token FCM : ' + currentToken);
 
   console.log('🔥 Firebase Messaging initialisé');
 </script>
+
+
+
+
+
+
+
+
 
 
     <meta charset="UTF-8">
