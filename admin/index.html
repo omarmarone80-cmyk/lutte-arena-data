@@ -44,7 +44,7 @@
 <body>
 
 <h1>🥊 Admin Lutte Arena</h1>
-<div class="subtitle">Gestion complète · Firebase V1 activé 🔥</div>
+<div class="subtitle">Gestion complète · Firebase V1 activé · Notifications groupées 🔥</div>
 
 <div id="messageBox" class="message"></div>
 
@@ -178,7 +178,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- ONGLET NOTIFICATIONS (FIREBASE V1 AVEC VOS CLÉS) -->
+<!-- ONGLET NOTIFICATIONS (AVEC TOPIC GROUPÉ) -->
 <!-- ============================================================ -->
 <div id="tab-notifications" class="tab-content">
     <div class="card">
@@ -189,9 +189,13 @@
         <div id="tokenDisplay" class="token-display">Aucun token en mémoire</div>
         <label>📌 Titre</label><input type="text" id="notifTitreFirebase" value="Lutte Arena">
         <label>💬 Message</label><textarea id="notifMessageFirebase" rows="3" placeholder="Votre message..."></textarea>
-        <button onclick="envoyerNotificationFirebase()">📤 Envoyer via Firebase V1</button>
+        <button onclick="envoyerNotificationFirebase()">📤 Envoyer à cet appareil</button>
+        
+        <!-- 🔥 NOUVEAU BOUTON POUR NOTIFICATIONS GROUPÉES -->
+        <button onclick="envoyerNotificationTopic()" class="warning" style="margin-top:16px;">📢 Envoyer à TOUS les utilisateurs</button>
+        
         <div class="info-note" style="margin-top:16px;">
-            <strong>✅ API V1 configurée :</strong> Prêt à envoyer des notifications !
+            <strong>✅ API V1 configurée :</strong> Notifications individuelles et groupées disponibles !
         </div>
     </div>
     <div class="card">
@@ -290,7 +294,7 @@ qz82O973on4Yi9zYo/TmevE=
     }
 
     // ============================================================
-    // ENVOI DE NOTIFICATION FIREBASE V1
+    // ENVOI DE NOTIFICATION FIREBASE V1 (INDIVIDUEL)
     // ============================================================
     async function getAccessToken() {
         const header = { alg: 'RS256', typ: 'JWT' };
@@ -341,7 +345,7 @@ qz82O973on4Yi9zYo/TmevE=
         if (!message) { showMessage('❌ Écrivez un message', true); return; }
         
         saveToken(token);
-        showMessage('📤 Envoi en cours via Firebase V1...');
+        showMessage('📤 Envoi en cours...');
         
         try {
             const accessToken = await getAccessToken();
@@ -359,6 +363,39 @@ qz82O973on4Yi9zYo/TmevE=
             const result = await response.json();
             if (result.name) {
                 showMessage('✅ Notification envoyée avec succès !');
+            } else {
+                showMessage('❌ Erreur : ' + JSON.stringify(result.error || result), true);
+            }
+        } catch (error) {
+            showMessage('❌ Erreur : ' + error.message, true);
+        }
+    }
+
+    // 🔥 NOUVELLE FONCTION : ENVOYER À TOUS LES UTILISATEURS (TOPIC)
+    async function envoyerNotificationTopic() {
+        const titre = document.getElementById('notifTitreFirebase').value || 'Lutte Arena';
+        const message = document.getElementById('notifMessageFirebase').value;
+        
+        if (!message) { showMessage('❌ Écrivez un message', true); return; }
+        
+        showMessage('📤 Envoi à TOUS les utilisateurs...');
+        
+        try {
+            const accessToken = await getAccessToken();
+            const response = await fetch(`https://fcm.googleapis.com/v1/projects/${FIREBASE_V1_CONFIG.projectId}/messages:send`, {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: {
+                        topic: "tous_les_utilisateurs",
+                        notification: { title: titre, body: message },
+                        webpush: { fcmOptions: { link: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/' } }
+                    }
+                })
+            });
+            const result = await response.json();
+            if (result.name) {
+                showMessage('✅ Notification envoyée à TOUS les utilisateurs !');
             } else {
                 showMessage('❌ Erreur : ' + JSON.stringify(result.error || result), true);
             }
@@ -408,6 +445,7 @@ qz82O973on4Yi9zYo/TmevE=
     window.genererMbapatt=genererMbapatt;window.genererNews=genererNews;window.telechargerFichier=telechargerFichier;
     window.chargerFichierActuel=chargerFichierActuel;window.envoyerNotification=envoyerNotification;
     window.envoyerNotificationFirebase=envoyerNotificationFirebase;window.getLastKnownToken=getLastKnownToken;
+    window.envoyerNotificationTopic=envoyerNotificationTopic; // 🔥 NOUVEAU
 </script>
 </body>
 </html>
