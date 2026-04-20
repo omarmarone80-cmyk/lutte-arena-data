@@ -67,7 +67,7 @@
         "combats": 18,
         "ecurie": "Baol",
         "historique": [],
-        "photo": "images/lutteurs/mbaye_gouy_gui.jpg"
+        "photo": "images/lutteurs/mbaye-gouye-gui.jpg"
     },
     "Niang Mballo": {
         "victoires": 9,
@@ -77,7 +77,7 @@
         "combats": 10,
         "ecurie": "Parcelle",
         "historique": [],
-        "photo": "images/lutteurs/niang_mballo.jpg"
+        "photo": "images/lutteurs/niang_mballo.webp"
     },
     "Reug Reug": {
         "victoires": 35,
@@ -116,8 +116,8 @@
         "sansVerdict": 1,
         "combats": 21,
         "ecurie": "Guediawaye",
-        "historique": ["Victoire vs Boy Niang 2 (2017)"],
-        "photo": "images/lutteurs/lac_2.jpg"
+        "historique": ["Victoire vs ada fass"],
+        "photo": "images/lutteurs/lac-2.webp"
     },
     "Balla Gaye 2": {
         "victoires": 23,
