@@ -1,23 +1,23 @@
 {
     "Ada Fass": {
-        "victoires": 12,
+        "victoires": 14,
         "defaites": 4,
         "nuls": 0,
         "sansVerdict": 0,
         "combats": 16,
         "ecurie": "Fass Benno",
-        "historique": ["Victoire vs Eumeu Sène (2025)"],
-        "photo": "images/lutteurs/ada_fass.jpg"
+        "historique": ["Victoire vs Eumeu Sène (2026)"],
+        "photo": "images/lutteurs/ada_fass.png"
     },
     "Eumeu Sène": {
         "victoires": 12,
-        "defaites": 10,
+        "defaites": 11,
         "nuls": 2,
         "sansVerdict": 1,
         "combats": 25,
         "ecurie": "Tysinger",
         "historique": ["Victoire vs Balla Gaye 2 (2015)"],
-        "photo": "images/lutteurs/eumeu_sene.jpg"
+        "photo": "images/lutteurs/eumeu_sene.webp"
     },
     "Liss Ndiago": {
         "victoires": 9,
@@ -36,8 +36,8 @@
         "sansVerdict": 0,
         "combats": 12,
         "ecurie": "Yeumbeul",
-        "historique": ["Défaite vs Liss Ndiago (2024)"],
-        "photo": "images/lutteurs/diop_2.jpg"
+        "historique": ["Victoire vs tapha mbeur (2025)"],
+        "photo": "images/lutteurs/diop_2.webp"
     },
     "Gris Bordeaux": {
         "victoires": 11,
@@ -46,8 +46,8 @@
         "sansVerdict": 2,
         "combats": 25,
         "ecurie": "Fass",
-        "historique": ["Défaite vs Balla Gaye 2 (2022)"],
-        "photo": "images/lutteurs/gris_bordeaux.jpg"
+        "historique": ["Défaite vs Zarco (2025)"],
+        "photo": "images/lutteurs/Gris-Bordeaux-Fass.jpeg"
     },
     "Siteu": {
         "victoires": 13,
