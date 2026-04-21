@@ -4,10 +4,11 @@
 
 <!-- 🔔 FIREBASE CLOUD MESSAGING -->
 <!-- 🔔 FIREBASE CLOUD MESSAGING -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
+<!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION SANS MODULE) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+<script>
   // Configuration Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
@@ -18,95 +19,41 @@
     appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const messaging = getMessaging(app);
+  // Initialiser Firebase
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
 
-  // Fonction pour s'abonner au topic
-  async function subscribeToTopic(token, topic) {
-    try {
-      console.log('✅ Abonnement au topic :', topic);
-      localStorage.setItem('subscribed_to_topic', 'true');
-      localStorage.setItem('topic_name', topic);
-      // La fonction showToast est définie dans le script principal
-      if (typeof showToast === 'function') {
-        showToast('🔔 Notifications de groupe activées !');
-      }
-    } catch (error) {
-      console.error('❌ Erreur abonnement topic :', error);
-    }
-  }
-
-  // Fonction pour demander la permission et obtenir le token
-  async function requestNotificationPermission() {
+  // Demander la permission
+  async function requestPermission() {
     try {
       const permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        console.log("✅ Permission accordée");
-        const currentToken = await getToken(messaging, {
+      if (permission === 'granted') {
+        const token = await messaging.getToken({
           vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
         });
-        if (currentToken) {
-          console.log("📱 Token FCM :", currentToken);
-          localStorage.setItem('fcm_token', currentToken);
-          alert('📱 Votre token FCM : ' + currentToken);
-          
-          // S'abonner au topic "tous_les_utilisateurs"
-          await subscribeToTopic(currentToken, 'tous_les_utilisateurs');
-          
-          if (typeof showToast === 'function') {
-            showToast('🔔 Notifications activées !');
-          }
-        } else {
-          console.log("❌ Aucun token");
-        }
-      } else {
-        console.log("❌ Permission refusée");
+        console.log('Token FCM:', token);
+        alert('📱 Token FCM : ' + token);
+        localStorage.setItem('fcm_token', token);
       }
     } catch (err) {
-      console.error("Erreur :", err);
+      console.error('Erreur:', err);
     }
   }
 
-  // Rendre la fonction accessible globalement
-  window.requestNotificationPermission = requestNotificationPermission;
-
-  // Gérer les notifications au premier plan
-  onMessage(messaging, (payload) => {
-    console.log("📩 Notification au premier plan :", payload);
-    const notificationTitle = payload.notification?.title || 'Lutte Arena';
-    const notificationOptions = {
-      body: payload.notification?.body || '',
-      icon: '/lutte-arena-data/icon.png'
-    };
-    if (Notification.permission === "granted") {
-      new Notification(notificationTitle, notificationOptions);
-    }
-    if (typeof showToast === 'function') {
-      showToast(payload.notification?.body || 'Nouvelle notification');
-    }
-  });
-
-  // Demander la permission automatiquement après 2 secondes
+  // Demander après 2 secondes
   setTimeout(() => {
     if (Notification.permission === 'default') {
-      requestNotificationPermission();
+      requestPermission();
     }
   }, 2000);
 
-  console.log('🔥 Firebase Messaging initialisé');
+  // Notification au premier plan
+  messaging.onMessage((payload) => {
+    console.log('Notification reçue:', payload);
+  });
 
-  // TEST : Vérifier si Firebase est bien chargé
-alert('🔥 Firebase est chargé ! Permission actuelle : ' + Notification.permission);
-</script>
-
-
-
-
-
-
-
-
-
+  console.log('🔥 Firebase initialisé (version compat)');
+</script>  
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
