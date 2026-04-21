@@ -749,10 +749,28 @@ function ouvrirAdmin(){
 // ============================================================
 // INIT
 // ============================================================
+// Forcer l'affichage du token au démarrage (pour test)
+setTimeout(async () => {
+  if (Notification.permission === 'granted') {
+    const messaging = getMessaging(app);
+    const currentToken = await getToken(messaging, {
+      vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+    });
+    if (currentToken) {
+      alert('📱 Token FCM existant : ' + currentToken);
+      localStorage.setItem('fcm_token', currentToken);
+    }
+  }
+}, 3000);
+
+
 window.onload = function(){
     chargerDonnees();
     if("Notification" in window && Notification.permission === 'default') Notification.requestPermission();
 };
+
+
+
 
 // Exposer globalement
 window.toggleDrawer=toggleDrawer; window.fermerDrawer=fermerDrawer; window.showContact=showContact; window.showPartnership=showPartnership;
