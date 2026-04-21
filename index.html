@@ -9,7 +9,9 @@
 <script>
   // Attendre que Firebase soit chargé
   document.addEventListener('DOMContentLoaded', function() {
-    
+
+   alert('🔥 DOMContentLoaded - Firebase va être initialisé');
+
     // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
@@ -61,21 +63,31 @@
     
     // Demander après 3 secondes
     setTimeout(function() {
-      if (Notification.permission === 'default') {
-        requestPermission();
-      } else if (Notification.permission === 'granted') {
-        // Si déjà accordé, on demande quand même le token
-        messaging.getToken({
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-        }).then(token => {
-          console.log('📱 Token existant:', token);
-          alert('📱 Token FCM existant : ' + token);
-          localStorage.setItem('fcm_token', token);
-        }).catch(err => {
-          console.error('❌ Erreur token:', err);
-        });
-      }
-    }, 3000);
+  alert('⏰ setTimeout exécuté. Permission : ' + Notification.permission);
+  
+  if (Notification.permission === 'default') {
+    // Pas encore de permission → demander
+    requestPermission();
+  } else if (Notification.permission === 'granted') {
+    // Permission déjà accordée → récupérer le token existant
+    alert('⚠️ Permission déjà accordée, récupération du token...');
+    messaging.getToken({
+      vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+    }).then(token => {
+      console.log('📱 Token existant:', token);
+      alert('📱 Token FCM existant : ' + token);
+      localStorage.setItem('fcm_token', token);
+      localStorage.setItem('subscribed_to_topic', 'true');
+      localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+    }).catch(err => {
+      console.error('❌ Erreur token:', err);
+      alert('❌ Erreur récupération token : ' + err.message);
+    });
+  } else {
+    // Permission refusée
+    alert('❌ Permission de notification refusée');
+  }
+}, 3000); 
 
     // Gérer les notifications au premier plan
     messaging.onMessage(function(payload) {
@@ -738,7 +750,6 @@ function ouvrirAdmin(){
 // INIT
 // ============================================================
 // Forcer l'affichage du token au démarrage (pour test)
-
 
 
 window.onload = function(){
