@@ -2,58 +2,96 @@
 <html lang="fr">
 <head>
 
-<!-- 🔔 FIREBASE CLOUD MESSAGING -->
-<!-- 🔔 FIREBASE CLOUD MESSAGING -->
-
-<!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION SANS MODULE) -->
+<!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION COMPAT - FONCTIONNE AVEC WEBINTOAPP) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+
 <script>
-  // Configuration Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
-    authDomain: "lutte-arena.firebaseapp.com",
-    projectId: "lutte-arena",
-    storageBucket: "lutte-arena.firebasestorage.app",
-    messagingSenderId: "616045902205",
-    appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
-  };
+  // Attendre que Firebase soit chargé
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
+      authDomain: "lutte-arena.firebaseapp.com",
+      projectId: "lutte-arena",
+      storageBucket: "lutte-arena.firebasestorage.app",
+      messagingSenderId: "616045902205",
+      appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
+    };
 
-  // Initialiser Firebase
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
+    // Initialiser Firebase
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
 
-  // Demander la permission
-  async function requestPermission() {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        const token = await messaging.getToken({
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-        });
-        console.log('Token FCM:', token);
-        alert('📱 Token FCM : ' + token);
-        localStorage.setItem('fcm_token', token);
+    // Fonction pour demander la permission
+    async function requestPermission() {
+      try {
+        console.log('📢 Demande de permission...');
+        const permission = await Notification.requestPermission();
+        console.log('Permission:', permission);
+        
+        if (permission === 'granted') {
+          const token = await messaging.getToken({
+            vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+          });
+          console.log('📱 Token FCM:', token);
+          
+          // Afficher le token dans une alerte
+          alert('📱 Votre token FCM : ' + token);
+          
+          // Stocker le token
+          localStorage.setItem('fcm_token', token);
+          localStorage.setItem('subscribed_to_topic', 'true');
+          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+          
+          if (typeof showToast === 'function') {
+            showToast('🔔 Notifications activées !');
+          }
+        }
+      } catch (err) {
+        console.error('❌ Erreur:', err);
+        alert('❌ Erreur notifications : ' + err.message);
       }
-    } catch (err) {
-      console.error('Erreur:', err);
     }
-  }
 
-  // Demander après 2 secondes
-  setTimeout(() => {
-    if (Notification.permission === 'default') {
-      requestPermission();
-    }
-  }, 2000);
+    // Vérifier la permission actuelle
+    console.log('🔥 Firebase chargé. Permission actuelle:', Notification.permission);
+    alert('🔥 Firebase est chargé ! Permission : ' + Notification.permission);
+    
+    // Demander après 3 secondes
+    setTimeout(function() {
+      if (Notification.permission === 'default') {
+        requestPermission();
+      } else if (Notification.permission === 'granted') {
+        // Si déjà accordé, on demande quand même le token
+        messaging.getToken({
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+        }).then(token => {
+          console.log('📱 Token existant:', token);
+          alert('📱 Token FCM existant : ' + token);
+          localStorage.setItem('fcm_token', token);
+        }).catch(err => {
+          console.error('❌ Erreur token:', err);
+        });
+      }
+    }, 3000);
 
-  // Notification au premier plan
-  messaging.onMessage((payload) => {
-    console.log('Notification reçue:', payload);
+    // Gérer les notifications au premier plan
+    messaging.onMessage(function(payload) {
+      console.log('📩 Notification reçue:', payload);
+      if (typeof showToast === 'function') {
+        showToast(payload.notification?.body || 'Nouvelle notification');
+      }
+    });
+
+    // Exposer la fonction de demande
+    window.requestNotificationPermission = requestPermission;
+    
   });
+</script>
 
-  console.log('🔥 Firebase initialisé (version compat)');
-</script>  
+    
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
@@ -700,18 +738,7 @@ function ouvrirAdmin(){
 // INIT
 // ============================================================
 // Forcer l'affichage du token au démarrage (pour test)
-setTimeout(async () => {
-  if (Notification.permission === 'granted') {
-    const messaging = getMessaging(app);
-    const currentToken = await getToken(messaging, {
-      vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-    });
-    if (currentToken) {
-      alert('📱 Token FCM existant : ' + currentToken);
-      localStorage.setItem('fcm_token', currentToken);
-    }
-  }
-}, 3000);
+
 
 
 window.onload = function(){
