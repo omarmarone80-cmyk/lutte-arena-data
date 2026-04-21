@@ -1,113 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-
-<!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION COMPAT - FONCTIONNE AVEC WEBINTOAPP) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
-
-<script>
-  // Attendre que Firebase soit chargé
-  document.addEventListener('DOMContentLoaded', function() {
-
-   alert('🔥 DOMContentLoaded - Firebase va être initialisé');
-
-    // Configuration Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
-      authDomain: "lutte-arena.firebaseapp.com",
-      projectId: "lutte-arena",
-      storageBucket: "lutte-arena.firebasestorage.app",
-      messagingSenderId: "616045902205",
-      appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
-    };
-
-    // Initialiser Firebase
-    firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
-
-    // Fonction pour demander la permission
-    async function requestPermission() {
-      try {
-        console.log('📢 Demande de permission...');
-        const permission = await Notification.requestPermission();
-        console.log('Permission:', permission);
-        
-        if (permission === 'granted') {
-          const token = await messaging.getToken({
-            vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-          });
-          console.log('📱 Token FCM:', token);
-          
-          // Afficher le token dans une alerte
-          alert('📱 Votre token FCM : ' + token);
-          
-          // Stocker le token
-          localStorage.setItem('fcm_token', token);
-          localStorage.setItem('subscribed_to_topic', 'true');
-          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
-          
-          if (typeof showToast === 'function') {
-            showToast('🔔 Notifications activées !');
-          }
-        }
-      } catch (err) {
-        console.error('❌ Erreur:', err);
-        alert('❌ Erreur notifications : ' + err.message);
-      }
-    }
-
-    // Vérifier la permission actuelle
-    console.log('🔥 Firebase chargé. Permission actuelle:', Notification.permission);
-    alert('🔥 Firebase est chargé ! Permission : ' + Notification.permission);
-    
-    // Demander après 3 secondes
-    setTimeout(function() {
-  alert('⏰ setTimeout exécuté. Permission : ' + Notification.permission);
-  
-  if (Notification.permission === 'default') {
-    // Pas encore de permission → demander
-    requestPermission();
-  } else if (Notification.permission === 'granted') {
-    // Permission déjà accordée → récupérer le token existant
-    alert('⚠️ Permission déjà accordée, récupération du token...');
-    messaging.getToken({
-      vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-    }).then(token => {
-      console.log('📱 Token existant:', token);
-      alert('📱 Token FCM existant : ' + token);
-      localStorage.setItem('fcm_token', token);
-      localStorage.setItem('subscribed_to_topic', 'true');
-      localStorage.setItem('topic_name', 'tous_les_utilisateurs');
-    }).catch(err => {
-      console.error('❌ Erreur token:', err);
-      alert('❌ Erreur récupération token : ' + err.message);
-    });
-  } else {
-    // Permission refusée
-    alert('❌ Permission de notification refusée');
-  }
-}, 3000); 
-
-    // Gérer les notifications au premier plan
-    messaging.onMessage(function(payload) {
-      console.log('📩 Notification reçue:', payload);
-      if (typeof showToast === 'function') {
-        showToast(payload.notification?.body || 'Nouvelle notification');
-      }
-    });
-
-    // Exposer la fonction de demande
-    window.requestNotificationPermission = requestPermission;
-    
-  });
-</script>
-
-    
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Lutte Arena · Calendrier 2026</title>
+
+    <!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION COMPAT - CORRIGÉE) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+
     <style>
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f7fb;padding-bottom:20px;opacity:0;animation:fadeIn 0.2s forwards;}
@@ -363,6 +264,101 @@
 </div></div>
 
 <div class="admin-link" id="adminLink" onclick="ouvrirAdmin()">⚙️</div>
+
+<script>
+// ============================================================
+// FIREBASE CLOUD MESSAGING (INITIALISATION)
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  alert('🔥 DOMContentLoaded - Firebase va être initialisé');
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
+    authDomain: "lutte-arena.firebaseapp.com",
+    projectId: "lutte-arena",
+    storageBucket: "lutte-arena.firebasestorage.app",
+    messagingSenderId: "616045902205",
+    appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
+  };
+
+  // Initialiser Firebase
+  try {
+    firebase.initializeApp(firebaseConfig);
+    alert('✅ Firebase initialisé avec succès');
+  } catch(e) {
+    alert('❌ Erreur initialisation Firebase : ' + e.message);
+    return;
+  }
+
+  let messaging;
+  try {
+    messaging = firebase.messaging();
+    alert('✅ Messaging créé avec succès');
+  } catch(e) {
+    alert('❌ Erreur messaging : ' + e.message);
+    return;
+  }
+
+  // Fonction pour demander la permission
+  async function requestPermission() {
+    try {
+      console.log('📢 Demande de permission...');
+      const permission = await Notification.requestPermission();
+      console.log('Permission:', permission);
+      
+      if (permission === 'granted') {
+        const token = await messaging.getToken({
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+        });
+        console.log('📱 Token FCM:', token);
+        alert('📱 Votre token FCM : ' + token);
+        
+        localStorage.setItem('fcm_token', token);
+        localStorage.setItem('subscribed_to_topic', 'true');
+        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+      }
+    } catch (err) {
+      console.error('❌ Erreur:', err);
+      alert('❌ Erreur notifications : ' + err.message);
+    }
+  }
+
+  // Vérifier la permission actuelle
+  alert('🔥 Firebase est chargé ! Permission : ' + Notification.permission);
+
+  // Demander après 3 secondes
+  setTimeout(function() {
+    alert('⏰ setTimeout exécuté. Permission : ' + Notification.permission);
+    
+    if (Notification.permission === 'default') {
+      requestPermission();
+    } else if (Notification.permission === 'granted') {
+      alert('⚠️ Permission déjà accordée, récupération du token...');
+      messaging.getToken({
+        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+      }).then(token => {
+        alert('📱 Token FCM existant : ' + token);
+        localStorage.setItem('fcm_token', token);
+        localStorage.setItem('subscribed_to_topic', 'true');
+        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+      }).catch(err => {
+        alert('❌ Erreur récupération token : ' + err.message);
+      });
+    } else {
+      alert('❌ Permission de notification refusée');
+    }
+  }, 3000);
+
+  messaging.onMessage(function(payload) {
+    console.log('📩 Notification reçue:', payload);
+    if (typeof showToast === 'function') {
+      showToast(payload.notification?.body || 'Nouvelle notification');
+    }
+  });
+
+  window.requestNotificationPermission = requestPermission;
+});
+</script>
 
 <script>
 // ============================================================
@@ -749,16 +745,9 @@ function ouvrirAdmin(){
 // ============================================================
 // INIT
 // ============================================================
-// Forcer l'affichage du token au démarrage (pour test)
-
-
 window.onload = function(){
     chargerDonnees();
-    if("Notification" in window && Notification.permission === 'default') Notification.requestPermission();
 };
-
-
-
 
 // Exposer globalement
 window.toggleDrawer=toggleDrawer; window.fermerDrawer=fermerDrawer; window.showContact=showContact; window.showPartnership=showPartnership;
