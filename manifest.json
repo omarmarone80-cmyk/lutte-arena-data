@@ -1,12 +1,13 @@
 {
-  "background_color": "#7d4d4d",
+  "background_color": "#ffffff",
   "dir": "ltr",
   "display": "standalone",
   "name": "Lutte Arena",
   "orientation": "any",
-  "scope": "\t/lutte-arena-data/",
+  "scope": "/lutte-arena-data/",
   "short_name": "Lutte Arena",
   "start_url": "/lutte-arena-data/",
   "theme_color": "#0f5c3f",
-  "lang": "fr"
+  "lang": "fr",
+  "description": "L'application officielle du calendrier de la lutte sénégalaise."
 }
