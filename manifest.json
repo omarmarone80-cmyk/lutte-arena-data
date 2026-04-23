@@ -1,0 +1,12 @@
+{
+  "background_color": "#7d4d4d",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Lutte Arena",
+  "orientation": "any",
+  "scope": "\t/lutte-arena-data/",
+  "short_name": "Lutte Arena",
+  "start_url": "/lutte-arena-data/",
+  "theme_color": "#0f5c3f",
+  "lang": "fr"
+}
