@@ -293,6 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let messaging;
   try {
     messaging = firebase.messaging();
+    // Utiliser le Service Worker par défaut avec le bon scope
+    messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
     alert('✅ Messaging créé avec succès');
   } catch(e) {
     alert('❌ Erreur messaging : ' + e.message);
@@ -302,23 +304,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // Fonction pour demander la permission
   async function requestPermission() {
     try {
-      console.log('📢 Demande de permission...');
       const permission = await Notification.requestPermission();
-      console.log('Permission:', permission);
-      
       if (permission === 'granted') {
         const token = await messaging.getToken({
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU",
+          serviceWorkerRegistration: await navigator.serviceWorker.getRegistration('/lutte-arena-data/firebase-messaging-sw.js')
         });
-        console.log('📱 Token FCM:', token);
-        alert('📱 Votre token FCM : ' + token);
-        
+        alert('📱 Token FCM : ' + token);
         localStorage.setItem('fcm_token', token);
-        localStorage.setItem('subscribed_to_topic', 'true');
-        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
       }
     } catch (err) {
-      console.error('❌ Erreur:', err);
       alert('❌ Erreur notifications : ' + err.message);
     }
   }
@@ -333,31 +328,27 @@ document.addEventListener('DOMContentLoaded', function() {
     if (Notification.permission === 'default') {
       requestPermission();
     } else if (Notification.permission === 'granted') {
-      alert('⚠️ Permission déjà accordée, récupération du token...');
       messaging.getToken({
-        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU",
+        serviceWorkerRegistration: await navigator.serviceWorker.getRegistration('/lutte-arena-data/firebase-messaging-sw.js')
       }).then(token => {
         alert('📱 Token FCM existant : ' + token);
         localStorage.setItem('fcm_token', token);
-        localStorage.setItem('subscribed_to_topic', 'true');
-        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
       }).catch(err => {
         alert('❌ Erreur récupération token : ' + err.message);
       });
     } else {
-      alert('❌ Permission de notification refusée');
+      alert('❌ Permission refusée');
     }
   }, 3000);
 
   messaging.onMessage(function(payload) {
     console.log('📩 Notification reçue:', payload);
-    if (typeof showToast === 'function') {
-      showToast(payload.notification?.body || 'Nouvelle notification');
-    }
   });
 
   window.requestNotificationPermission = requestPermission;
 });
+    
 </script>
 
 <script>

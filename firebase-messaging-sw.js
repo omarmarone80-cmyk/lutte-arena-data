@@ -2,7 +2,7 @@
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-// 🔥 REMPLACEZ PAR VOTRE CONFIGURATION FIREBASE
+// 🔥 Votre configuration Firebase
 firebase.initializeApp({
   apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
   authDomain: "lutte-arena.firebaseapp.com",
