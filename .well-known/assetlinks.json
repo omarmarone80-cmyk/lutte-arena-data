@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.omarmarone.luttearena",
+    "sha256_cert_fingerprints": ["BC:21:18:B1:6A:ED:3C:8D:38:37:60:A0:A6:B4:07:C1:CD:8A:49:03:30:DC:DB:7C:A2:12:4B:04:7B:62:3F:56"]
+  }
+}]
