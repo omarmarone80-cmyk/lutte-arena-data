@@ -266,12 +266,14 @@
 
 <div class="admin-link" id="adminLink" onclick="ouvrirAdmin()">⚙️</div>
 
+
+// ============================================================
+// FIREBASE CLOUD MESSAGING (INITIALISATION CORRIGÉE)
+// ===========================================================
 <script>
 // ============================================================
 // FIREBASE CLOUD MESSAGING (INITIALISATION CORRIGÉE)
 // ============================================================
-
-<button onclick="alert(localStorage.getItem('fcm_token'))" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:red;color:white;padding:15px;border-radius:30px;">Afficher Token</button>
 window.addEventListener('load', function() {
   alert('🔥 Page chargée - Firebase initialisation');
 
@@ -292,16 +294,8 @@ window.addEventListener('load', function() {
     return;
   }
 
-  try {
-  firebase.initializeApp(firebaseConfig);
-  alert('✅ Firebase initialisé');
-} catch(e) {
-  alert('❌ Firebase erreur : ' + e.message);
-  return;
-}
-
-const messaging = firebase.messaging();
-messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
+  const messaging = firebase.messaging();
+  messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
 
   async function requestPermission() {
     try {
@@ -352,7 +346,6 @@ messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js',
   window.requestNotificationPermission = requestPermission;
 });
 </script>
-
 <script>
 // ============================================================
 // CONFIGURATION & VERSION
