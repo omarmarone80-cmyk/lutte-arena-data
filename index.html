@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>Lutte Arena · Calendrier 2026</title>
-<link rel="manifest" href="/lutte-arena-data/manifest.json">
-    <!-- 🔔 FIREBASE CLOUD MESSAGING (VERSION COMPAT - CORRIGÉE) -->
+    <link rel="manifest" href="/lutte-arena-data/manifest.json">
+    
+    <!-- 🔔 FIREBASE CLOUD MESSAGING -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
 
@@ -267,10 +268,10 @@
 
 <script>
 // ============================================================
-// FIREBASE CLOUD MESSAGING (INITIALISATION)
+// FIREBASE CLOUD MESSAGING (INITIALISATION CORRIGÉE)
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-  alert('🔥 DOMContentLoaded - Firebase va être initialisé');
+window.addEventListener('load', function() {
+  alert('🔥 Page chargée - Firebase initialisation');
 
   const firebaseConfig = {
     apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
@@ -281,61 +282,49 @@ document.addEventListener('DOMContentLoaded', function() {
     appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
   };
 
-  // Initialiser Firebase
   try {
     firebase.initializeApp(firebaseConfig);
-    alert('✅ Firebase initialisé avec succès');
+    alert('✅ Firebase initialisé');
   } catch(e) {
-    alert('❌ Erreur initialisation Firebase : ' + e.message);
+    alert('❌ Firebase erreur : ' + e.message);
     return;
   }
 
-  let messaging;
-  try {
-    messaging = firebase.messaging();
-    // Utiliser le Service Worker par défaut avec le bon scope
-    messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
-    alert('✅ Messaging créé avec succès');
-  } catch(e) {
-    alert('❌ Erreur messaging : ' + e.message);
-    return;
-  }
+  const messaging = firebase.messaging();
 
-  // Fonction pour demander la permission
   async function requestPermission() {
     try {
       const permission = await Notification.requestPermission();
+      alert('Permission : ' + permission);
       if (permission === 'granted') {
         const token = await messaging.getToken({
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU",
-          serviceWorkerRegistration: await navigator.serviceWorker.getRegistration('/lutte-arena-data/firebase-messaging-sw.js')
+          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
         });
         alert('📱 Token FCM : ' + token);
         localStorage.setItem('fcm_token', token);
+        localStorage.setItem('subscribed_to_topic', 'true');
+        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
       }
     } catch (err) {
-      alert('❌ Erreur notifications : ' + err.message);
+      alert('❌ Erreur : ' + err.message);
     }
   }
 
-  // Vérifier la permission actuelle
-  alert('🔥 Firebase est chargé ! Permission : ' + Notification.permission);
+  alert('État permission : ' + Notification.permission);
 
-  // Demander après 3 secondes
   setTimeout(function() {
-    alert('⏰ setTimeout exécuté. Permission : ' + Notification.permission);
-    
     if (Notification.permission === 'default') {
       requestPermission();
     } else if (Notification.permission === 'granted') {
       messaging.getToken({
-        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU",
-        serviceWorkerRegistration: await navigator.serviceWorker.getRegistration('/lutte-arena-data/firebase-messaging-sw.js')
-      }).then(token => {
-        alert('📱 Token FCM existant : ' + token);
+        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+      }).then(function(token) {
+        alert('📱 Token existant : ' + token);
         localStorage.setItem('fcm_token', token);
-      }).catch(err => {
-        alert('❌ Erreur récupération token : ' + err.message);
+        localStorage.setItem('subscribed_to_topic', 'true');
+        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+      }).catch(function(err) {
+        alert('❌ Erreur token : ' + err.message);
       });
     } else {
       alert('❌ Permission refusée');
@@ -344,11 +333,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   messaging.onMessage(function(payload) {
     console.log('📩 Notification reçue:', payload);
+    if (typeof showToast === 'function') {
+      showToast(payload.notification?.body || 'Nouvelle notification');
+    }
   });
 
   window.requestNotificationPermission = requestPermission;
 });
-    
 </script>
 
 <script>
@@ -358,28 +349,18 @@ document.addEventListener('DOMContentLoaded', function() {
 const APP_VERSION = '2.0.0';
 const CONFIG = { DATA_URL: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/' };
 
-// Nettoyage du cache si version différente
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
     if ('caches' in window) caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
     localStorage.setItem('app_version', APP_VERSION);
 }
 
-// ============================================================
-// VARIABLES GLOBALES
-// ============================================================
 let areneData = [], lutteursData = {}, newsData = [], mbapattData = [], photos = {};
 
-// ============================================================
-// SERVICE WORKER
-// ============================================================
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/lutte-arena-data/sw.js').then(() => console.log('✅ SW enregistré'));
 }
 
-// ============================================================
-// PULL TO REFRESH AMÉLIORÉ
-// ============================================================
 let startY = 0, currentY = 0, isPulling = false, isRefreshing = false, canPull = true;
 const PULL_THRESHOLD = 80;
 const refreshIndicator = document.getElementById('refreshIndicator');
@@ -431,9 +412,6 @@ document.addEventListener('touchend', async (e) => {
     startY = 0; currentY = 0;
 });
 
-// ============================================================
-// CHARGEMENT DES DONNÉES
-// ============================================================
 async function rafraichirDonnees() {
     try {
         const timestamp = Date.now();
@@ -488,9 +466,6 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 2500);
 }
 
-// ============================================================
-// FONCTIONS D'AFFICHAGE
-// ============================================================
 function getPhotoHtml(lutteur){
     if(!lutteur) return '<div class="team-photo">?</div>';
     let url = photos[lutteur];
@@ -522,9 +497,7 @@ function formaterDate(j){
         let parts = j.date.split('-');
         let mois = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
         return `${j.jourSemaine} ${parts[2]} ${mois[parseInt(parts[1])-1]}`;
-    } catch(e) {
-        return j.jourSemaine || 'Date à confirmer';
-    }
+    } catch(e) { return j.jourSemaine; }
 }
 
 function genererCarteCombat(c, i, prefix) {
@@ -573,16 +546,11 @@ function afficherListeCombats(){
     let containerMois = document.getElementById('arene-mois-container');
     let containerSaison = document.getElementById('arene-saison-container');
     if(!containerMois || !containerSaison) return;
-    if(!areneData.length){ 
-        containerMois.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; 
-        containerSaison.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; 
-        return; 
-    }
+    if(!areneData.length){ containerMois.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; containerSaison.innerHTML='<div class="empty-message">🔍 Aucun combat</div>'; return; }
     let htmlMois = '', htmlSaison = '';
     for(let i=0; i<areneData.length; i++){
         let c = areneData[i];
         if(c.estGrandCombat) htmlSaison += genererCarteCombat(c, i, 'saison');
-        else if(c.estCombatMois) htmlMois += genererCarteCombat(c, i, 'mois');
         else htmlMois += genererCarteCombat(c, i, 'mois');
     }
     containerMois.innerHTML = htmlMois || '<div class="empty-message">📅 Aucun combat ce mois-ci</div>';
@@ -656,9 +624,6 @@ function openDetailPage(idx){
     document.getElementById('detailPage').classList.add('open');
 }
 
-// ============================================================
-// FONCTIONS UTILITAIRES
-// ============================================================
 function toggleDrawer(){ document.getElementById('drawer').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
 function fermerDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
 function changerPage(page){
@@ -733,14 +698,8 @@ function ouvrirAdmin(){
     setTimeout(()=>{ adminTapCount = 0; }, 2000);
 }
 
-// ============================================================
-// INIT
-// ============================================================
-window.onload = function(){
-    chargerDonnees();
-};
+window.onload = function(){ chargerDonnees(); };
 
-// Exposer globalement
 window.toggleDrawer=toggleDrawer; window.fermerDrawer=fermerDrawer; window.showContact=showContact; window.showPartnership=showPartnership;
 window.changerPage=changerPage; window.changerSubPage=changerSubPage; window.afficherFicheLutteur=afficherFicheLutteur; window.fermerFiche=fermerFiche;
 window.openDetailPage=openDetailPage; window.closeDetailPage=closeDetailPage; window.openSearchOverlay=openSearchOverlay;
