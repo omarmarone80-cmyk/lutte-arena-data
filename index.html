@@ -290,7 +290,16 @@ window.addEventListener('load', function() {
     return;
   }
 
-  const messaging = firebase.messaging();
+  try {
+  firebase.initializeApp(firebaseConfig);
+  alert('✅ Firebase initialisé');
+} catch(e) {
+  alert('❌ Firebase erreur : ' + e.message);
+  return;
+}
+
+const messaging = firebase.messaging();
+messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
 
   async function requestPermission() {
     try {
