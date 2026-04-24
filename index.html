@@ -340,6 +340,7 @@ window.addEventListener('load', function() {
   });
 
   window.requestNotificationPermission = requestPermission;
+window.requestPermission = requestPermission;
 });
 </script>
 <script>
@@ -709,7 +710,7 @@ window.togglePetitsCombats=togglePetitsCombats; window.toggleNotification=toggle
 window.ouvrirAdmin=ouvrirAdmin;
 </script>
 
-<button onclick="requestNotificationPermission()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:red;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">🔔 Demander Permission</button>
+<button onclick="requestPermission()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:red;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">🔔 Demander Permission</button>
 <button onclick="alert('Token FCM : ' + (localStorage.getItem('fcm_token') || 'Aucun token trouvé'))" style="position:fixed;bottom:160px;right:20px;z-index:9999;background:blue;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">🔑 Voir Token</button>
 
 </body>
