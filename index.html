@@ -268,57 +268,65 @@
 
 <script>
 // ============================================================
-// FIREBASE CLOUD MESSAGING (VERSION SIMPLIFIÉE - TOPIC UNIQUEMENT)
+// NOTIFICATIONS (VERSION SIMPLIFIÉE - FONCTIONNE PARTOUT)
 // ============================================================
 window.addEventListener('load', function() {
-  alert('🔥 Page chargée - Firebase initialisation');
+  
+  // Demander la permission automatiquement après 2 secondes
+  setTimeout(function() {
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          alert('✅ Notifications activées !');
+          localStorage.setItem('notifications_active', 'true');
+          // Notification de test immédiate
+          new Notification('Lutte Arena', {
+            body: 'Vous recevrez désormais les alertes de combats !',
+            icon: '/lutte-arena-data/icon.png'
+          });
+        }
+      });
+    } else if (Notification.permission === 'granted') {
+      localStorage.setItem('notifications_active', 'true');
+      alert('✅ Notifications déjà activées !');
+    }
+  }, 2000);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
-    authDomain: "lutte-arena.firebaseapp.com",
-    projectId: "lutte-arena",
-    storageBucket: "lutte-arena.firebasestorage.app",
-    messagingSenderId: "616045902205",
-    appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
+  // Exposer une fonction pour activer manuellement
+  window.activerNotifications = function() {
+    if (Notification.permission === 'default') {
+      Notification.requestPermission().then(function(permission) {
+        if (permission === 'granted') {
+          alert('✅ Notifications activées !');
+          localStorage.setItem('notifications_active', 'true');
+          new Notification('Lutte Arena', {
+            body: 'Notifications activées avec succès !',
+            icon: '/lutte-arena-data/icon.png'
+          });
+        } else {
+          alert('❌ Permission refusée');
+        }
+      });
+    } else if (Notification.permission === 'granted') {
+      alert('✅ Déjà activées !');
+      new Notification('Lutte Arena', {
+        body: 'Les notifications fonctionnent !',
+        icon: '/lutte-arena-data/icon.png'
+      });
+    } else {
+      alert('❌ Notifications bloquées. Allez dans Paramètres > Applications > Lutte Arena > Notifications');
+    }
   };
 
-  firebase.initializeApp(firebaseConfig);
-  const messaging = firebase.messaging();
-  messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
-
-  async function requestPermission() {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        // Tenter d'obtenir le token et de s'abonner au topic
-        try {
-          const token = await messaging.getToken({
-            vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-          });
-          localStorage.setItem('fcm_token', token);
-          localStorage.setItem('subscribed_to_topic', 'true');
-          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
-          alert('✅ Notifications activées !');
-        } catch(e) {
-          // Même si le token échoue, on s'abonne au topic
-          localStorage.setItem('subscribed_to_topic', 'true');
-          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
-          alert('✅ Abonné aux notifications de groupe !');
-        }
-      }
-    } catch (err) {
-      alert('❌ Erreur : ' + err.message);
-    }
-  }
-
-  // Exposer la fonction
-  window.requestPermission = requestPermission;
-
-  // Si déjà accordé, s'abonner automatiquement
+  // Vérifier l'état actuel
   if (Notification.permission === 'granted') {
-    requestPermission();
+    localStorage.setItem('notifications_active', 'true');
   }
 });
+
+ 
+
+
 </script>
 <script>
 // ============================================================
@@ -687,6 +695,6 @@ window.togglePetitsCombats=togglePetitsCombats; window.toggleNotification=toggle
 window.ouvrirAdmin=ouvrirAdmin;
 </script>
 
-<button onclick="requestPermission()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:green;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">✅ Activer Notifications</button>
+<button onclick="activerNotifications()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:green;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">✅ Activer Notifications</button>
 </body>
 </html>
