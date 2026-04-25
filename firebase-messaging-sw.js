@@ -1,8 +1,7 @@
-// Service Worker pour Firebase Cloud Messaging
+// Firebase Messaging Service Worker
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
-// 🔥 Votre configuration Firebase
 firebase.initializeApp({
   apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
   authDomain: "lutte-arena.firebaseapp.com",
@@ -14,14 +13,12 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Gérer les notifications en arrière-plan
-messaging.onBackgroundMessage((payload) => {
-  console.log('📩 Notification reçue en arrière-plan :', payload);
-  const notificationTitle = payload.notification?.title || 'Lutte Arena';
+messaging.onBackgroundMessage(function(payload) {
+  console.log('Notification reçue en arrière-plan:', payload);
+  const notificationTitle = payload.notification.title;
   const notificationOptions = {
-    body: payload.notification?.body || 'Une nouvelle information est disponible !',
-    icon: '/lutte-arena-data/icon.png',
-    badge: '/lutte-arena-data/badge.png'
+    body: payload.notification.body,
+    icon: '/lutte-arena-data/icon.png'
   };
   self.registration.showNotification(notificationTitle, notificationOptions);
 });

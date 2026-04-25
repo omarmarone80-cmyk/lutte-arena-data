@@ -268,64 +268,84 @@
 
 <script>
 // ============================================================
-// NOTIFICATIONS (VERSION SIMPLIFIÉE - FONCTIONNE PARTOUT)
+// FIREBASE CLOUD MESSAGING - VERSION FINALE
 // ============================================================
-window.addEventListener('load', function() {
-  
-  // Demander la permission automatiquement après 2 secondes
-  setTimeout(function() {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(function(permission) {
-        if (permission === 'granted') {
-          alert('✅ Notifications activées !');
-          localStorage.setItem('notifications_active', 'true');
-          // Notification de test immédiate
-          new Notification('Lutte Arena', {
-            body: 'Vous recevrez désormais les alertes de combats !',
-            icon: '/lutte-arena-data/icon.png'
-          });
-        }
-      });
-    } else if (Notification.permission === 'granted') {
-      localStorage.setItem('notifications_active', 'true');
-      alert('✅ Notifications déjà activées !');
-    }
-  }, 2000);
 
-  // Exposer une fonction pour activer manuellement
-  window.activerNotifications = function() {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission().then(function(permission) {
-        if (permission === 'granted') {
-          alert('✅ Notifications activées !');
-          localStorage.setItem('notifications_active', 'true');
-          new Notification('Lutte Arena', {
-            body: 'Notifications activées avec succès !',
-            icon: '/lutte-arena-data/icon.png'
-          });
-        } else {
-          alert('❌ Permission refusée');
-        }
+// Initialiser Firebase IMMÉDIATEMENT (sans attendre DOMContentLoaded)
+const firebaseConfig = {
+  apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
+  authDomain: "lutte-arena.firebaseapp.com",
+  projectId: "lutte-arena",
+  storageBucket: "lutte-arena.firebasestorage.app",
+  messagingSenderId: "616045902205",
+  appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
+};
+
+firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+
+// Fonction pour activer les notifications
+async function activerNotifications() {
+  try {
+    // Demander la permission
+    const permission = await Notification.requestPermission();
+    
+    if (permission === 'granted') {
+      // Obtenir le token FCM
+      const token = await messaging.getToken({
+        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
       });
-    } else if (Notification.permission === 'granted') {
-      alert('✅ Déjà activées !');
+      
+      console.log('Token FCM:', token);
+      localStorage.setItem('fcm_token', token);
+      localStorage.setItem('subscribed_to_topic', 'true');
+      
+      alert('✅ Notifications activées avec succès !\n\nToken : ' + token);
+      
+      // Notification de test
       new Notification('Lutte Arena', {
         body: 'Les notifications fonctionnent !',
         icon: '/lutte-arena-data/icon.png'
       });
     } else {
-      alert('❌ Notifications bloquées. Allez dans Paramètres > Applications > Lutte Arena > Notifications');
+      alert('❌ Permission refusée');
     }
-  };
-
-  // Vérifier l'état actuel
-  if (Notification.permission === 'granted') {
-    localStorage.setItem('notifications_active', 'true');
+  } catch (err) {
+    alert('❌ Erreur : ' + err.message);
   }
+}
+
+// Si déjà accordé, récupérer le token
+if (Notification.permission === 'granted') {
+  messaging.getToken({
+    vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+  }).then(function(token) {
+    console.log('Token existant:', token);
+    localStorage.setItem('fcm_token', token);
+    localStorage.setItem('subscribed_to_topic', 'true');
+  }).catch(function(err) {
+    console.error('Erreur token:', err);
+  });
+}
+
+// Demander automatiquement après 2 secondes
+setTimeout(function() {
+  if (Notification.permission === 'default') {
+    activerNotifications();
+  }
+}, 2000);
+
+// Exposer la fonction
+window.activerNotifications = activerNotifications;
+
+// Recevoir les notifications au premier plan
+messaging.onMessage(function(payload) {
+  console.log('Notification reçue:', payload);
+  new Notification(payload.notification.title, {
+    body: payload.notification.body,
+    icon: '/lutte-arena-data/icon.png'
+  });
 });
-
- 
-
 
 </script>
 <script>
@@ -694,7 +714,7 @@ window.openCalendarOverlay=openCalendarOverlay; window.closeCalendarOverlay=clos
 window.togglePetitsCombats=togglePetitsCombats; window.toggleNotification=toggleNotification; window.partagerCombat=partagerCombat;
 window.ouvrirAdmin=ouvrirAdmin;
 </script>
-
 <button onclick="activerNotifications()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:green;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">✅ Activer Notifications</button>
+
 </body>
 </html>
