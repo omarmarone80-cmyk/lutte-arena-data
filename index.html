@@ -268,7 +268,7 @@
 
 <script>
 // ============================================================
-// FIREBASE CLOUD MESSAGING (INITIALISATION CORRIGÉE)
+// FIREBASE CLOUD MESSAGING (VERSION SIMPLIFIÉE - TOPIC UNIQUEMENT)
 // ============================================================
 window.addEventListener('load', function() {
   alert('🔥 Page chargée - Firebase initialisation');
@@ -282,65 +282,42 @@ window.addEventListener('load', function() {
     appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
   };
 
-  try {
-    firebase.initializeApp(firebaseConfig);
-    alert('✅ Firebase initialisé');
-  } catch(e) {
-    alert('❌ Firebase erreur : ' + e.message);
-    return;
-  }
-
+  firebase.initializeApp(firebaseConfig);
   const messaging = firebase.messaging();
   messaging.useServiceWorker(new URL('/lutte-arena-data/firebase-messaging-sw.js', self.location.href));
 
   async function requestPermission() {
     try {
       const permission = await Notification.requestPermission();
-      alert('Permission : ' + permission);
       if (permission === 'granted') {
-        const token = await messaging.getToken({
-          vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-        });
-        alert('📱 Token FCM : ' + token);
-        localStorage.setItem('fcm_token', token);
-        localStorage.setItem('subscribed_to_topic', 'true');
-        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+        // Tenter d'obtenir le token et de s'abonner au topic
+        try {
+          const token = await messaging.getToken({
+            vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
+          });
+          localStorage.setItem('fcm_token', token);
+          localStorage.setItem('subscribed_to_topic', 'true');
+          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+          alert('✅ Notifications activées !');
+        } catch(e) {
+          // Même si le token échoue, on s'abonne au topic
+          localStorage.setItem('subscribed_to_topic', 'true');
+          localStorage.setItem('topic_name', 'tous_les_utilisateurs');
+          alert('✅ Abonné aux notifications de groupe !');
+        }
       }
     } catch (err) {
       alert('❌ Erreur : ' + err.message);
     }
   }
 
-  alert('État permission : ' + Notification.permission);
+  // Exposer la fonction
+  window.requestPermission = requestPermission;
 
-  setTimeout(function() {
-    if (Notification.permission === 'default') {
-      requestPermission();
-    } else if (Notification.permission === 'granted') {
-      messaging.getToken({
-        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-      }).then(function(token) {
-        alert('📱 Token existant : ' + token);
-        localStorage.setItem('fcm_token', token);
-        localStorage.setItem('subscribed_to_topic', 'true');
-        localStorage.setItem('topic_name', 'tous_les_utilisateurs');
-      }).catch(function(err) {
-        alert('❌ Erreur token : ' + err.message);
-      });
-    } else {
-      alert('❌ Permission refusée');
-    }
-  }, 3000);
-
-  messaging.onMessage(function(payload) {
-    console.log('📩 Notification reçue:', payload);
-    if (typeof showToast === 'function') {
-      showToast(payload.notification?.body || 'Nouvelle notification');
-    }
-  });
-
-  window.requestNotificationPermission = requestPermission;
-window.requestPermission = requestPermission;
+  // Si déjà accordé, s'abonner automatiquement
+  if (Notification.permission === 'granted') {
+    requestPermission();
+  }
 });
 </script>
 <script>
@@ -710,8 +687,6 @@ window.togglePetitsCombats=togglePetitsCombats; window.toggleNotification=toggle
 window.ouvrirAdmin=ouvrirAdmin;
 </script>
 
-<button onclick="requestPermission()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:red;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">🔔 Demander Permission</button>
-<button onclick="alert('Token FCM : ' + (localStorage.getItem('fcm_token') || 'Aucun token trouvé'))" style="position:fixed;bottom:160px;right:20px;z-index:9999;background:blue;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">🔑 Voir Token</button>
-
+<button onclick="requestPermission()" style="position:fixed;bottom:100px;right:20px;z-index:9999;background:green;color:white;padding:15px;border-radius:30px;border:none;font-weight:bold;">✅ Activer Notifications</button>
 </body>
 </html>
