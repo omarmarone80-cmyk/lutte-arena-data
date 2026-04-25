@@ -283,7 +283,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
-
+messaging.useServiceWorker(new URL('https://omarmarone80-cmyk.github.io/lutte-arena-sw/firebase-messaging-sw.js'));
 // Fonction pour activer les notifications
 async function activerNotifications() {
   try {
