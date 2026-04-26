@@ -268,83 +268,62 @@
 
 <script>
 // ============================================================
-// FIREBASE CLOUD MESSAGING - VERSION FINALE
+// NOTIFICATIONS LOCALES (SANS FIREBASE)
 // ============================================================
-
-// Initialiser Firebase IMMÉDIATEMENT (sans attendre DOMContentLoaded)
-const firebaseConfig = {
-  apiKey: "AIzaSyB9vvCZd_vzxdipkKnSh7TAYNu4IHMOFaQ",
-  authDomain: "lutte-arena.firebaseapp.com",
-  projectId: "lutte-arena",
-  storageBucket: "lutte-arena.firebasestorage.app",
-  messagingSenderId: "616045902205",
-  appId: "1:616045902205:web:c03f5c891ef5bbc722b414"
-};
-
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
-messaging.useServiceWorker(new URL('https://omarmarone80-cmyk.github.io/lutte-arena-sw/firebase-messaging-sw.js'));
-// Fonction pour activer les notifications
-async function activerNotifications() {
-  try {
-    // Demander la permission
-    const permission = await Notification.requestPermission();
-    
-    if (permission === 'granted') {
-      // Obtenir le token FCM
-      const token = await messaging.getToken({
-        vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-      });
-      
-      console.log('Token FCM:', token);
-      localStorage.setItem('fcm_token', token);
-      localStorage.setItem('subscribed_to_topic', 'true');
-      
-      alert('✅ Notifications activées avec succès !\n\nToken : ' + token);
-      
-      // Notification de test
-      new Notification('Lutte Arena', {
-        body: 'Les notifications fonctionnent !',
-        icon: '/lutte-arena-data/icon.png'
-      });
-    } else {
-      alert('❌ Permission refusée');
+window.addEventListener('load', function() {
+  
+  // Fonction pour activer les notifications
+  window.activerNotifications = async function() {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        localStorage.setItem('notifications_active', 'true');
+        alert('✅ Notifications activées !');
+        
+        // Notification de test
+        new Notification('Lutte Arena', {
+          body: 'Vous recevrez les alertes de combats !',
+          icon: '/lutte-arena-data/icon.png'
+        });
+      } else {
+        alert('❌ Permission refusée');
+      }
+    } catch (err) {
+      alert('❌ Erreur : ' + err.message);
     }
-  } catch (err) {
-    alert('❌ Erreur : ' + err.message);
-  }
-}
+  };
 
-// Si déjà accordé, récupérer le token
-if (Notification.permission === 'granted') {
-  messaging.getToken({
-    vapidKey: "BBmkcxXlQncvAjUFlKsBN-MKi28PaqMBncwWlhwYWx3jwbsiAjpwNLinTscBNEScCFxhNxBBSVFEzfjCvJncrZU"
-  }).then(function(token) {
-    console.log('Token existant:', token);
-    localStorage.setItem('fcm_token', token);
-    localStorage.setItem('subscribed_to_topic', 'true');
-  }).catch(function(err) {
-    console.error('Erreur token:', err);
-  });
-}
+  // Vérifier périodiquement les nouvelles notifications depuis l'admin
+  setInterval(async function() {
+    if (Notification.permission === 'granted') {
+      try {
+        const response = await fetch('https://omarmarone80-cmyk.github.io/lutte-arena-data/data/notifications.json');
+        const data = await response.json();
+        
+        // Vérifier s'il y a une nouvelle notification
+        const lastNotif = localStorage.getItem('last_notification_id');
+        if (data.length > 0) {
+          const latest = data[data.length - 1];
+          if (latest.id != lastNotif) {
+            new Notification(latest.title, {
+              body: latest.message,
+              icon: '/lutte-arena-data/icon.png'
+            });
+            localStorage.setItem('last_notification_id', latest.id);
+          }
+        }
+      } catch(e) {
+        // Silencieux
+      }
+    }
+  }, 30000); // Vérifier toutes les 30 secondes
 
-// Demander automatiquement après 2 secondes
-setTimeout(function() {
-  if (Notification.permission === 'default') {
-    activerNotifications();
-  }
-}, 2000);
-
-// Exposer la fonction
-window.activerNotifications = activerNotifications;
-
-// Recevoir les notifications au premier plan
-messaging.onMessage(function(payload) {
-  console.log('Notification reçue:', payload);
-  new Notification(payload.notification.title, {
-    body: payload.notification.body,
-    icon: '/lutte-arena-data/icon.png'
-  });
+  // Demander automatiquement après 2 secondes
+  setTimeout(function() {
+    if (Notification.permission === 'default') {
+      window.activerNotifications();
+    }
+  }, 2000);
 });
 
 </script>
