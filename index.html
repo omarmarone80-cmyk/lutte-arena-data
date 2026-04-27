@@ -862,7 +862,60 @@ window.openSearchOverlay=openSearchOverlay; window.closeSearchOverlay=closeSearc
 window.rechercherDansPopup=rechercherDansPopup;
 window.openCalendarOverlay=openCalendarOverlay; window.closeCalendarOverlay=closeCalendarOverlay;
 window.ouvrirAdmin=ouvrirAdmin; window.showContact=showContact; window.showPartnership=showPartnership;
+// ============================================================
+// PULL TO REFRESH
+// ============================================================
+let startY = 0, currentY = 0, isPulling = false, isRefreshing = false, canPull = true;
+const PULL_THRESHOLD = 80;
+const refreshIndicator = document.getElementById('refreshIndicator');
+const refreshContent = document.getElementById('refreshContent');
 
+document.addEventListener('touchstart', (e) => {
+    if (window.scrollY === 0 && !isRefreshing && canPull) {
+        startY = e.touches[0].pageY;
+        isPulling = true;
+    }
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (!isPulling || isRefreshing) return;
+    currentY = e.touches[0].pageY;
+    const pullDistance = currentY - startY;
+    if (pullDistance > 5 && window.scrollY === 0) {
+        e.preventDefault();
+        const pullHeight = Math.min(pullDistance * 0.5, 80);
+        refreshIndicator.style.height = pullHeight + 'px';
+        refreshIndicator.classList.add('pulling');
+        refreshContent.innerHTML = pullDistance < PULL_THRESHOLD ? '⬇️ Tirer pour rafraîchir' : '✅ Relâcher pour rafraîchir';
+    }
+}, { passive: false });
+
+document.addEventListener('touchend', async (e) => {
+    if (!isPulling || isRefreshing) { isPulling = false; return; }
+    const pullDistance = currentY - startY;
+    if (pullDistance >= PULL_THRESHOLD && window.scrollY === 0) {
+        isRefreshing = true;
+        canPull = false;
+        refreshIndicator.style.height = '56px';
+        refreshIndicator.classList.add('refreshing');
+        refreshIndicator.classList.remove('pulling');
+        refreshContent.innerHTML = '<div style="display:flex;align-items:center;"><div class="refresh-spinner"></div> Mise à jour...</div>';
+        await rafraichirDonnees();
+        refreshContent.innerHTML = '✅ Données mises à jour !';
+        setTimeout(() => {
+            refreshIndicator.style.height = '0';
+            refreshIndicator.classList.remove('refreshing');
+            isRefreshing = false;
+            canPull = true;
+        }, 1000);
+    } else {
+        refreshIndicator.style.height = '0';
+        refreshIndicator.classList.remove('pulling');
+    }
+    isPulling = false;
+    startY = 0;
+    currentY = 0;
+});
 window.onload = function(){ chargerDonnees(); };
 </script>
 </body>
