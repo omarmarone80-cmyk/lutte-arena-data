@@ -6,7 +6,7 @@
     "sansVerdict": 0,
     "combats": 28,
     "ecurie": "Rock Énergie",
-    "photo": "images/lutteurs/modou_lo.jpg",
+    "photo": "images/lutteurs/Modou Lo.webp",
     "historique": [
       {"adversaire": "Pape Sène", "resultat": "Victoire"},
       {"adversaire": "Alioune Seye 2", "resultat": "Victoire"},
@@ -45,7 +45,7 @@
     "sansVerdict": 0,
     "combats": 30,
     "ecurie": "Guediawaye",
-    "photo": "images/lutteurs/balla_gaye_2.jpg",
+    "photo": "images/lutteurs/balla_gaye_2.jpeg",
     "historique": [
       {"adversaire": "Samba Laobé", "resultat": "Victoire"},
       {"adversaire": "Dame Kandji", "resultat": "Victoire"},
@@ -86,7 +86,7 @@
     "sansVerdict": 0,
     "combats": 16,
     "ecurie": "Fass",
-    "photo": "images/lutteurs/franc.jpg",
+    "photo": "images/lutteurs/franc.webp",
     "historique": [
       {"adversaire": "Gueidje Bamboulane", "resultat": "Victoire"},
       {"adversaire": "Diarra 2", "resultat": "Victoire"},
@@ -113,7 +113,7 @@
     "sansVerdict": 0,
     "combats": 19,
     "ecurie": "Thiès",
-    "photo": "images/lutteurs/sa_thies.jpg",
+    "photo": "images/lutteurs/sa-thies.jpg",
     "historique": [
       {"adversaire": "Boy Diouf", "resultat": "Victoire"},
       {"adversaire": "Bombardier Jr", "resultat": "Victoire"},
@@ -143,7 +143,7 @@
     "sansVerdict": 0,
     "combats": 20,
     "ecurie": "",
-    "photo": "images/lutteurs/lac_de_guiers_2.jpg",
+    "photo": "images/lutteurs/lac-2.webp",
     "historique": [
       {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
       {"adversaire": "Khadim Diallo", "resultat": "Victoire"},
@@ -174,7 +174,7 @@
     "sansVerdict": 0,
     "combats": 21,
     "ecurie": "Baol",
-    "photo": "images/lutteurs/tapha_tine.jpg",
+    "photo": "images/lutteurs/tapha-tine.jpg",
     "historique": [
       {"adversaire": "Boy Niang 2", "resultat": "Victoire"},
       {"adversaire": "Eumeu Sène", "resultat": "Victoire"},
@@ -206,7 +206,7 @@
     "sansVerdict": 2,
     "combats": 18,
     "ecurie": "Thiaroye",
-    "photo": "images/lutteurs/reug_reug.jpg",
+    "photo": "images/lutteurs/reugreug.jpg",
     "historique": [
       {"adversaire": "Inconnu", "resultat": "Victoire"},
       {"adversaire": "Inconnu", "resultat": "Victoire"},
@@ -235,7 +235,7 @@
     "sansVerdict": 0,
     "combats": 18,
     "ecurie": "Pikine",
-    "photo": "images/lutteurs/ama_balde.jpg",
+    "photo": "images/lutteurs/amabalde_1.webp",
     "historique": [
       {"adversaire": "Oussou Ndiaye", "resultat": "Victoire"},
       {"adversaire": "Katy Jr", "resultat": "Victoire"},
@@ -264,7 +264,7 @@
     "sansVerdict": 0,
     "combats": 19,
     "ecurie": "Pikine",
-    "photo": "images/lutteurs/boy_niang_2.jpg",
+    "photo": "images/lutteurs/boy_niang_2.webp",
     "historique": [
       {"adversaire": "Akon", "resultat": "Victoire"},
       {"adversaire": "Mbiss", "resultat": "Victoire"},
@@ -294,7 +294,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "Fass Benno",
-    "photo": "images/lutteurs/ada_fass.jpg",
+    "photo": "images/lutteurs/ada_fass.png",
     "historique": [
       {"adversaire": "Ardo", "resultat": "Victoire"},
       {"adversaire": "Far Bou Diarr", "resultat": "Victoire"},
@@ -321,7 +321,7 @@
     "sansVerdict": 0,
     "combats": 14,
     "ecurie": "Yeumbeul",
-    "photo": "images/lutteurs/diop_2.jpg",
+    "photo": "images/lutteurs/diop_2.webp",
     "historique": [
       {"adversaire": "Cheikh Walo", "resultat": "Victoire"},
       {"adversaire": "Building", "resultat": "Victoire"},
@@ -376,7 +376,7 @@
     "sansVerdict": 0,
     "combats": 26,
     "ecurie": "Tysinger",
-    "photo": "images/lutteurs/eumeu_sene.jpg",
+    "photo": "images/lutteurs/eumeu_sene.webp",
     "historique": [
       {"adversaire": "Ouza Sow", "resultat": "Victoire"},
       {"adversaire": "Nguéye Loum", "resultat": "Victoire"},
