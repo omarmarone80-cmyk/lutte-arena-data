@@ -679,7 +679,9 @@ function ajouterCommentaire(combatId){
 // ============================================================
 function afficherLutteurs(){
     const c = document.getElementById('lutteurs-container'); if(!c) return;
-    const noms = Object.keys(lutteursData).filter(n => n !== "Secret").sort();
+    const noms = Object.keys(lutteursData)
+    .filter(n => n !== "Secret")
+    .sort((a, b) => (lutteursData[b].victoires || 0) - (lutteursData[a].victoires || 0));
     if(!noms.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">👤</div>Aucun lutteur</div>'; return; }
     let h = '';
     noms.forEach(nom => {
