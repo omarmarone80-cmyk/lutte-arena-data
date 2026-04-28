@@ -644,7 +644,7 @@
     "sansVerdict": 0,
     "combats": 10,
     "ecurie": "",
-    "photo": "images/lutteurs/fils_de_bm.jpg",
+    "photo": "images/lutteurs/fils de BM.jfif",
     "historique": []
 },
 "Diekh Diam": {
@@ -654,7 +654,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/diekh_diam.jpg",
+    "photo": "images/lutteurs/diekh-diam.jpg",
     "historique": []
 },
 "Fils de Mbaye Gueye": {
@@ -664,7 +664,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/fils_de_mbaye_gueye.jpg",
+    "photo": "images/lutteurs/fils de mbaye gueye.jpg",
     "historique": []
 },
 "Nandy Fall": {
@@ -793,16 +793,6 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/doudou sane.jpeg",
-    "historique": []
-},
-"Zambala": {
-    "victoires": 8,
-    "defaites": 1,
-    "nuls": 0,
-    "sansVerdict": 0,
-    "combats": 9,
-    "ecurie": "",
-    "photo": "images/lutteurs/zambala.jfif",
     "historique": []
 },
 "Mor Kangkang": {
@@ -968,7 +958,7 @@
     "sansVerdict": 0,
     "combats": 13,
     "ecurie": "Grand Médine",
-    "photo": "images/lutteurs/tapha_mbeur.jpg",
+    "photo": "images/lutteurs/tapha mbeur.jfif",
     "historique": [
         {"adversaire": "Siteu Bou Gor", "resultat": "Victoire"},
         {"adversaire": "Lys Ndiago", "resultat": "Victoire"},
