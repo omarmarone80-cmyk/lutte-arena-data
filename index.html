@@ -783,11 +783,15 @@ function afficherNews(){
 }
 
 function afficherMbapatt(){
-    let c = document.getElementById('mbapatt-container'); if(!c) return;
-    if(!mbapattData||!mbapattData.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">🏆</div>Aucun tournoi</div>'; return; }
+    let c = document.getElementById('mbapatt-container'); 
+    if(!c) return;
+    if(!mbapattData || !mbapattData.length){ 
+        c.innerHTML = '<div class="empty-message">🏆 Aucun tournoi</div>'; 
+        return; 
+    }
     let h = mbapattData.map(t => {
         let im = t.image ? `<div class="news-image"><img src="${CONFIG.DATA_URL + t.image}" alt="${t.nom}" loading="lazy" onerror="this.parentElement.style.display='none';"></div>` : '';
-        return `<div class="news-card">${im}<div class="news-content"><div class="news-title">${t.nom}</div><div class="news-date">📅 ${t.date} · 📍 ${t.lieu}</div><div class="news-excerpt">${t.description||''}</div><div class="mbapatt-participants">${t.participants.map(p => `<span class="participant-tag">${p}</span>`).join('')}</div></div></div>`;
+        return `<div class="news-card">${im}<div class="news-content"><div class="news-title">${t.nom}</div><div class="news-date">📅 ${t.date} · 📍 ${t.lieu}</div><div class="news-excerpt">${t.description||''}</div></div></div>`;
     }).join('');
     c.innerHTML = h;
 }
