@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Lutte SN">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f5c3f">
+    <meta name="description" content="Lutte SN - L'Arène des Champions - Calendrier 2026">
     <title>Lutte SN · L'Arène des Champions</title>
     <link rel="manifest" href="/lutte-arena-data/manifest.json">
+    <link rel="apple-touch-icon" href="/lutte-arena-data/icons/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -17,30 +24,32 @@
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.04); --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
             --shadow-lg: 0 12px 40px rgba(0,0,0,0.1); --shadow-glow: 0 0 30px rgba(15,92,63,0.15);
             --radius-sm: 12px; --radius-md: 20px; --radius-lg: 28px; --radius-xl: 36px;
-            --avatar-colors: #0f5c3f, #1a8c5c, #0d9488, #d97706, #dc2626, #7c3aed, #2563eb, #059669;
+            --safe-area-top: env(safe-area-inset-top, 0px);
+            --safe-area-bottom: env(safe-area-inset-bottom, 0px);
         }
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
         body{
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg); color: var(--text); padding-bottom: 20px;
+            background: var(--bg); color: var(--text); padding-bottom: calc(20px + var(--safe-area-bottom));
+            padding-top: var(--safe-area-top);
             opacity: 0; animation: fadeIn 0.4s ease-out forwards;
             -webkit-font-smoothing: antialiased;
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
         }
         @keyframes fadeIn{to{opacity:1;}}
         @keyframes shimmer{0%{background-position:-400px 0;}100%{background-position:400px 0;}}
-        @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
         @keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-        @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(15,92,63,0.2);}50%{box-shadow:0 0 40px rgba(15,92,63,0.4);}}
         @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
 
         /* REFRESH INDICATOR */
-        .refresh-indicator{position:fixed;top:0;left:0;width:100%;height:0;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:height 0.3s cubic-bezier(0.25,0.8,0.25,1.2);overflow:hidden;z-index:500;}
-        .refresh-indicator.pulling{height:56px;}
-        .refresh-indicator.refreshing{height:56px;background:var(--primary-light);}
+        .refresh-indicator{position:fixed;top:0;left:0;width:100%;height:0;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;transition:height 0.3s cubic-bezier(0.25,0.8,0.25,1.2);overflow:hidden;z-index:500;padding-top:var(--safe-area-top);}
+        .refresh-indicator.pulling{height:calc(56px + var(--safe-area-top));}
+        .refresh-indicator.refreshing{height:calc(56px + var(--safe-area-top));background:var(--primary-light);}
         .refresh-spinner{width:22px;height:22px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;margin-right:12px;}
 
         /* DRAWER */
-        .drawer{position:fixed;top:0;left:-300px;width:300px;height:100%;background:var(--surface);z-index:2000;transition:left 0.35s cubic-bezier(0.25,0.8,0.25,1);box-shadow:var(--shadow-lg);border-radius:0 24px 24px 0;}
+        .drawer{position:fixed;top:0;left:-300px;width:300px;height:100%;background:var(--surface);z-index:2000;transition:left 0.35s cubic-bezier(0.25,0.8,0.25,1);box-shadow:var(--shadow-lg);border-radius:0 24px 24px 0;padding-top:var(--safe-area-top);}
         .drawer.open{left:0;}
         .drawer-header{background:var(--gradient-hero);padding:40px 28px 32px;color:#fff;border-radius:0 24px 0 0;}
         .drawer-header .logo-text{font-size:28px;font-weight:800;letter-spacing:-0.5px;}
@@ -53,9 +62,9 @@
         .overlay.show{display:block;}
 
         /* HEADER */
-        .menu-btn{position:fixed;top:20px;left:20px;width:48px;height:48px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:101;font-size:22px;color:var(--text);box-shadow:var(--shadow-md);border:1px solid rgba(255,255,255,0.6);}
+        .menu-btn{position:fixed;top:calc(20px + var(--safe-area-top));left:20px;width:48px;height:48px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:101;font-size:22px;color:var(--text);box-shadow:var(--shadow-md);border:1px solid rgba(255,255,255,0.6);}
         .menu-btn:active{background:#fff;transform:scale(0.95);}
-        .header{padding:20px 60px 16px;text-align:center;background:transparent;position:relative;}
+        .header{padding:20px 60px 16px;text-align:center;background:transparent;position:relative;margin-top:var(--safe-area-top);}
         .header h1{font-size:26px;font-weight:800;background:var(--gradient-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px;}
         .sous-titre{font-size:12px;color:var(--text-secondary);font-weight:500;margin-top:2px;letter-spacing:2px;text-transform:uppercase;}
         .header-icons{position:absolute;top:20px;right:20px;display:flex;gap:10px;}
@@ -77,11 +86,6 @@
         .avatar-placeholder{
             width:100%;height:100%;display:flex;align-items:center;justify-content:center;
             font-weight:700;color:#fff;text-transform:uppercase;font-size:inherit;
-            background:var(--avatar-bg, var(--gradient-hero));
-        }
-        .avatar-circle{
-            border-radius:50%;overflow:hidden;flex-shrink:0;
-            display:flex;align-items:center;justify-content:center;
         }
         .avatar-initials{font-weight:800;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.2);}
 
@@ -106,7 +110,7 @@
             box-shadow:var(--shadow-md);transition:all 0.3s;
             font-size:24px;
         }
-        .team-photo:hover{box-shadow:var(--shadow-glow);transform:scale(1.04);}
+        .team-photo:active{box-shadow:var(--shadow-glow);transform:scale(1.04);}
         .team-photo img{width:100%;height:100%;object-fit:cover;}
         .team-name{font-weight:700;font-size:15px;text-align:center;cursor:pointer;padding:4px 8px;border-radius:8px;transition:all 0.2s;}
         .team-name:active{color:var(--primary);background:#f1f5f9;}
@@ -138,7 +142,7 @@
         .petit-vs{background:#fff;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;color:var(--accent);border:1px solid #fef3c7;}
 
         /* PAGE DÉTAIL */
-        .detail-page{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:1000;overflow-y:auto;transform:translateX(102%);transition:transform 0.4s cubic-bezier(0.25,0.8,0.25,1);}
+        .detail-page{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:1000;overflow-y:auto;transform:translateX(102%);transition:transform 0.4s cubic-bezier(0.25,0.8,0.25,1);padding-top:var(--safe-area-top);}
         .detail-page.open{transform:translateX(0);}
         .detail-header{background:var(--gradient-hero);padding:20px;color:#fff;position:sticky;top:0;z-index:10;}
         .detail-back{background:rgba(255,255,255,0.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:22px;width:44px;height:44px;border-radius:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
@@ -153,6 +157,7 @@
             display:flex;align-items:center;gap:16px;
             box-shadow:0 4px 20px rgba(0,0,0,0.3);
             transition:all 0.3s;
+            padding-top:calc(12px + var(--safe-area-top));
         }
         .fiche-sticky-photo{
             width:50px;height:50px;border-radius:50%;
@@ -274,7 +279,7 @@
         .news-card{background:var(--surface);margin:14px 16px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-md);}
         .news-image{width:100%;height:200px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
         .news-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
-        .news-card:hover .news-image img{transform:scale(1.03);}
+        .news-card:active .news-image img{transform:scale(1.03);}
         .news-content{padding:20px;}
         .news-title{font-weight:700;font-size:18px;color:var(--text);margin-bottom:8px;}
         .news-date{font-size:12px;color:var(--text-secondary);margin-bottom:12px;font-weight:500;}
@@ -288,7 +293,7 @@
         .participant-tag{background:#f1f5f9;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;color:var(--text);}
 
         /* SEARCH OVERLAY */
-        .search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,30,20,0.6);backdrop-filter:blur(8px);z-index:3000;display:none;flex-direction:column;}
+        .search-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,30,20,0.6);backdrop-filter:blur(8px);z-index:3000;display:none;flex-direction:column;padding-top:var(--safe-area-top);}
         .search-overlay.open{display:flex;}
         .search-header{padding:20px;display:flex;gap:12px;align-items:center;}
         .search-input-popup{flex:1;padding:16px 20px;border-radius:20px;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.95);font-size:16px;outline:none;font-family:inherit;}
@@ -298,14 +303,14 @@
         .search-result-item:active{transform:scale(0.98);background:#f8fafc;}
 
         /* CALENDAR OVERLAY */
-        .calendar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,30,20,0.6);backdrop-filter:blur(8px);z-index:3000;display:none;align-items:center;justify-content:center;}
+        .calendar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,30,20,0.6);backdrop-filter:blur(8px);z-index:3000;display:none;align-items:center;justify-content:center;padding-top:var(--safe-area-top);}
         .calendar-card{background:var(--surface);border-radius:var(--radius-xl);padding:32px;text-align:center;width:85%;max-width:360px;box-shadow:var(--shadow-lg);}
         .calendar-date{font-size:40px;font-weight:800;color:var(--primary);}
         .calendar-day{font-size:18px;color:var(--text-secondary);margin-top:4px;}
         .calendar-close{background:var(--gradient-hero);color:#fff;border:none;padding:14px 28px;border-radius:20px;font-weight:700;margin-top:20px;cursor:pointer;font-family:inherit;}
 
         /* ADMIN BUTTON */
-        .admin-link{position:fixed;bottom:24px;right:24px;width:52px;height:52px;background:var(--gradient-hero);border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:var(--shadow-lg);z-index:100;cursor:pointer;opacity:0.4;transition:all 0.3s;}
+        .admin-link{position:fixed;bottom:calc(24px + var(--safe-area-bottom));right:24px;width:52px;height:52px;background:var(--gradient-hero);border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;box-shadow:var(--shadow-lg);z-index:100;cursor:pointer;opacity:0.4;transition:all 0.3s;}
         .admin-link:active{opacity:0.8;transform:scale(1.05);}
 
         /* FOOTER */
@@ -322,12 +327,69 @@
         /* BUTTONS */
         .btn-primary{background:var(--gradient-hero);color:#fff;border:none;border-radius:16px;padding:16px 24px;font-weight:700;cursor:pointer;font-family:inherit;font-size:15px;width:100%;transition:all 0.3s;box-shadow:var(--shadow-md);}
         .btn-primary:active{transform:scale(0.97);opacity:0.9;}
+
+        /* INSTALL BANNER */
+        .install-banner {
+            position: fixed;
+            bottom: calc(80px + var(--safe-area-bottom));
+            left: 16px;
+            right: 16px;
+            background: var(--gradient-hero);
+            color: #fff;
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            display: none;
+            align-items: center;
+            gap: 16px;
+            z-index: 400;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s ease-out;
+        }
+        .install-banner.show { display: flex; }
+        .install-banner-text { flex: 1; }
+        .install-banner-text strong { font-size: 16px; display: block; margin-bottom: 4px; }
+        .install-banner-text span { font-size: 13px; opacity: 0.9; }
+        .install-banner-btn {
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .install-banner-btn:active { transform: scale(0.95); }
+        .install-banner-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
 
 <!-- REFRESH INDICATOR -->
 <div class="refresh-indicator" id="refreshIndicator"><div id="refreshContent"></div></div>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="installBanner">
+    <button class="install-banner-close" onclick="closeInstallBanner()">✕</button>
+    <div class="install-banner-text">
+        <strong>Installer l'application</strong>
+        <span>Ajoutez Lutte SN à votre écran d'accueil</span>
+    </div>
+    <button class="install-banner-btn" id="installBtn" onclick="installApp()">Installer</button>
+</div>
 
 <!-- DRAWER -->
 <div class="menu-btn" onclick="toggleDrawer()">☰</div>
@@ -383,7 +445,7 @@
 <!-- SEARCH OVERLAY -->
 <div id="searchOverlay" class="search-overlay">
     <div class="search-header">
-        <input type="text" class="search-input-popup" id="searchInputPopup" placeholder="Rechercher un combat ou lutteur..." oninput="rechercherDansPopup()">
+        <input type="text" class="search-input-popup" id="searchInputPopup" placeholder="Rechercher un combat ou lutteur..." oninput="rechercherDansPopup()" autocomplete="off">
         <button class="search-close" onclick="closeSearchOverlay()">✕</button>
     </div>
     <div class="search-results" id="searchResultsPopup"></div>
@@ -405,14 +467,81 @@
 // ============================================================
 // CONFIGURATION
 // ============================================================
-const APP_VERSION = '5.1.0';
+const APP_VERSION = '5.2.0';
 const CONFIG = { 
     DATA_URL: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/',
-    VERSION: Date.now()  // Force le rechargement à chaque visite
+    VERSION: Date.now()
 };
 
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/lutte-arena-data/sw.js')
+            .then(registration => {
+                console.log('✅ Service Worker enregistré:', registration.scope);
+            })
+            .catch(err => {
+                console.log('❌ Service Worker échec:', err);
+            });
+    });
+}
+
+// PWA Install Prompt
+let deferredPrompt;
+const installBanner = document.getElementById('installBanner');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // Vérifier si l'app n'est pas déjà installée
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+        setTimeout(() => {
+            installBanner.classList.add('show');
+        }, 3000);
+    }
+});
+
+window.addEventListener('appinstalled', () => {
+    installBanner.classList.remove('show');
+    deferredPrompt = null;
+    console.log('✅ Application installée avec succès');
+});
+
+function installApp() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('👍 Utilisateur a accepté l\'installation');
+            }
+            deferredPrompt = null;
+            installBanner.classList.remove('show');
+        });
+    }
+}
+
+function closeInstallBanner() {
+    installBanner.classList.remove('show');
+    localStorage.setItem('install_banner_dismissed', Date.now());
+}
+
+// Vérifier si on doit afficher la bannière
+if (localStorage.getItem('install_banner_dismissed')) {
+    const dismissedTime = parseInt(localStorage.getItem('install_banner_dismissed'));
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+    if (Date.now() - dismissedTime < oneWeek) {
+        // Ne pas afficher pendant une semaine
+    }
+}
+
+// Détection du mode d'affichage
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('📱 Application exécutée en mode standalone (installée)');
+    document.body.classList.add('standalone-mode');
+}
+
 if (localStorage.getItem('app_version') !== APP_VERSION) {
-    localStorage.clear();
+    localStorage.removeItem('install_banner_dismissed');
     if ('caches' in window) caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
     localStorage.setItem('app_version', APP_VERSION);
 }
@@ -707,7 +836,6 @@ function afficherLutteurs(){
 function ouvrirFicheLutteur(nom){
     let d = lutteursData[nom]; if(!d) return;
     
-    // Construire l'historique
     let hh = '';
     if(d.historique && d.historique.length) {
         hh = d.historique.map(h => {
@@ -724,7 +852,6 @@ function ouvrirFicheLutteur(nom){
     }
 
     document.getElementById('detail-content').innerHTML = `
-        <!-- STICKY NAV avec photo/avatar -->
         <div class="fiche-sticky-nav" id="ficheStickyNav">
             <div class="fiche-sticky-photo" style="background:${getAvatarColor(nom)};">
                 ${getStickyAvatar(nom)}
@@ -736,7 +863,6 @@ function ouvrirFicheLutteur(nom){
             <button class="fiche-sticky-back" onclick="closeDetailPage()">←</button>
         </div>
         
-        <!-- HERO avec grande photo/avatar -->
         <div class="fiche-photo-full">
             ${getFicheAvatarLarge(nom)}
             <div class="fiche-nom-overlay">
@@ -745,7 +871,6 @@ function ouvrirFicheLutteur(nom){
             </div>
         </div>
         
-        <!-- STATISTIQUES -->
         <div class="detail-info">
             <div class="section-title">📊 Statistiques</div>
             <div class="stat-grid">
@@ -756,7 +881,6 @@ function ouvrirFicheLutteur(nom){
             </div>
         </div>
         
-        <!-- HISTORIQUE -->
         <div class="detail-info">
             <div class="section-title">📋 Historique des combats</div>
             ${hh}
@@ -869,6 +993,7 @@ window.openSearchOverlay=openSearchOverlay; window.closeSearchOverlay=closeSearc
 window.rechercherDansPopup=rechercherDansPopup;
 window.openCalendarOverlay=openCalendarOverlay; window.closeCalendarOverlay=closeCalendarOverlay;
 window.ouvrirAdmin=ouvrirAdmin; window.showContact=showContact; window.showPartnership=showPartnership;
+window.installApp=installApp; window.closeInstallBanner=closeInstallBanner;
 // ============================================================
 // PULL TO REFRESH
 // ============================================================
@@ -923,6 +1048,16 @@ document.addEventListener('touchend', async (e) => {
     startY = 0;
     currentY = 0;
 });
+
+// Empêcher les liens externes de s'ouvrir dans le navigateur
+document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (link && link.href && !link.href.startsWith(window.location.origin) && !link.href.startsWith('javascript:') && !link.href.startsWith('#')) {
+        e.preventDefault();
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+    }
+});
+
 window.onload = function(){ chargerDonnees(); };
 </script>
 </body>
