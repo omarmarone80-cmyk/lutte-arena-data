@@ -674,7 +674,7 @@
     "sansVerdict": 0,
     "combats": 26,
     "ecurie": "",
-    "photo": "images/lutteurs/nandy_fall.jpg",
+    "photo": "images/lutteurs/ndandy-fall-1.jpg",
     "historique": []
 },
 "Diol Walo": {
@@ -684,7 +684,7 @@
     "sansVerdict": 0,
     "combats": 4,
     "ecurie": "",
-    "photo": "images/lutteurs/diol_walo.jpg",
+    "photo": "images/lutteurs/diol walo.jfif",
     "historique": []
 },
 "Boy Sadio": {
@@ -704,7 +704,7 @@
     "sansVerdict": 0,
     "combats": 24,
     "ecurie": "",
-    "photo": "images/lutteurs/thiatou_yoff.jpg",
+    "photo": "images/lutteurs/thiatou yoff.jfif",
     "historique": [
         {"adversaire": "Buldozer", "resultat": "Victoire"},
         {"adversaire": "Ndiaye Tine", "resultat": "Victoire"},
@@ -739,7 +739,7 @@
     "sansVerdict": 0,
     "combats": 13,
     "ecurie": "",
-    "photo": "images/lutteurs/thiatou_daouda_fall.jpg",
+    "photo": "images/lutteurs/Thiatou-Daouda-Fall.webp",
     "historique": [
         {"adversaire": "Domou Yoff", "resultat": "Victoire"},
         {"adversaire": "Soce Mane", "resultat": "Victoire"},
@@ -763,7 +763,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/petit_lo.jpg",
+    "photo": "images/lutteurs/petit lo.jpg",
     "historique": [
         {"adversaire": "Brise de Mer 2", "resultat": "Victoire"},
         {"adversaire": "Siteu Bou Anti", "resultat": "Victoire"},
@@ -782,7 +782,7 @@
     "sansVerdict": 0,
     "combats": 11,
     "ecurie": "",
-    "photo": "images/lutteurs/niang_bou_ndaw.jpg",
+    "photo": "images/lutteurs/niang bou ndaw.jpeg",
     "historique": []
 },
 "Doudou Sané": {
@@ -792,7 +792,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/doudou_sane.jpg",
+    "photo": "images/lutteurs/doudou sane.jpeg",
     "historique": []
 },
 "Zambala": {
@@ -802,7 +802,7 @@
     "sansVerdict": 0,
     "combats": 9,
     "ecurie": "",
-    "photo": "images/lutteurs/zambala.jpg",
+    "photo": "images/lutteurs/zambala.jfif",
     "historique": []
 },
 "Mor Kangkang": {
@@ -812,7 +812,7 @@
     "sansVerdict": 0,
     "combats": 16,
     "ecurie": "",
-    "photo": "images/lutteurs/mor_kangkang.jpg",
+    "photo": "images/lutteurs/mor kangkang.jfif",
     "historique": [
         {"adversaire": "Diop 2", "resultat": "Victoire"},
         {"adversaire": "Tapha Mbeur", "resultat": "Victoire"},
@@ -836,7 +836,7 @@
     "sansVerdict": 0,
     "combats": 21,
     "ecurie": "Balla Gaye",
-    "photo": "images/lutteurs/youssou_ndour_bg.jpg",
+    "photo": "images/lutteurs/youssou ndour.jfif",
     "historique": [
         {"adversaire": "Talfa", "resultat": "Victoire"},
         {"adversaire": "Mor Kangkang", "resultat": "Victoire"},
@@ -867,7 +867,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "",
-    "photo": "images/lutteurs/quench_boy.jpg",
+    "photo": "images/lutteurs/quench boy.jfif",
     "historique": [
         {"adversaire": "Lac Rose", "resultat": "Victoire"},
         {"adversaire": "Double Moteur", "resultat": "Victoire"},
@@ -895,7 +895,7 @@
     "sansVerdict": 0,
     "combats": 24,
     "ecurie": "Songane Guèye",
-    "photo": "images/lutteurs/domou_dangou.jpg",
+    "photo": "images/lutteurs/domou ndangou.jpg",
     "historique": [
         {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
         {"adversaire": "Anaconda", "resultat": "Victoire"},
@@ -930,7 +930,7 @@
     "sansVerdict": 0,
     "combats": 7,
     "ecurie": "Boy Niang",
-    "photo": "images/lutteurs/zambla.jpg",
+    "photo": "images/lutteurs/zambala.jpg",
     "historique": [
         {"adversaire": "Boy Faye", "resultat": "Victoire"},
         {"adversaire": "Yengoulène", "resultat": "Victoire"},
