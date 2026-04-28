@@ -136,37 +136,6 @@
       {"adversaire": "Eumeu Sène", "resultat": "Défaite"}
     ]
   },
-  "Lac de Guiers 2": {
-    "victoires": 16,
-    "defaites": 2,
-    "nuls": 2,
-    "sansVerdict": 0,
-    "combats": 20,
-    "ecurie": "",
-    "photo": "images/lutteurs/lac-2.webp",
-    "historique": [
-      {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
-      {"adversaire": "Khadim Diallo", "resultat": "Victoire"},
-      {"adversaire": "Batika", "resultat": "Victoire"},
-      {"adversaire": "Babacar Diallo", "resultat": "Victoire"},
-      {"adversaire": "Ness", "resultat": "Victoire"},
-      {"adversaire": "Yékini Junior", "resultat": "Victoire"},
-      {"adversaire": "Tapha Tine", "resultat": "Victoire"},
-      {"adversaire": "Issa Pouye", "resultat": "Victoire"},
-      {"adversaire": "Zoss", "resultat": "Victoire"},
-      {"adversaire": "Moustapha Guèye", "resultat": "Victoire"},
-      {"adversaire": "Papa Sow", "resultat": "Victoire"},
-      {"adversaire": "Yékini", "resultat": "Victoire"},
-      {"adversaire": "Boy Niang 2", "resultat": "Victoire"},
-      {"adversaire": "Eumeu Sène", "resultat": "Victoire"},
-      {"adversaire": "Siteu", "resultat": "Victoire"},
-      {"adversaire": "Ada Fass", "resultat": "Victoire"},
-      {"adversaire": "Modou Lô", "resultat": "Défaite"},
-      {"adversaire": "Eumeu Sène", "resultat": "Défaite"},
-      {"adversaire": "Modou Lô", "resultat": "Nul"},
-      {"adversaire": "Eumeu Sène", "resultat": "Nul"}
-    ]
-  },
   "Reug Reug": {
     "victoires": 15,
     "defaites": 1,
@@ -627,7 +596,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "",
-    "photo": "images/lutteurs/zarco.jpg",
+    "photo": "images/lutteurs/zarko.webp",
     "historique": [
         {"adversaire": "Ada Fass", "resultat": "Victoire"},
         {"adversaire": "Niang Bou Ndaw", "resultat": "Victoire"},
@@ -654,7 +623,7 @@
     "sansVerdict": 0,
     "combats": 11,
     "ecurie": "",
-    "photo": "images/lutteurs/bb_diene.jpg",
+    "photo": "images/lutteurs/bebe diene zarco.jpg",
     "historique": [
         {"adversaire": "Gackou 2", "resultat": "Victoire"},
         {"adversaire": "Fouriere", "resultat": "Victoire"},
