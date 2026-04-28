@@ -406,7 +406,10 @@
 // CONFIGURATION
 // ============================================================
 const APP_VERSION = '5.1.0';
-const CONFIG = { DATA_URL: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/' };
+const CONFIG = { 
+    DATA_URL: 'https://omarmarone80-cmyk.github.io/lutte-arena-data/',
+    VERSION: Date.now()  // Force le rechargement à chaque visite
+};
 
 if (localStorage.getItem('app_version') !== APP_VERSION) {
     localStorage.clear();
@@ -496,10 +499,10 @@ async function rafraichirDonnees() {
     try {
         const t = Date.now();
         const [combatsRes, lutteursRes, newsRes, mbapattRes] = await Promise.all([
-            fetch(CONFIG.DATA_URL + 'data/combats.json?t=' + t),
-            fetch(CONFIG.DATA_URL + 'data/lutteurs.json?t=' + t),
-            fetch(CONFIG.DATA_URL + 'data/news.json?t=' + t),
-            fetch(CONFIG.DATA_URL + 'data/mbapatt.json?t=' + t).catch(() => ({ json: () => [] }))
+            fetch(CONFIG.DATA_URL + 'data/combats.json?v==' + t),
+            fetch(CONFIG.DATA_URL + 'data/lutteurs.json?v=' + t),
+            fetch(CONFIG.DATA_URL + 'data/news.json?v=' + t),
+            fetch(CONFIG.DATA_URL + 'data/mbapatt.json?v=' + t).catch(() => ({ json: () => [] }))
         ]);
         areneData = await combatsRes.json();
         lutteursData = await lutteursRes.json();

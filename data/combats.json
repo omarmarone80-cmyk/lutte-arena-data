@@ -83,8 +83,9 @@
             "type": "Combat important"
         },
         "petitsCombats": [
-            { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
-        ],
+  { "lutteur1": "Fils de BM", "lutteur2": "Diekh Diam" },
+  { "lutteur1": "Fils de Mbaye Gueye", "lutteur2": "Nandy Fall" }
+],
         "estGrandCombat": false
     },
     {
@@ -140,5 +141,22 @@
             { "lutteur1": "A confirmer", "lutteur2": "A confirmer" }
         ],
         "estGrandCombat": true
-    }
+    },
+    {
+    "id": 9,
+    "date": "2026-05-10",
+    "jourSemaine": "Dimanche",
+    "lieu": "Arène Nationale",
+    "vedette": {
+        "lutteur1": "Zarco",
+        "lutteur2": "BB Diene",
+        "ecurie1": "",
+        "ecurie2": "",
+        "type": "Combat important"
+    },
+    "petitsCombats": [
+        { "lutteur1": "Diol Walo", "lutteur2": "Boy Sadio" }
+    ],
+    "estGrandCombat": false
+}
 ]
