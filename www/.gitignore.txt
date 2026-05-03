@@ -1,0 +1,7 @@
+# Fichiers sensibles Firebase
+*firebase-adminsdk*.json
+*-firebase-adminsdk-*.json
+
+# Fichiers système
+.DS_Store
+*.tmp

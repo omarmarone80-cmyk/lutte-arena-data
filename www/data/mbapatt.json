@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "nom": "🏆 2ème Édition Drapeau Bira Sene",
+    "date": "21 Juin 2026",
+    "lieu": "Arène Nationale",
+    "description": "Grand tournoi de Mbapatt placé sous la présidence du Président de la Fédération de Lutte Sénégalaise, Bira Sene. La mise en jeu est de 20 millions de FCFA.",
+    "estTermine": false,
+    "image": "images/mbapatt/bira sene.jpg"
+  }
+]

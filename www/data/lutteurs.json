@@ -7,7 +7,6 @@
     "combats": 28,
     "ecurie": "Rock Énergie",
     "photo": "images/lutteurs/Modou Lo.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Pape Sène", "resultat": "Victoire"},
       {"adversaire": "Alioune Seye 2", "resultat": "Victoire"},
@@ -47,7 +46,6 @@
     "combats": 30,
     "ecurie": "Guediawaye",
     "photo": "images/lutteurs/balla_gaye_2.jpeg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Samba Laobé", "resultat": "Victoire"},
       {"adversaire": "Dame Kandji", "resultat": "Victoire"},
@@ -89,7 +87,6 @@
     "combats": 16,
     "ecurie": "Fass",
     "photo": "images/lutteurs/franc.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Gueidje Bamboulane", "resultat": "Victoire"},
       {"adversaire": "Diarra 2", "resultat": "Victoire"},
@@ -117,7 +114,6 @@
     "combats": 19,
     "ecurie": "Thiès",
     "photo": "images/lutteurs/sa-thies.jpg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Boy Diouf", "resultat": "Victoire"},
       {"adversaire": "Bombardier Jr", "resultat": "Victoire"},
@@ -148,7 +144,6 @@
     "combats": 18,
     "ecurie": "Thiaroye",
     "photo": "images/lutteurs/reugreug.jpg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Inconnu", "resultat": "Victoire"},
       {"adversaire": "Inconnu", "resultat": "Victoire"},
@@ -178,7 +173,6 @@
     "combats": 18,
     "ecurie": "Pikine",
     "photo": "images/lutteurs/amabalde_1.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Oussou Ndiaye", "resultat": "Victoire"},
       {"adversaire": "Katy Jr", "resultat": "Victoire"},
@@ -208,7 +202,6 @@
     "combats": 19,
     "ecurie": "Pikine",
     "photo": "images/lutteurs/boy_niang_2.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Akon", "resultat": "Victoire"},
       {"adversaire": "Mbiss", "resultat": "Victoire"},
@@ -239,7 +232,6 @@
     "combats": 17,
     "ecurie": "Fass Benno",
     "photo": "images/lutteurs/ada_fass.png",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Ardo", "resultat": "Victoire"},
       {"adversaire": "Far Bou Diarr", "resultat": "Victoire"},
@@ -267,7 +259,6 @@
     "combats": 14,
     "ecurie": "Yeumbeul",
     "photo": "images/lutteurs/diop_2.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Cheikh Walo", "resultat": "Victoire"},
       {"adversaire": "Building", "resultat": "Victoire"},
@@ -293,7 +284,6 @@
     "combats": 20,
     "ecurie": "Lansar",
     "photo": "images/lutteurs/siteu.jpg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Mbaye", "resultat": "Victoire"},
       {"adversaire": "Bébé Eumeu Sène", "resultat": "Victoire"},
@@ -324,7 +314,6 @@
     "combats": 26,
     "ecurie": "Tysinger",
     "photo": "images/lutteurs/eumeu_sene.webp",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Ouza Sow", "resultat": "Victoire"},
       {"adversaire": "Nguéye Loum", "resultat": "Victoire"},
@@ -362,7 +351,6 @@
     "combats": 17,
     "ecurie": "Diamageune",
     "photo": "images/lutteurs/liss_ndiago.jpg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Boy Paul", "resultat": "Victoire"},
       {"adversaire": "Sangomar", "resultat": "Victoire"},
@@ -389,7 +377,6 @@
     "combats": 10,
     "ecurie": "Pikine",
     "photo": "images/lutteurs/prince.jpg",
-    "videoYoutube": "",
     "historique": [
       {"adversaire": "Lac 2", "resultat": "Défaite"},
       {"adversaire": "Inconnu", "resultat": "Victoire"},
@@ -411,7 +398,6 @@
     "combats": 25,
     "ecurie": "Fass",
     "photo": "images/lutteurs/Gris-Bordeaux-Fass.jpeg",
-    "videoYoutube": "",
     "historique": []
   },
   "Mbaye Gouy Gui": {
@@ -422,7 +408,6 @@
     "combats": 18,
     "ecurie": "Baol",
     "photo": "images/lutteurs/mbaye-gouye-gui.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Niang Mballo": {
@@ -433,7 +418,6 @@
     "combats": 10,
     "ecurie": "Parcelle",
     "photo": "images/lutteurs/niang_mballo.webp",
-    "videoYoutube": "",
     "historique": []
   },
   "Lac 2": {
@@ -444,9 +428,7 @@
     "combats": 21,
     "ecurie": "Guediawaye",
     "photo": "images/lutteurs/lac-2.webp",
-    "videoYoutube": "",
-    "historique": [
-      {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
+    "historique": [  {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
       {"adversaire": "Khadim Diallo", "resultat": "Victoire"},
       {"adversaire": "Batika", "resultat": "Victoire"},
       {"adversaire": "Babacar Diallo", "resultat": "Victoire"},
@@ -465,8 +447,7 @@
       {"adversaire": "Modou Lô", "resultat": "Défaite"},
       {"adversaire": "Eumeu Sène", "resultat": "Défaite"},
       {"adversaire": "Modou Lô", "resultat": "Nul"},
-      {"adversaire": "Eumeu Sène", "resultat": "Nul"}
-    ]
+      {"adversaire": "Eumeu Sène", "resultat": "Nul"}]
   },
   "Moussa Ndoye": {
     "victoires": 14,
@@ -476,7 +457,6 @@
     "combats": 19,
     "ecurie": "",
     "photo": "images/lutteurs/moussa_ndoye.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Gris 2": {
@@ -487,7 +467,6 @@
     "combats": 11,
     "ecurie": "Fass",
     "photo": "images/lutteurs/gris2.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Bou Siteu": {
@@ -498,7 +477,6 @@
     "combats": 16,
     "ecurie": "",
     "photo": "images/lutteurs/bousiteu.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Ousmane Toucouleur": {
@@ -509,7 +487,6 @@
     "combats": 0,
     "ecurie": "",
     "photo": "images/lutteurs/ousmane_toucouleur.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Ordinateur": {
@@ -520,7 +497,6 @@
     "combats": 5,
     "ecurie": "",
     "photo": "images/lutteurs/ordinateur.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Obeuly": {
@@ -531,7 +507,6 @@
     "combats": 0,
     "ecurie": "",
     "photo": "images/lutteurs/obeuly.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Talfa": {
@@ -539,21 +514,10 @@
     "defaites": 2,
     "nuls": 0,
     "sansVerdict": 0,
-    "combats": 10,
+    "combats": 13,
     "ecurie": "",
     "photo": "images/lutteurs/talfa.jpg",
-    "videoYoutube": "",
-    "historique": [
-      {"adversaire": "Sokh Bou Ndaw", "resultat": "Victoire"},
-      {"adversaire": "Diassy Peulh", "resultat": "Victoire"},
-      {"adversaire": "Pouye 2", "resultat": "Victoire"},
-      {"adversaire": "Fodé Mhissane - Capitaine", "resultat": "Victoire"},
-      {"adversaire": "Pape Diane", "resultat": "Victoire"},
-      {"adversaire": "Armé", "resultat": "Victoire"},
-      {"adversaire": "Amanekh", "resultat": "Victoire"},
-      {"adversaire": "Youssou Ndour (Balla Gaye)", "resultat": "Défaite"},
-      {"adversaire": "Pokola Baldé", "resultat": "Défaite"}
-    ]
+    "historique": []
   },
   "Lac Rose": {
     "victoires": 10,
@@ -563,7 +527,6 @@
     "combats": 18,
     "ecurie": "",
     "photo": "images/lutteurs/lacrose.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Bakary Sakho": {
@@ -574,7 +537,6 @@
     "combats": 1,
     "ecurie": "",
     "photo": "images/lutteurs/bakarysakho.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Pape Ndoye": {
@@ -585,7 +547,6 @@
     "combats": 0,
     "ecurie": "",
     "photo": "images/lutteurs/papendoye.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Sokh Bou Ndaw": {
@@ -596,7 +557,6 @@
     "combats": 0,
     "ecurie": "Falaye",
     "photo": "images/lutteurs/sokhboundaw.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Goro Sock": {
@@ -607,7 +567,6 @@
     "combats": 13,
     "ecurie": "",
     "photo": "images/lutteurs/gorasokh.jpg",
-    "videoYoutube": "",
     "historique": []
   },
   "Sokh": {
@@ -618,7 +577,6 @@
     "combats": 18,
     "ecurie": "",
     "photo": "images/lutteurs/sokh.png",
-    "videoYoutube": "",
     "historique": []
   },
   "Secret": {
@@ -629,7 +587,6 @@
     "combats": 0,
     "ecurie": "",
     "photo": "",
-    "videoYoutube": "",
     "historique": []
   },
   "Zarco": {
@@ -640,27 +597,26 @@
     "combats": 17,
     "ecurie": "",
     "photo": "images/lutteurs/zarko.webp",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Ada Fass", "resultat": "Victoire"},
-      {"adversaire": "Niang Bou Ndaw", "resultat": "Victoire"},
-      {"adversaire": "Baye Mandione", "resultat": "Victoire"},
-      {"adversaire": "Diene Kaïré", "resultat": "Victoire"},
-      {"adversaire": "Gris Bordeaux", "resultat": "Victoire"},
-      {"adversaire": "Boye Seye 2", "resultat": "Victoire"},
-      {"adversaire": "Boy Niang 3", "resultat": "Victoire"},
-      {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
-      {"adversaire": "Mame Balla Top5", "resultat": "Victoire"},
-      {"adversaire": "Bathie Seras", "resultat": "Victoire"},
-      {"adversaire": "Mbaye Gouye Gui", "resultat": "Victoire"},
-      {"adversaire": "Gouye Gui", "resultat": "Défaite"},
-      {"adversaire": "Sa Thiès", "resultat": "Défaite"},
-      {"adversaire": "Siteu", "resultat": "Défaite"},
-      {"adversaire": "Modou Anta", "resultat": "Défaite"},
-      {"adversaire": "50 Cent", "resultat": "Défaite"}
+        {"adversaire": "Ada Fass", "resultat": "Victoire"},
+        {"adversaire": "Niang Bou Ndaw", "resultat": "Victoire"},
+        {"adversaire": "Baye Mandione", "resultat": "Victoire"},
+        {"adversaire": "Diene Kaïré", "resultat": "Victoire"},
+        {"adversaire": "Gris Bordeaux", "resultat": "Victoire"},
+        {"adversaire": "Boye Seye 2", "resultat": "Victoire"},
+        {"adversaire": "Boy Niang 3", "resultat": "Victoire"},
+        {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
+        {"adversaire": "Mame Balla Top5", "resultat": "Victoire"},
+        {"adversaire": "Bathie Seras", "resultat": "Victoire"},
+        {"adversaire": "Mbaye Gouye Gui", "resultat": "Victoire"},
+        {"adversaire": "Gouye Gui", "resultat": "Défaite"},
+        {"adversaire": "Sa Thiès", "resultat": "Défaite"},
+        {"adversaire": "Siteu", "resultat": "Défaite"},
+        {"adversaire": "Modou Anta", "resultat": "Défaite"},
+        {"adversaire": "50 Cent", "resultat": "Défaite"}
     ]
-  },
-  "BB Diene": {
+},
+"BB Diene": {
     "victoires": 8,
     "defaites": 3,
     "nuls": 0,
@@ -668,21 +624,20 @@
     "combats": 11,
     "ecurie": "",
     "photo": "images/lutteurs/bebe diene zarco.jpg",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Gackou 2", "resultat": "Victoire"},
-      {"adversaire": "Fouriere", "resultat": "Victoire"},
-      {"adversaire": "Tyson Guinguineo", "resultat": "Victoire"},
-      {"adversaire": "Lastander", "resultat": "Victoire"},
-      {"adversaire": "Zarco 2", "resultat": "Victoire"},
-      {"adversaire": "Leuz", "resultat": "Victoire"},
-      {"adversaire": "Diakhoum 2", "resultat": "Victoire"},
-      {"adversaire": "Thiandoum 2", "resultat": "Défaite"},
-      {"adversaire": "Ousmane Gandigale", "resultat": "Défaite"},
-      {"adversaire": "Amanekh", "resultat": "Défaite"}
+        {"adversaire": "Gackou 2", "resultat": "Victoire"},
+        {"adversaire": "Fouriere", "resultat": "Victoire"},
+        {"adversaire": "Tyson Guinguineo", "resultat": "Victoire"},
+        {"adversaire": "Lastander", "resultat": "Victoire"},
+        {"adversaire": "Zarco 2", "resultat": "Victoire"},
+        {"adversaire": "Leuz", "resultat": "Victoire"},
+        {"adversaire": "Diakhoum 2", "resultat": "Victoire"},
+        {"adversaire": "Thiandoum 2", "resultat": "Défaite"},
+        {"adversaire": "Ousmane Gandigale", "resultat": "Défaite"},
+        {"adversaire": "Amanekh", "resultat": "Défaite"}
     ]
-  },
-  "Fils de BM": {
+},
+"Fils de BM": {
     "victoires": 9,
     "defaites": 1,
     "nuls": 0,
@@ -690,10 +645,9 @@
     "combats": 10,
     "ecurie": "",
     "photo": "images/lutteurs/fils de BM.jfif",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Diekh Diam": {
+},
+"Diekh Diam": {
     "victoires": 8,
     "defaites": 2,
     "nuls": 2,
@@ -701,10 +655,9 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/diekh-diam.jpg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Fils de Mbaye Gueye": {
+},
+"Fils de Mbaye Gueye": {
     "victoires": 8,
     "defaites": 4,
     "nuls": 0,
@@ -712,10 +665,9 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/fils de mbaye gueye.jpg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Nandy Fall": {
+},
+"Nandy Fall": {
     "victoires": 18,
     "defaites": 7,
     "nuls": 1,
@@ -723,10 +675,9 @@
     "combats": 26,
     "ecurie": "",
     "photo": "images/lutteurs/ndandy-fall-1.jpg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Diol Walo": {
+},
+"Diol Walo": {
     "victoires": 4,
     "defaites": 0,
     "nuls": 0,
@@ -734,10 +685,9 @@
     "combats": 4,
     "ecurie": "",
     "photo": "images/lutteurs/diol walo.jfif",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Boy Sadio": {
+},
+"Boy Sadio": {
     "victoires": 9,
     "defaites": 3,
     "nuls": 0,
@@ -745,10 +695,9 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/boy_sadio.jpg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Thiatou Yoff": {
+},
+"Thiatou Yoff": {
     "victoires": 21,
     "defaites": 3,
     "nuls": 0,
@@ -756,35 +705,34 @@
     "combats": 24,
     "ecurie": "",
     "photo": "images/lutteurs/thiatou yoff.jfif",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Buldozer", "resultat": "Victoire"},
-      {"adversaire": "Ndiaye Tine", "resultat": "Victoire"},
-      {"adversaire": "Ngagou 2", "resultat": "Victoire"},
-      {"adversaire": "Zambala", "resultat": "Victoire"},
-      {"adversaire": "Zacob Balde", "resultat": "Victoire"},
-      {"adversaire": "Fils de Balla", "resultat": "Victoire"},
-      {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
-      {"adversaire": "Pape Thiam", "resultat": "Victoire"},
-      {"adversaire": "Soundjata", "resultat": "Victoire"},
-      {"adversaire": "Aba Diago", "resultat": "Victoire"},
-      {"adversaire": "BB Diouldé", "resultat": "Victoire"},
-      {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
-      {"adversaire": "Niakh Diariniou", "resultat": "Victoire"},
-      {"adversaire": "Gamou Gueye", "resultat": "Victoire"},
-      {"adversaire": "Domou Dangou", "resultat": "Victoire"},
-      {"adversaire": "Degaul", "resultat": "Victoire"},
-      {"adversaire": "Pape Sibel", "resultat": "Victoire"},
-      {"adversaire": "Dial Madiol", "resultat": "Victoire"},
-      {"adversaire": "Boy Seye 2", "resultat": "Victoire"},
-      {"adversaire": "Djiby Gueye", "resultat": "Victoire"},
-      {"adversaire": "Makha", "resultat": "Victoire"},
-      {"adversaire": "Franc", "resultat": "Défaite"},
-      {"adversaire": "Thiatou Yarakh", "resultat": "Défaite"},
-      {"adversaire": "Tyson 2", "resultat": "Défaite"}
+        {"adversaire": "Buldozer", "resultat": "Victoire"},
+        {"adversaire": "Ndiaye Tine", "resultat": "Victoire"},
+        {"adversaire": "Ngagou 2", "resultat": "Victoire"},
+        {"adversaire": "Zambala", "resultat": "Victoire"},
+        {"adversaire": "Zacob Balde", "resultat": "Victoire"},
+        {"adversaire": "Fils de Balla", "resultat": "Victoire"},
+        {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
+        {"adversaire": "Pape Thiam", "resultat": "Victoire"},
+        {"adversaire": "Soundjata", "resultat": "Victoire"},
+        {"adversaire": "Aba Diago", "resultat": "Victoire"},
+        {"adversaire": "BB Diouldé", "resultat": "Victoire"},
+        {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
+        {"adversaire": "Niakh Diariniou", "resultat": "Victoire"},
+        {"adversaire": "Gamou Gueye", "resultat": "Victoire"},
+        {"adversaire": "Domou Dangou", "resultat": "Victoire"},
+        {"adversaire": "Degaul", "resultat": "Victoire"},
+        {"adversaire": "Pape Sibel", "resultat": "Victoire"},
+        {"adversaire": "Dial Madiol", "resultat": "Victoire"},
+        {"adversaire": "Boy Seye 2", "resultat": "Victoire"},
+        {"adversaire": "Djiby Gueye", "resultat": "Victoire"},
+        {"adversaire": "Makha", "resultat": "Victoire"},
+        {"adversaire": "Franc", "resultat": "Défaite"},
+        {"adversaire": "Thiatou Yarakh", "resultat": "Défaite"},
+        {"adversaire": "Tyson 2", "resultat": "Défaite"}
     ]
-  },
-  "Thiatou Daouda Fall": {
+},
+"Thiatou Daouda Fall": {
     "victoires": 10,
     "defaites": 3,
     "nuls": 0,
@@ -792,24 +740,23 @@
     "combats": 13,
     "ecurie": "",
     "photo": "images/lutteurs/Thiatou-Daouda-Fall.webp",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Domou Yoff", "resultat": "Victoire"},
-      {"adversaire": "Soce Mane", "resultat": "Victoire"},
-      {"adversaire": "Mbengue Boro", "resultat": "Victoire"},
-      {"adversaire": "Albarka Kaïré", "resultat": "Victoire"},
-      {"adversaire": "Yankaw Jr", "resultat": "Victoire"},
-      {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
-      {"adversaire": "Guine Bou Yoff", "resultat": "Victoire"},
-      {"adversaire": "Coly Faye 2", "resultat": "Victoire"},
-      {"adversaire": "Pape Ndoye", "resultat": "Victoire"},
-      {"adversaire": "Amanekh", "resultat": "Victoire"},
-      {"adversaire": "BB Balla", "resultat": "Défaite"},
-      {"adversaire": "Kaw Gourdin", "resultat": "Défaite"},
-      {"adversaire": "Moussa Ndoye", "resultat": "Défaite"}
+        {"adversaire": "Domou Yoff", "resultat": "Victoire"},
+        {"adversaire": "Soce Mane", "resultat": "Victoire"},
+        {"adversaire": "Mbengue Boro", "resultat": "Victoire"},
+        {"adversaire": "Albarka Kaïré", "resultat": "Victoire"},
+        {"adversaire": "Yankaw Jr", "resultat": "Victoire"},
+        {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
+        {"adversaire": "Guine Bou Yoff", "resultat": "Victoire"},
+        {"adversaire": "Coly Faye 2", "resultat": "Victoire"},
+        {"adversaire": "Pape Ndoye", "resultat": "Victoire"},
+        {"adversaire": "Amanekh", "resultat": "Victoire"},
+        {"adversaire": "BB Balla", "resultat": "Défaite"},
+        {"adversaire": "Kaw Gourdin", "resultat": "Défaite"},
+        {"adversaire": "Moussa Ndoye", "resultat": "Défaite"}
     ]
-  },
-  "Petit Lo": {
+},
+"Petit Lo": {
     "victoires": 10,
     "defaites": 2,
     "nuls": 0,
@@ -817,19 +764,18 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/petit lo.jpg",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Brise de Mer 2", "resultat": "Victoire"},
-      {"adversaire": "Siteu Bou Anti", "resultat": "Victoire"},
-      {"adversaire": "Bouba Bou Malika", "resultat": "Victoire"},
-      {"adversaire": "Mbaye Tine Jr", "resultat": "Victoire"},
-      {"adversaire": "Jackson 2", "resultat": "Victoire"},
-      {"adversaire": "Mama Lamine 2", "resultat": "Victoire"},
-      {"adversaire": "Sokh Bou Ndaw", "resultat": "Défaite"},
-      {"adversaire": "Ameth Lac Rose", "resultat": "Défaite"}
+        {"adversaire": "Brise de Mer 2", "resultat": "Victoire"},
+        {"adversaire": "Siteu Bou Anti", "resultat": "Victoire"},
+        {"adversaire": "Bouba Bou Malika", "resultat": "Victoire"},
+        {"adversaire": "Mbaye Tine Jr", "resultat": "Victoire"},
+        {"adversaire": "Jackson 2", "resultat": "Victoire"},
+        {"adversaire": "Mama Lamine 2", "resultat": "Victoire"},
+        {"adversaire": "Sokh Bou Ndaw", "resultat": "Défaite"},
+        {"adversaire": "Ameth Lac Rose", "resultat": "Défaite"}
     ]
-  },
-  "Niang Bou Ndaw": {
+},
+"Niang Bou Ndaw": {
     "victoires": 8,
     "defaites": 3,
     "nuls": 0,
@@ -837,10 +783,9 @@
     "combats": 11,
     "ecurie": "",
     "photo": "images/lutteurs/niang bou ndaw.jpeg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Doudou Sané": {
+},
+"Doudou Sané": {
     "victoires": 12,
     "defaites": 0,
     "nuls": 0,
@@ -848,10 +793,9 @@
     "combats": 12,
     "ecurie": "",
     "photo": "images/lutteurs/doudou sane.jpeg",
-    "videoYoutube": "",
     "historique": []
-  },
-  "Mor Kangkang": {
+},
+"Mor Kangkang": {
     "victoires": 15,
     "defaites": 1,
     "nuls": 0,
@@ -859,24 +803,23 @@
     "combats": 16,
     "ecurie": "",
     "photo": "images/lutteurs/mor kangkang.jfif",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Diop 2", "resultat": "Victoire"},
-      {"adversaire": "Tapha Mbeur", "resultat": "Victoire"},
-      {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
-      {"adversaire": "Dab Daan", "resultat": "Victoire"},
-      {"adversaire": "Boy Yeumbeul", "resultat": "Victoire"},
-      {"adversaire": "Eau Chaude", "resultat": "Victoire"},
-      {"adversaire": "John Kara", "resultat": "Victoire"},
-      {"adversaire": "Boy Dieng", "resultat": "Victoire"},
-      {"adversaire": "Henry", "resultat": "Victoire"},
-      {"adversaire": "Carriere", "resultat": "Victoire"},
-      {"adversaire": "Feut Feut", "resultat": "Victoire"},
-      {"adversaire": "Zoro", "resultat": "Victoire"},
-      {"adversaire": "Boy Tine - Issa Tine", "resultat": "Victoire"}
+        {"adversaire": "Diop 2", "resultat": "Victoire"},
+        {"adversaire": "Tapha Mbeur", "resultat": "Victoire"},
+        {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
+        {"adversaire": "Dab Daan", "resultat": "Victoire"},
+        {"adversaire": "Boy Yeumbeul", "resultat": "Victoire"},
+        {"adversaire": "Eau Chaude", "resultat": "Victoire"},
+        {"adversaire": "John Kara", "resultat": "Victoire"},
+        {"adversaire": "Boy Dieng", "resultat": "Victoire"},
+        {"adversaire": "Henry", "resultat": "Victoire"},
+        {"adversaire": "Carriere", "resultat": "Victoire"},
+        {"adversaire": "Feut Feut", "resultat": "Victoire"},
+        {"adversaire": "Zoro", "resultat": "Victoire"},
+        {"adversaire": "Boy Tine - Issa Tine", "resultat": "Victoire"}
     ]
-  },
-  "Youssou Ndour (Balla Gaye)": {
+},
+"Youssou Ndour (Balla Gaye)": {
     "victoires": 16,
     "defaites": 5,
     "nuls": 0,
@@ -884,31 +827,30 @@
     "combats": 21,
     "ecurie": "Balla Gaye",
     "photo": "images/lutteurs/youssou ndour.jfif",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Talfa", "resultat": "Victoire"},
-      {"adversaire": "Mor Kangkang", "resultat": "Victoire"},
-      {"adversaire": "Mbaye Diouf", "resultat": "Victoire"},
-      {"adversaire": "Bébé Diouldé", "resultat": "Victoire"},
-      {"adversaire": "Boy Seye 2", "resultat": "Victoire"},
-      {"adversaire": "Niagass", "resultat": "Victoire"},
-      {"adversaire": "Tonnerre 2", "resultat": "Victoire"},
-      {"adversaire": "Blindé Bou Ndaw", "resultat": "Victoire"},
-      {"adversaire": "Youssou Ndour LebouGui", "resultat": "Victoire"},
-      {"adversaire": "Joe Technique", "resultat": "Victoire"},
-      {"adversaire": "Laye Sope", "resultat": "Victoire"},
-      {"adversaire": "Baye Ndiaga", "resultat": "Victoire"},
-      {"adversaire": "Fandou Kara", "resultat": "Victoire"},
-      {"adversaire": "Boy Lo", "resultat": "Victoire"},
-      {"adversaire": "Ndiakhoume", "resultat": "Victoire"},
-      {"adversaire": "Thiatou Yoff", "resultat": "Défaite"},
-      {"adversaire": "Mama Lamine Lansar", "resultat": "Défaite"},
-      {"adversaire": "Coly Faye 2", "resultat": "Défaite"},
-      {"adversaire": "Diene Kaire", "resultat": "Défaite"},
-      {"adversaire": "Domou Dangou", "resultat": "Défaite"}
+        {"adversaire": "Talfa", "resultat": "Victoire"},
+        {"adversaire": "Mor Kangkang", "resultat": "Victoire"},
+        {"adversaire": "Mbaye Diouf", "resultat": "Victoire"},
+        {"adversaire": "Bébé Diouldé", "resultat": "Victoire"},
+        {"adversaire": "Boy Seye 2", "resultat": "Victoire"},
+        {"adversaire": "Niagass", "resultat": "Victoire"},
+        {"adversaire": "Tonnerre 2", "resultat": "Victoire"},
+        {"adversaire": "Blindé Bou Ndaw", "resultat": "Victoire"},
+        {"adversaire": "Youssou Ndour LebouGui", "resultat": "Victoire"},
+        {"adversaire": "Joe Technique", "resultat": "Victoire"},
+        {"adversaire": "Laye Sope", "resultat": "Victoire"},
+        {"adversaire": "Baye Ndiaga", "resultat": "Victoire"},
+        {"adversaire": "Fandou Kara", "resultat": "Victoire"},
+        {"adversaire": "Boy Lo", "resultat": "Victoire"},
+        {"adversaire": "Ndiakhoume", "resultat": "Victoire"},
+        {"adversaire": "Thiatou Yoff", "resultat": "Défaite"},
+        {"adversaire": "Mama Lamine Lansar", "resultat": "Défaite"},
+        {"adversaire": "Coly Faye 2", "resultat": "Défaite"},
+        {"adversaire": "Diene Kaire", "resultat": "Défaite"},
+        {"adversaire": "Domou Dangou", "resultat": "Défaite"}
     ]
-  },
-  "Quench Boy": {
+},
+"Quench Boy": {
     "victoires": 13,
     "defaites": 3,
     "nuls": 1,
@@ -916,28 +858,27 @@
     "combats": 17,
     "ecurie": "",
     "photo": "images/lutteurs/quench boy.jfif",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Lac Rose", "resultat": "Victoire"},
-      {"adversaire": "Double Moteur", "resultat": "Victoire"},
-      {"adversaire": "Papis Général", "resultat": "Victoire"},
-      {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
-      {"adversaire": "Tapha Guèye 2", "resultat": "Victoire"},
-      {"adversaire": "Paul Maurice", "resultat": "Victoire"},
-      {"adversaire": "Khadim Ngom", "resultat": "Victoire"},
-      {"adversaire": "Bush", "resultat": "Victoire"},
-      {"adversaire": "Alpha Keita", "resultat": "Victoire"},
-      {"adversaire": "Sopeys Galass", "resultat": "Victoire"},
-      {"adversaire": "Drogba", "resultat": "Victoire"},
-      {"adversaire": "Jaraaf Ndoye", "resultat": "Victoire"},
-      {"adversaire": "Boy Thiaroye", "resultat": "Victoire"},
-      {"adversaire": "Alioune Seye 2", "resultat": "Défaite"},
-      {"adversaire": "10 Mille Problème", "resultat": "Défaite"},
-      {"adversaire": "Mbaye Gouye Gui", "resultat": "Défaite"},
-      {"adversaire": "Diene Kaire", "resultat": "Nul"}
+        {"adversaire": "Lac Rose", "resultat": "Victoire"},
+        {"adversaire": "Double Moteur", "resultat": "Victoire"},
+        {"adversaire": "Papis Général", "resultat": "Victoire"},
+        {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
+        {"adversaire": "Tapha Guèye 2", "resultat": "Victoire"},
+        {"adversaire": "Paul Maurice", "resultat": "Victoire"},
+        {"adversaire": "Khadim Ngom", "resultat": "Victoire"},
+        {"adversaire": "Bush", "resultat": "Victoire"},
+        {"adversaire": "Alpha Keita", "resultat": "Victoire"},
+        {"adversaire": "Sopeys Galass", "resultat": "Victoire"},
+        {"adversaire": "Drogba", "resultat": "Victoire"},
+        {"adversaire": "Jaraaf Ndoye", "resultat": "Victoire"},
+        {"adversaire": "Boy Thiaroye", "resultat": "Victoire"},
+        {"adversaire": "Alioune Seye 2", "resultat": "Défaite"},
+        {"adversaire": "10 Mille Problème", "resultat": "Défaite"},
+        {"adversaire": "Mbaye Gouye Gui", "resultat": "Défaite"},
+        {"adversaire": "Diene Kaire", "resultat": "Nul"}
     ]
-  },
-  "Domou Dangou": {
+},
+"Domou Dangou": {
     "victoires": 17,
     "defaites": 7,
     "nuls": 0,
@@ -945,35 +886,34 @@
     "combats": 24,
     "ecurie": "Songane Guèye",
     "photo": "images/lutteurs/domou ndangou.jpg",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
-      {"adversaire": "Anaconda", "resultat": "Victoire"},
-      {"adversaire": "Jordan", "resultat": "Victoire"},
-      {"adversaire": "Feu Rouge", "resultat": "Victoire"},
-      {"adversaire": "Niakh Diarginou", "resultat": "Victoire"},
-      {"adversaire": "Sokh", "resultat": "Victoire"},
-      {"adversaire": "Narou Sogas", "resultat": "Victoire"},
-      {"adversaire": "Nandy Fall", "resultat": "Victoire"},
-      {"adversaire": "Marley", "resultat": "Victoire"},
-      {"adversaire": "Alam Dare", "resultat": "Victoire"},
-      {"adversaire": "DunkHaff", "resultat": "Victoire"},
-      {"adversaire": "Mégane Ndour", "resultat": "Victoire"},
-      {"adversaire": "Guinéen", "resultat": "Victoire"},
-      {"adversaire": "Mandela", "resultat": "Victoire"},
-      {"adversaire": "Boy Malika", "resultat": "Victoire"},
-      {"adversaire": "Ounia", "resultat": "Victoire"},
-      {"adversaire": "Van Damme", "resultat": "Victoire"},
-      {"adversaire": "Thiatou Yoff", "resultat": "Défaite"},
-      {"adversaire": "Gris 2", "resultat": "Défaite"},
-      {"adversaire": "Raam Daan", "resultat": "Défaite"},
-      {"adversaire": "Tyson 2", "resultat": "Défaite"},
-      {"adversaire": "Capitaine Dina", "resultat": "Défaite"},
-      {"adversaire": "Pape Tine Syndicat", "resultat": "Défaite"},
-      {"adversaire": "Garga 2", "resultat": "Défaite"}
+        {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
+        {"adversaire": "Anaconda", "resultat": "Victoire"},
+        {"adversaire": "Jordan", "resultat": "Victoire"},
+        {"adversaire": "Feu Rouge", "resultat": "Victoire"},
+        {"adversaire": "Niakh Diarginou", "resultat": "Victoire"},
+        {"adversaire": "Sokh", "resultat": "Victoire"},
+        {"adversaire": "Narou Sogas", "resultat": "Victoire"},
+        {"adversaire": "Nandy Fall", "resultat": "Victoire"},
+        {"adversaire": "Marley", "resultat": "Victoire"},
+        {"adversaire": "Alam Dare", "resultat": "Victoire"},
+        {"adversaire": "DunkHaff", "resultat": "Victoire"},
+        {"adversaire": "Mégane Ndour", "resultat": "Victoire"},
+        {"adversaire": "Guinéen", "resultat": "Victoire"},
+        {"adversaire": "Mandela", "resultat": "Victoire"},
+        {"adversaire": "Boy Malika", "resultat": "Victoire"},
+        {"adversaire": "Ounia", "resultat": "Victoire"},
+        {"adversaire": "Van Damme", "resultat": "Victoire"},
+        {"adversaire": "Thiatou Yoff", "resultat": "Défaite"},
+        {"adversaire": "Gris 2", "resultat": "Défaite"},
+        {"adversaire": "Raam Daan", "resultat": "Défaite"},
+        {"adversaire": "Tyson 2", "resultat": "Défaite"},
+        {"adversaire": "Capitaine Dina", "resultat": "Défaite"},
+        {"adversaire": "Pape Tine Syndicat", "resultat": "Défaite"},
+        {"adversaire": "Garga 2", "resultat": "Défaite"}
     ]
-  },
-  "Zambla": {
+},
+"Zambla": {
     "victoires": 6,
     "defaites": 1,
     "nuls": 0,
@@ -981,18 +921,37 @@
     "combats": 7,
     "ecurie": "Boy Niang",
     "photo": "images/lutteurs/zambala.jpg",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Boy Faye", "resultat": "Victoire"},
-      {"adversaire": "Yengoulène", "resultat": "Victoire"},
-      {"adversaire": "Container (TCV)", "resultat": "Victoire"},
-      {"adversaire": "Ndamanne Lébou", "resultat": "Victoire"},
-      {"adversaire": "Serigne Ndiaye 2", "resultat": "Victoire"},
-      {"adversaire": "Diaga Dollé", "resultat": "Victoire"},
-      {"adversaire": "Thiatou Yoff", "resultat": "Défaite"}
+        {"adversaire": "Boy Faye", "resultat": "Victoire"},
+        {"adversaire": "Yengoulène", "resultat": "Victoire"},
+        {"adversaire": "Container (TCV)", "resultat": "Victoire"},
+        {"adversaire": "Ndamanne Lébou", "resultat": "Victoire"},
+        {"adversaire": "Serigne Ndiaye 2", "resultat": "Victoire"},
+        {"adversaire": "Diaga Dollé", "resultat": "Victoire"},
+        {"adversaire": "Thiatou Yoff", "resultat": "Défaite"}
     ]
-  },
-  "Tapha Mbeur": {
+},
+"Talfa": {
+    "victoires": 8,
+    "defaites": 2,
+    "nuls": 0,
+    "sansVerdict": 0,
+    "combats": 10,
+    "ecurie": "",
+    "photo": "images/lutteurs/talfa.jpg",
+    "historique": [
+        {"adversaire": "Sokh Bou Ndaw", "resultat": "Victoire"},
+        {"adversaire": "Diassy Peulh", "resultat": "Victoire"},
+        {"adversaire": "Pouye 2", "resultat": "Victoire"},
+        {"adversaire": "Fodé Mhissane - Capitaine", "resultat": "Victoire"},
+        {"adversaire": "Pape Diane", "resultat": "Victoire"},
+        {"adversaire": "Armé", "resultat": "Victoire"},
+        {"adversaire": "Amanekh", "resultat": "Victoire"},
+        {"adversaire": "Youssou Ndour (Balla Gaye)", "resultat": "Défaite"},
+        {"adversaire": "Pokola Baldé", "resultat": "Défaite"}
+    ]
+},
+"Tapha Mbeur": {
     "victoires": 8,
     "defaites": 5,
     "nuls": 0,
@@ -1000,24 +959,23 @@
     "combats": 13,
     "ecurie": "Grand Médine",
     "photo": "images/lutteurs/tapha mbeur.jfif",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Siteu Bou Gor", "resultat": "Victoire"},
-      {"adversaire": "Lys Ndiago", "resultat": "Victoire"},
-      {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
-      {"adversaire": "Tapha Guèye 2", "resultat": "Victoire"},
-      {"adversaire": "Wouly Wouly", "resultat": "Victoire"},
-      {"adversaire": "Karbala", "resultat": "Victoire"},
-      {"adversaire": "Petit Miroir", "resultat": "Victoire"},
-      {"adversaire": "Dangotte", "resultat": "Victoire"},
-      {"adversaire": "Gamou Guèye 2", "resultat": "Défaite"},
-      {"adversaire": "Ada Fass", "resultat": "Défaite"},
-      {"adversaire": "Mame Balla", "resultat": "Défaite"},
-      {"adversaire": "Mor Kangkang", "resultat": "Défaite"},
-      {"adversaire": "Diop 2", "resultat": "Défaite"}
+        {"adversaire": "Siteu Bou Gor", "resultat": "Victoire"},
+        {"adversaire": "Lys Ndiago", "resultat": "Victoire"},
+        {"adversaire": "Alioune Sèye Jr - Walo", "resultat": "Victoire"},
+        {"adversaire": "Tapha Guèye 2", "resultat": "Victoire"},
+        {"adversaire": "Wouly Wouly", "resultat": "Victoire"},
+        {"adversaire": "Karbala", "resultat": "Victoire"},
+        {"adversaire": "Petit Miroir", "resultat": "Victoire"},
+        {"adversaire": "Dangotte", "resultat": "Victoire"},
+        {"adversaire": "Gamou Guèye 2", "resultat": "Défaite"},
+        {"adversaire": "Ada Fass", "resultat": "Défaite"},
+        {"adversaire": "Mame Balla", "resultat": "Défaite"},
+        {"adversaire": "Mor Kangkang", "resultat": "Défaite"},
+        {"adversaire": "Diop 2", "resultat": "Défaite"}
     ]
-  },
-  "Tapha Tine": {
+},
+"Tapha Tine": {
     "victoires": 16,
     "defaites": 5,
     "nuls": 0,
@@ -1025,29 +983,28 @@
     "combats": 21,
     "ecurie": "Baol",
     "photo": "images/lutteurs/tapha-tine.jpg",
-    "videoYoutube": "",
     "historique": [
-      {"adversaire": "Eumeu Sene", "resultat": "Victoire"},
-      {"adversaire": "Bombardier", "resultat": "Victoire"},
-      {"adversaire": "Boy Niang 2", "resultat": "Victoire"},
-      {"adversaire": "Yekini Jr (Door War)", "resultat": "Victoire"},
-      {"adversaire": "Zoss", "resultat": "Victoire"},
-      {"adversaire": "Gouye Gui", "resultat": "Victoire"},
-      {"adversaire": "Bombardier", "resultat": "Victoire"},
-      {"adversaire": "Elton", "resultat": "Victoire"},
-      {"adversaire": "Thieck", "resultat": "Victoire"},
-      {"adversaire": "Abdou Diouf", "resultat": "Victoire"},
-      {"adversaire": "Boy Sèye", "resultat": "Victoire"},
-      {"adversaire": "Yékini Jr (Door War)", "resultat": "Victoire"},
-      {"adversaire": "El Hadji Diouf", "resultat": "Victoire"},
-      {"adversaire": "Talla Gaindé", "resultat": "Victoire"},
-      {"adversaire": "Sa Cadior 2", "resultat": "Victoire"},
-      {"adversaire": "Malaw Seras", "resultat": "Victoire"},
-      {"adversaire": "Ama Baldé", "resultat": "Défaite"},
-      {"adversaire": "Balla Gaye 2", "resultat": "Défaite"},
-      {"adversaire": "Lac de Guiers 2", "resultat": "Défaite"},
-      {"adversaire": "Issa Pouye", "resultat": "Défaite"},
-      {"adversaire": "Balla Gaye 2", "resultat": "Défaite"}
+        {"adversaire": "Eumeu Sene", "resultat": "Victoire"},
+        {"adversaire": "Bombardier", "resultat": "Victoire"},
+        {"adversaire": "Boy Niang 2", "resultat": "Victoire"},
+        {"adversaire": "Yekini Jr (Door War)", "resultat": "Victoire"},
+        {"adversaire": "Zoss", "resultat": "Victoire"},
+        {"adversaire": "Gouye Gui", "resultat": "Victoire"},
+        {"adversaire": "Bombardier", "resultat": "Victoire"},
+        {"adversaire": "Elton", "resultat": "Victoire"},
+        {"adversaire": "Thieck", "resultat": "Victoire"},
+        {"adversaire": "Abdou Diouf", "resultat": "Victoire"},
+        {"adversaire": "Boy Sèye", "resultat": "Victoire"},
+        {"adversaire": "Yékini Jr (Door War)", "resultat": "Victoire"},
+        {"adversaire": "El Hadji Diouf", "resultat": "Victoire"},
+        {"adversaire": "Talla Gaindé", "resultat": "Victoire"},
+        {"adversaire": "Sa Cadior 2", "resultat": "Victoire"},
+        {"adversaire": "Malaw Seras", "resultat": "Victoire"},
+        {"adversaire": "Ama Baldé", "resultat": "Défaite"},
+        {"adversaire": "Balla Gaye 2", "resultat": "Défaite"},
+        {"adversaire": "Lac de Guiers 2", "resultat": "Défaite"},
+        {"adversaire": "Issa Pouye", "resultat": "Défaite"},
+        {"adversaire": "Balla Gaye 2", "resultat": "Défaite"}
     ]
-  }
+}
 }

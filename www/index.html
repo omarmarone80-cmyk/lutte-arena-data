@@ -1329,7 +1329,6 @@ function ouvrirAdmin() {
 
 window.onload = function() { chargerDonnees(); };
 </script>
-</body>
 
 <!-- OneSignal Mobile Push (via Capacitor) -->
 <script type="text/javascript">
@@ -1341,15 +1340,21 @@ window.onload = function() { chargerDonnees(); };
             window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
                 console.log("Notification ouverte : ", jsonData);
             });
-            window.plugins.OneSignal.registerForPushNotifications();
+            // Nouvelle API pour demander la permission et s'enregistrer
+            window.plugins.OneSignal.Notifications.requestPermission(true).then(function(accepted) {
+                console.log("Permission accepted : " + accepted);
+            });
         }
     }, false);
 
     // Optionnel : fonction pour demander la permission plus tard
     window.demanderPermissionNotifications = function() {
         if (window.plugins && window.plugins.OneSignal) {
-            window.plugins.OneSignal.registerForPushNotifications();
+            window.plugins.OneSignal.Notifications.requestPermission(true);
         }
     };
+</script>
+</body>
+</script>
 </script>
 </html>

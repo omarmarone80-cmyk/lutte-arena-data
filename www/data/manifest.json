@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "timestamp": 1703001234567,
+  "files": {
+    "combats": "combats.json",
+    "lutteurs": "lutteurs.json",
+    "news": "news.json",
+    "notifications": "notifications.json"
+  }
+}
