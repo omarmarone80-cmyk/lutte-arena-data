@@ -1,28 +1,5 @@
 [
-    {
-        "id": 1,
-        "date": "2026-04-19",
-        "jourSemaine": "Dimanche",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Ada Fass",
-            "lutteur2": "Eumeu Sène",
-            "ecurie1": "Fass Benno",
-            "ecurie2": "Tysinger",
-            "type": "Duel de générations"
-        },
-        "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "A confirmer",
-                "lutteur2": "A confirmer",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": true
-    },
+    
     {
         "id": 2,
         "date": "2026-04-26",
