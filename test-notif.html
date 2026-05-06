@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Notification Lutte SN</title>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #f9f4ec;
+        }
+        h1 { color: #0b3d2e; }
+        .btn {
+            background: #0b3d2e;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            margin: 20px;
+        }
+        #status {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .info { background: #e0e7ff; color: #4338ca; }
+    </style>
+</head>
+<body>
+    <h1>🔔 TEST NOTIFICATION LUTTE SN</h1>
+    <p>Cette page teste uniquement OneSignal</p>
+
+    <button class="btn" onclick="demander()">📢 Activer les notifications</button>
+
+    <div id="status" class="info">En attente...</div>
+
+    <script>
+        const ONESIGNAL_APP_ID = '43b30f7e-1fc0-4a14-b30d-7c7b35a61d7c';
+
+        function afficherStatus(msg, type) {
+            const el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = type;
+        }
+
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(async function(OneSignal) {
+            try {
+                await OneSignal.init({
+                    appId: ONESIGNAL_APP_ID,
+                    notifyButton: { enable: false },
+                    allowLocalhostAsSecureOrigin: true
+                });
+                afficherStatus('✅ OneSignal initialisé avec succès !', 'success');
+                console.log('✅ OneSignal init OK');
+            } catch(e) {
+                afficherStatus('❌ Erreur init : ' + e.message, 'error');
+                console.error('❌ OneSignal init error:', e);
+            }
+        });
+
+        async function demander() {
+            try {
+                await OneSignal.Notifications.requestPermission();
+                afficherStatus('✅ Demande de permission envoyée ! Vérifiez votre écran.', 'success');
+            } catch(e) {
+                afficherStatus('❌ Erreur permission : ' + e.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
