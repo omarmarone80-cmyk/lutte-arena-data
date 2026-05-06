@@ -444,59 +444,45 @@
 
             // ✅ CORRECTION 2 : OneSignal v16 — API complètement réécrite
             function initOneSignal() {
-                const isCapacitor = typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative;
+    const isCapacitor = typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative;
 
-                if (isCapacitor) {
-                    // Environnement natif Capacitor : API native inchangée
-                    document.addEventListener('deviceready', function() {
-                        if (window.plugins && window.plugins.OneSignal) {
-                            window.plugins.OneSignal.setAppId(ONESIGNAL_APP_ID);
-                            window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-                                console.log('Notification native ouverte', jsonData);
-                            });
-                            window.plugins.OneSignal.Notifications.requestPermission(true).then(function(accepted) {
-                                console.log('Permission native : ' + accepted);
-                            });
-                        }
-                    }, false);
-                } else {
-                    // ✅ Web : utilisation de l'API OneSignal v16 correcte
-                    window.OneSignalDeferred = window.OneSignalDeferred || [];
-                    OneSignalDeferred.push(async function(OneSignal) {
-                        await OneSignal.init({
-                            appId: ONESIGNAL_APP_ID,
-                            notifyButton: { enable: false },
-                            allowLocalhostAsSecureOrigin: true
-                        });
-
-                        // ✅ v16 : vérification de permission via OneSignal.Notifications.permission
-                        const hasPermission = OneSignal.Notifications.permission;
-                        if (!hasPermission) {
-                            setTimeout(function() {
-                                // ✅ v16 : requestPermission() remplace showNativePrompt()
-                                OneSignal.Notifications.requestPermission();
-                            }, 5000);
-                        }
-
-                        // ✅ v16 : addEventListener remplace setNotificationOpenedHandler
-                        OneSignal.Notifications.addEventListener('click', function() {
-                            window.location.reload();
-                        });
-                    });
-                }
+    if (isCapacitor) {
+        // ✅ NATIF : le plugin Cordova gère tout
+        console.log('✅ Mode natif OneSignal - en attente du deviceready');
+        document.addEventListener('deviceready', function() {
+            console.log('📱 deviceready - OneSignal natif');
+            if (window.plugins && window.plugins.OneSignal) {
+                window.plugins.OneSignal.setAppId(ONESIGNAL_APP_ID);
+                window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
+                    console.log('Notification native ouverte', jsonData);
+                });
+                window.plugins.OneSignal.registerForPushNotifications();
+                console.log('✅ OneSignal natif enregistré');
+            } else {
+                console.error('❌ plugins.OneSignal introuvable');
             }
-
-            // ✅ CORRECTION 3 : demanderNotifications() mise à jour pour v16
-            function demanderNotifications() {
-                const isCapacitor = typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative;
-                if (isCapacitor && window.plugins && window.plugins.OneSignal) {
-                    window.plugins.OneSignal.Notifications.requestPermission(true);
-                } else if (window.OneSignal) {
-                    // ✅ v16 : requestPermission() directement sur Notifications
-                    window.OneSignal.Notifications.requestPermission();
-                }
-            }
-
+        }, false);
+    } else {
+        // WEB : OneSignal v16 normal
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(function(OneSignal) {
+            OneSignal.init({
+                appId: ONESIGNAL_APP_ID,
+                notifyButton: { enable: false },
+                allowLocalhostAsSecureOrigin: true
+            });
+            OneSignal.push(function() {
+                OneSignal.isPushNotificationsEnabled(function(isEnabled) {
+                    if (!isEnabled) {
+                        setTimeout(function() {
+                            OneSignal.showNativePrompt();
+                        }, 5000);
+                    }
+                });
+            });
+        });
+    }
+}
             // --- Silhouettes ---
             function silhouetteSVG(dark) {
                 const c = dark ? 'rgba(255,255,255,0.75)' : '#94a3b8';
