@@ -1354,7 +1354,30 @@ window.onload = function() { chargerDonnees(); };
         }
     };
 </script>
+<!-- OneSignal Mobile Push (via Capacitor) -->
+<script type="text/javascript">
+    const ONESIGNAL_APP_ID = "43b30f7e-1fc0-4a14-b30d-7c7b35a61d7c";
+
+    document.addEventListener("deviceready", function() {
+        if (window.plugins && window.plugins.OneSignal) {
+            window.plugins.OneSignal.setAppId(ONESIGNAL_APP_ID);
+            window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
+                console.log("Notification ouverte : ", jsonData);
+            });
+            // Nouvelle API pour demander la permission et s'enregistrer
+            window.plugins.OneSignal.Notifications.requestPermission(true).then(function(accepted) {
+                console.log("Permission accepted : " + accepted);
+            });
+        }
+    }, false);
+
+    // Optionnel : fonction pour demander la permission plus tard
+    window.demanderPermissionNotifications = function() {
+        if (window.plugins && window.plugins.OneSignal) {
+            window.plugins.OneSignal.Notifications.requestPermission(true);
+        }
+    };
+</script>
+
 </body>
-</script>
-</script>
 </html>
