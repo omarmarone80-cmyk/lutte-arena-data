@@ -14,8 +14,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- ✅ CORRECTION 1 : SDK OneSignal v16 ajouté -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -413,8 +411,7 @@
             'use strict';
 
             // --- Configuration ---
-            const APP_VERSION = '8.0.1';
-            const ONESIGNAL_APP_ID = '43b30f7e-1fc0-4a14-b30d-7c7b35a61d7c';
+            const APP_VERSION = '8.2.0'; // mise à jour
             const DATA_BASE_URL = 'https://omarmarone80-cmyk.github.io/lutte-arena-data/';
             const ADMIN_PASSWORD = 'lutte2026';
 
@@ -442,62 +439,63 @@
                 pageActive: 'arene'
             };
 
-            // ✅ CORRECTION 2 : OneSignal v16 — API complètement réécrite
-            function initOneSignal() {
-                const isCapacitor = typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative;
+            // ============================================================
+            // 🔔 NOTIFICATIONS FCM (Firebase Cloud Messaging)
+            // ============================================================
+            async function initPushNotifications() {
+                // Ne s'exécute que dans l'APK native
+                if (typeof window.Capacitor === 'undefined' || !window.Capacitor.isNative) {
+                    console.log('🌐 Mode Web, pas de push natif');
+                    return;
+                }
+                try {
+                    const PushNotifications = window.Capacitor.Plugins.PushNotifications;
+                    if (!PushNotifications) {
+                        console.warn('❌ Plugin Push introuvable');
+                        return;
+                    }
+                    const perm = await PushNotifications.requestPermissions();
+                    if (perm.receive === 'granted') {
+                        await PushNotifications.register();
+                        console.log('✅ FCM enregistré');
+                    } else {
+                        console.warn('❌ Permission refusée');
+                    }
 
-                if (isCapacitor) {
-                    // Environnement natif Capacitor : API native inchangée
-                    document.addEventListener('deviceready', function() {
-                        if (window.plugins && window.plugins.OneSignal) {
-                            window.plugins.OneSignal.setAppId(ONESIGNAL_APP_ID);
-                            window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-                                console.log('Notification native ouverte', jsonData);
-                            });
-                            window.plugins.OneSignal.Notifications.requestPermission(true).then(function(accepted) {
-                                console.log('Permission native : ' + accepted);
-                            });
-                        }
-                    }, false);
-                } else {
-                    // ✅ Web : utilisation de l'API OneSignal v16 correcte
-                    window.OneSignalDeferred = window.OneSignalDeferred || [];
-                    OneSignalDeferred.push(async function(OneSignal) {
-                        await OneSignal.init({
-                            appId: ONESIGNAL_APP_ID,
-                            notifyButton: { enable: false },
-                            allowLocalhostAsSecureOrigin: true
-                        });
-
-                        // ✅ v16 : vérification de permission via OneSignal.Notifications.permission
-                        const hasPermission = OneSignal.Notifications.permission;
-                        if (!hasPermission) {
-                            setTimeout(function() {
-                                // ✅ v16 : requestPermission() remplace showNativePrompt()
-                                OneSignal.Notifications.requestPermission();
-                            }, 5000);
-                        }
-
-                        // ✅ v16 : addEventListener remplace setNotificationOpenedHandler
-                        OneSignal.Notifications.addEventListener('click', function() {
-                            window.location.reload();
-                        });
+                    PushNotifications.addListener('pushNotificationReceived', (notification) => {
+                        console.log('📩 Notification reçue :', notification.title);
                     });
+
+                    PushNotifications.addListener('pushNotificationActionPerformed', (action) => {
+                        console.log('👉 Notification cliquée');
+                    });
+                } catch (e) {
+                    console.error('Erreur init push:', e);
                 }
             }
 
-            // ✅ CORRECTION 3 : demanderNotifications() mise à jour pour v16
+            // Fonction publique appelée par le menu "Alertes combat"
             function demanderNotifications() {
-                const isCapacitor = typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative;
-                if (isCapacitor && window.plugins && window.plugins.OneSignal) {
-                    window.plugins.OneSignal.Notifications.requestPermission(true);
-                } else if (window.OneSignal) {
-                    // ✅ v16 : requestPermission() directement sur Notifications
-                    window.OneSignal.Notifications.requestPermission();
+                if (typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative) {
+                    const PushNotifications = window.Capacitor.Plugins.PushNotifications;
+                    if (!PushNotifications) {
+                        alert('❌ Plugin introuvable');
+                        return;
+                    }
+                    PushNotifications.requestPermissions().then(perm => {
+                        if (perm.receive === 'granted') {
+                            PushNotifications.register();
+                            alert('✅ Notifications activées !');
+                        } else {
+                            alert('❌ Permission refusée. Veuillez autoriser dans les paramètres Android.');
+                        }
+                    }).catch(e => alert('❌ Erreur : ' + e.message));
+                } else {
+                    alert('🔔 Les notifications push sont disponibles dans la version Android de l\'application. Installez l\'APK pour les activer.');
                 }
             }
 
-            // --- Silhouettes ---
+            // --- Silhouettes, photos, dates, templates, affichage, etc. (inchangés) ---
             function silhouetteSVG(dark) {
                 const c = dark ? 'rgba(255,255,255,0.75)' : '#94a3b8';
                 return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="22" r="17" fill="${c}"/><rect x="42" y="37" width="16" height="8" rx="3" fill="${c}"/><path d="M24 53 C24 42 28 47 50 47 C72 47 76 42 76 53 L80 93 C80 105 76 112 50 112 C24 112 20 105 20 93 Z" fill="${c}"/><path d="M26 55 C22 68 19 78 18 86 C17 93 23 94 26 88 C29 78 29 69 31 62 Z" fill="${c}"/><path d="M74 55 C78 68 81 78 82 86 C83 93 77 94 74 88 C71 78 71 69 69 62 Z" fill="${c}"/></svg>`;
@@ -507,9 +505,9 @@
                 return `<div class="${cls}">${silhouetteSVG(dark)}</div>`;
             }
 
-            // --- Helpers photos ---
             function getPhotoURL(nom) {
                 if (!nom || nom === 'A confirmer') return null;
+                if (nom.startsWith('http')) return nom; // déjà une URL complète
                 return state.photos[nom] || null;
             }
             function photoHTML(nom, opts = {}) {
@@ -542,7 +540,6 @@
                 return genSilhouette(true);
             }
 
-            // --- Dates ---
             function formaterDate(combat) {
                 if (!combat.date) return combat.jourSemaine || 'Date à confirmer';
                 if (combat.date.includes('??')) return combat.jourSemaine;
@@ -565,8 +562,10 @@
                 const m = url.match(/(?:youtu\.be\/|v\/|embed\/|watch\?v=|&v=)([^#&?]{11})/);
                 return m ? m[1] : null;
             }
+            function escapeHTML(str) {
+                return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+            }
 
-            // --- Templates ---
             function petitCombatHTML(p) {
                 if (!p.lutteur1 || p.lutteur1 === 'A confirmer')
                     return `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
@@ -582,9 +581,6 @@
                     <div class="petit-lutteur" data-lutteur="${escapeHTML(p.lutteur2)}"><span class="petit-nom">${p.lutteur2}</span>${photoHTML(p.lutteur2, {size:'petit'})}</div>
                     ${vainqueurHTML}${videoHTML}
                 </div>`;
-            }
-            function escapeHTML(str) {
-                return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
             }
             function carteCombatHTML(combat, index) {
                 const isIntl = combat.estInternational;
@@ -808,7 +804,9 @@
                     state.lutteursData = snap.val() || {};
                     state.photos = {};
                     for (const nom in state.lutteursData) {
-                        if (state.lutteursData[nom].photo) state.photos[nom] = DATA_BASE_URL + state.lutteursData[nom].photo;
+                        if (state.lutteursData[nom].photo) {
+                            state.photos[nom] = DATA_BASE_URL + state.lutteursData[nom].photo;
+                        }
                     }
                     try { localStorage.setItem('lutte_photos_cache', JSON.stringify(state.photos)); } catch (e) {}
                     afficherLutteurs();
@@ -1046,10 +1044,12 @@
             }
 
             // --- Démarrage ---
-            function init() {
+            async function init() {
                 chargerDonneesFirebase();
-                initOneSignal();
                 setupEvents();
+
+                // Initialiser les notifications push (uniquement sur l'APK native)
+                initPushNotifications();
             }
 
             if (document.readyState === 'loading') {

@@ -10,9 +10,11 @@
     <meta name="theme-color" content="#0b3d2e">
     <meta name="description" content="Lutte SN - L'Arène des Champions - Calendrier 2026">
     <title>Lutte SN · L'Arène des Champions</title>
+    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <style>
@@ -52,6 +54,7 @@
             opacity:0.6;
         }
 
+        /* Composants réutilisés */
         .refresh-indicator{position:fixed;top:0;left:0;width:100%;height:0;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;transition:height .3s;overflow:hidden;z-index:500;padding-top:var(--safe-top);}
         .refresh-indicator.active{height:calc(56px + var(--safe-top));}
         .refresh-spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:10px;}
@@ -96,6 +99,7 @@
         .page{display:none;animation:slideUp .4s ease-out;}
         .page.active-page{display:block;}
 
+        /* Cartes de combat */
         .combat-list{padding:0 0 8px;}
         .combat-item-card{background:var(--chalk);margin:0 14px 18px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border-col);box-shadow:var(--sh-md);transition:all .3s;animation:slideUp .5s ease-out backwards;}
         .combat-item-card:active{transform:translateY(-3px);box-shadow:var(--sh-lg);}
@@ -125,6 +129,7 @@
         .winner-badge{display:inline-flex;align-items:center;gap:6px;background:var(--grad-gold);color:#fff;padding:7px 18px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;margin-top:14px;box-shadow:var(--sh-gold);}
         .petit-winner-badge{background:#fef3c7;color:#b45309;padding:3px 12px;border-radius:12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 
+        /* Petits combats */
         .petits-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;border-top:1.5px solid var(--border-col);background:var(--sand);transition:background .2s;}
         .petits-header:active{background:var(--border-col);}
         .petits-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--mist);text-transform:uppercase;display:flex;align-items:center;gap:8px;letter-spacing:1.5px;}
@@ -144,6 +149,7 @@
         .petit-video-wrapper{display:block;margin-top:10px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;background:#000;width:100%;}
         .petit-video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;}
 
+        /* Page détail */
         .detail-page{position:fixed;inset:0;background:var(--sand);z-index:1000;overflow-y:auto;transform:translateX(105%);transition:transform .4s cubic-bezier(.25,.8,.25,1);padding-top:var(--safe-top);}
         .detail-page.open{transform:none;}
         .detail-hero{background:var(--grad-dark);padding:20px 20px 32px;position:relative;overflow:hidden;}
@@ -186,6 +192,7 @@
         .comment-author{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--forest);letter-spacing:.3px;}
         .comment-date{font-size:11px;color:var(--mist);margin-left:8px;}
 
+        /* Fiche lutteur */
         .fiche-sticky-nav{position:sticky;top:0;z-index:9;background:var(--forest);padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);padding-top:calc(14px + var(--safe-top));}
         .fiche-sticky-photo{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.4);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);}
         .fiche-sticky-photo img{width:100%;height:100%;object-fit:cover;}
@@ -215,6 +222,7 @@
         .resultat-badge.defaite{background:#fee2e2;color:#991b1b;}
         .resultat-badge.nul{background:#fef3c7;color:#92400e;}
 
+        /* Lutteurs */
         .lutteur-card{background:var(--chalk);margin:0 14px 14px;border-radius:var(--r-md);padding:18px;border:1.5px solid var(--border-col);display:flex;align-items:center;gap:18px;cursor:pointer;box-shadow:var(--sh-sm);transition:all .3s;animation:slideRight .4s ease-out backwards;}
         .lutteur-card:active{transform:translateY(-3px) scale(1.01);box-shadow:var(--sh-lg);}
         .lutteur-rank{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--border-col);letter-spacing:1px;min-width:32px;text-align:center;}
@@ -230,6 +238,7 @@
         .lutteur-stat-chip.d{background:#fee2e2;color:#991b1b;}
         .lutteur-stat-chip.t{background:var(--sand);color:var(--mist);}
 
+        /* News / Mbapatt */
         .news-card{background:var(--chalk);margin:0 14px 18px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border-col);box-shadow:var(--sh-md);}
         .news-image{width:100%;height:200px;background:#e0e8e4;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
         .news-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
@@ -246,6 +255,7 @@
         .mbapatt-participants{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
         .participant-tag{background:var(--sand);border:1.5px solid var(--border-col);padding:5px 14px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.3px;}
 
+        /* Overlays */
         .search-overlay{position:fixed;inset:0;background:rgba(11,61,46,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:3000;display:none;flex-direction:column;padding-top:var(--safe-top);}
         .search-overlay.open{display:flex;}
         .search-header{padding:20px;display:flex;gap:12px;align-items:center;}
@@ -296,7 +306,11 @@
     </style>
 </head>
 <body>
+
+    <!-- Indicateur de refresh -->
     <div class="refresh-indicator" id="refreshIndicator"><div id="refreshContent"></div></div>
+
+    <!-- Bannière d'installation PWA -->
     <div class="install-banner" id="installBanner">
         <button class="install-banner-close" id="installBannerClose">✕</button>
         <div class="install-banner-text">
@@ -305,7 +319,11 @@
         </div>
         <button class="install-banner-btn" id="installBtn">Installer</button>
     </div>
+
+    <!-- Menu hamburger -->
     <div class="menu-btn" id="menuBtn">☰</div>
+
+    <!-- Drawer -->
     <div class="drawer" id="drawer">
         <div class="drawer-header">
             <div class="drawer-logo">LUTTE SN</div>
@@ -323,6 +341,7 @@
     </div>
     <div class="overlay" id="overlay"></div>
 
+    <!-- Header -->
     <header class="site-header">
         <div class="header-top">
             <div class="header-brand">
@@ -341,6 +360,7 @@
         </div>
     </header>
 
+    <!-- Tabs -->
     <nav class="tabs-wrapper">
         <div class="tabs" id="tabsNav">
             <div class="tab active" data-page="arene">🏟️ Arène</div>
@@ -350,6 +370,7 @@
         </div>
     </nav>
 
+    <!-- Pages -->
     <main>
         <div id="page-arene" class="page active-page"><div class="combat-list" id="arene-container"></div></div>
         <div id="page-lutteurs" class="page"><div class="combat-list" id="lutteurs-container"></div></div>
@@ -358,7 +379,11 @@
     </main>
 
     <footer>© 2026 Lutte SN · La Référence</footer>
+
+    <!-- Page détail -->
     <div id="detailPage" class="detail-page"><div id="detail-content"></div></div>
+
+    <!-- Overlay recherche -->
     <div id="searchOverlay" class="search-overlay">
         <div class="search-header">
             <input type="text" class="search-input-popup" id="searchInputPopup" placeholder="Rechercher un combat ou lutteur..." autocomplete="off">
@@ -366,6 +391,8 @@
         </div>
         <div class="search-results" id="searchResultsPopup"></div>
     </div>
+
+    <!-- Overlay calendrier -->
     <div id="calendarOverlay" class="calendar-overlay">
         <div class="calendar-card">
             <span class="calendar-emoji">📅</span>
@@ -375,13 +402,16 @@
             <button class="calendar-close" id="calendarCloseBtn">Fermer</button>
         </div>
     </div>
+
+    <!-- Bouton admin -->
     <div class="admin-link" id="adminLink">⚙️</div>
 
     <script>
         (function() {
             'use strict';
 
-            const APP_VERSION = '9.0.1';
+            // --- Configuration ---
+            const APP_VERSION = '8.2.0'; // mise à jour
             const DATA_BASE_URL = 'https://omarmarone80-cmyk.github.io/lutte-arena-data/';
             const ADMIN_PASSWORD = 'lutte2026';
 
@@ -395,9 +425,11 @@
                 appId: "1:1018458333769:web:a4eb3983c4e71c3cdcd598"
             };
 
+            // --- Initialisation Firebase ---
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
+            // --- État global ---
             const state = {
                 areneData: [],
                 lutteursData: {},
@@ -407,132 +439,624 @@
                 pageActive: 'arene'
             };
 
-            // ===== NOTIFICATIONS =====
+            // ============================================================
+            // 🔔 NOTIFICATIONS FCM (Firebase Cloud Messaging)
+            // ============================================================
             async function initPushNotifications() {
-                if (!window.Capacitor || !window.Capacitor.Plugins || !window.Capacitor.Plugins.PushNotifications) {
-                    console.warn('❌ Plugin Push introuvable (mode Web ?)');
+                // Ne s'exécute que dans l'APK native
+                if (typeof window.Capacitor === 'undefined' || !window.Capacitor.isNative) {
+                    console.log('🌐 Mode Web, pas de push natif');
                     return;
                 }
-
                 try {
                     const PushNotifications = window.Capacitor.Plugins.PushNotifications;
-                    const permStatus = await PushNotifications.requestPermissions();
-                    if (permStatus.receive === 'granted') {
-                        await PushNotifications.register();
-
-                      PushNotifications.addListener('registration', function(token) {
-    console.log('TOKEN :', token.value);
-});
-                        PushNotifications.addListener('pushNotificationReceived', function(notification) {
-                            console.log('📩 Notification reçue :', notification.title, notification.body);
-                        });
-
-                        alert('✅ Notifications activées !');
-                    } else {
-                        alert('❌ Permission refusée');
+                    if (!PushNotifications) {
+                        console.warn('❌ Plugin Push introuvable');
+                        return;
                     }
-                } catch (e) {
-                    alert('❌ Erreur : ' + e.message);
-                }
-            }
-
-            function demanderNotifications() {
-                if (!window.Capacitor || !window.Capacitor.Plugins || !window.Capacitor.Plugins.PushNotifications) {
-                    alert('❌ Plugin introuvable');
-                    return;
-                }
-
-                const PushNotifications = window.Capacitor.Plugins.PushNotifications;
-                PushNotifications.requestPermissions().then(function(perm) {
+                    const perm = await PushNotifications.requestPermissions();
                     if (perm.receive === 'granted') {
-                        PushNotifications.register();
-                        alert('✅ Notifications activées !');
+                        await PushNotifications.register();
+                        console.log('✅ FCM enregistré');
                     } else {
-                        alert('❌ Permission refusée');
+                        console.warn('❌ Permission refusée');
                     }
-                }).catch(function(e) {
-                    alert('❌ Erreur : ' + e.message);
-                });
+
+                    PushNotifications.addListener('pushNotificationReceived', (notification) => {
+                        console.log('📩 Notification reçue :', notification.title);
+                    });
+
+                    PushNotifications.addListener('pushNotificationActionPerformed', (action) => {
+                        console.log('👉 Notification cliquée');
+                    });
+                } catch (e) {
+                    console.error('Erreur init push:', e);
+                }
             }
 
-            // ===== SILHOUETTE =====
+            // Fonction publique appelée par le menu "Alertes combat"
+            function demanderNotifications() {
+                if (typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative) {
+                    const PushNotifications = window.Capacitor.Plugins.PushNotifications;
+                    if (!PushNotifications) {
+                        alert('❌ Plugin introuvable');
+                        return;
+                    }
+                    PushNotifications.requestPermissions().then(perm => {
+                        if (perm.receive === 'granted') {
+                            PushNotifications.register();
+                            alert('✅ Notifications activées !');
+                        } else {
+                            alert('❌ Permission refusée. Veuillez autoriser dans les paramètres Android.');
+                        }
+                    }).catch(e => alert('❌ Erreur : ' + e.message));
+                } else {
+                    alert('🔔 Les notifications push sont disponibles dans la version Android de l\'application. Installez l\'APK pour les activer.');
+                }
+            }
+
+            // --- Silhouettes, photos, dates, templates, affichage, etc. (inchangés) ---
             function silhouetteSVG(dark) {
                 const c = dark ? 'rgba(255,255,255,0.75)' : '#94a3b8';
                 return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="22" r="17" fill="${c}"/><rect x="42" y="37" width="16" height="8" rx="3" fill="${c}"/><path d="M24 53 C24 42 28 47 50 47 C72 47 76 42 76 53 L80 93 C80 105 76 112 50 112 C24 112 20 105 20 93 Z" fill="${c}"/><path d="M26 55 C22 68 19 78 18 86 C17 93 23 94 26 88 C29 78 29 69 31 62 Z" fill="${c}"/><path d="M74 55 C78 68 81 78 82 86 C83 93 77 94 74 88 C71 78 71 69 69 62 Z" fill="${c}"/></svg>`;
             }
-            function genSilhouette(dark) { return `<div class="avatar-silhouette${dark?' dark':''}">${silhouetteSVG(dark)}</div>`; }
-            function getPhotoURL(n) { return (n && n!=='A confirmer' && state.photos[n]) ? state.photos[n] : null; }
-            function photoHTML(n, opts={}) {
-                const {size='team', dark=false}=opts;
-                if(!n||n==='A confirmer') return `<div class="${size}-photo" style="font-size:22px;color:#94a3b8;">?</div>`;
-                const u=getPhotoURL(n);
-                if(u) return `<div class="${size}-photo"><img src="${u}" alt="${n}" onerror="this.innerHTML='${genSilhouette(dark).replace(/"/g,'&quot;')}'"></div>`;
+            function genSilhouette(dark) {
+                const cls = dark ? 'avatar-silhouette dark' : 'avatar-silhouette';
+                return `<div class="${cls}">${silhouetteSVG(dark)}</div>`;
+            }
+
+            function getPhotoURL(nom) {
+                if (!nom || nom === 'A confirmer') return null;
+                if (nom.startsWith('http')) return nom; // déjà une URL complète
+                return state.photos[nom] || null;
+            }
+            function photoHTML(nom, opts = {}) {
+                const { size = 'team', dark = false } = opts;
+                if (!nom || nom === 'A confirmer') {
+                    const sz = size === 'petit' ? '14px' : size === 'detail' ? '36px' : '22px';
+                    return `<div class="${size}-photo" style="font-size:${sz};font-weight:700;color:#94a3b8;">?</div>`;
+                }
+                const url = getPhotoURL(nom);
+                if (url) {
+                    const fallback = genSilhouette(dark).replace(/"/g, '&quot;');
+                    return `<div class="${size}-photo"><img src="${url}" alt="${nom}" loading="lazy" onerror="this.parentElement.innerHTML='${fallback}';"></div>`;
+                }
                 return `<div class="${size}-photo">${genSilhouette(dark)}</div>`;
             }
-            function ficheAvatarLarge(n) { const u=getPhotoURL(n); return u ? `<img src="${u}" alt="${n}">` : `<div class="fiche-avatar-large">${genSilhouette(true)}</div>`; }
-            function stickyAvatar(n) { const u=getPhotoURL(n); return u ? `<img src="${u}" alt="${n}">` : genSilhouette(true); }
+            function ficheAvatarLarge(nom) {
+                const url = getPhotoURL(nom);
+                if (url) {
+                    const fallback = `<div class="fiche-avatar-large">${genSilhouette(true).replace(/"/g, '&quot;')}</div>`;
+                    return `<img src="${url}" alt="${nom}" onerror="this.parentElement.innerHTML='${fallback}';">`;
+                }
+                return `<div class="fiche-avatar-large">${genSilhouette(true)}</div>`;
+            }
+            function stickyAvatar(nom) {
+                const url = getPhotoURL(nom);
+                if (url) {
+                    const fallback = genSilhouette(true).replace(/"/g, '&quot;');
+                    return `<img src="${url}" alt="${nom}" onerror="this.parentElement.innerHTML='${fallback}';">`;
+                }
+                return genSilhouette(true);
+            }
 
-            // ===== DATES =====
-            function formaterDate(c) { if(!c.date) return c.jourSemaine||'?'; if(c.date.includes('??')) return c.jourSemaine; try{ const p=c.date.split('-'); const m=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc']; return c.jourSemaine+' '+parseInt(p[2])+' '+m[parseInt(p[1])-1]; }catch(e){return c.jourSemaine;} }
-            function getDateParts(c) { if(!c.date||c.date.includes('??')) return {day:'??',mon:'???'}; try{ const p=c.date.split('-'); const m=['JAN','FÉV','MAR','AVR','MAI','JUI','JUL','AOÛ','SEP','OCT','NOV','DÉC']; return {day:parseInt(p[2]),mon:m[parseInt(p[1])-1]}; }catch(e){return {day:'??',mon:'???'};} }
-            function extraireIdYoutube(u) { if(!u) return null; const m=u.match(/(?:youtu\.be\/|v\/|embed\/|watch\?v=|&v=)([^#&?]{11})/); return m?m[1]:null; }
-            function escapeHTML(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+            function formaterDate(combat) {
+                if (!combat.date) return combat.jourSemaine || 'Date à confirmer';
+                if (combat.date.includes('??')) return combat.jourSemaine;
+                try {
+                    const p = combat.date.split('-');
+                    const mois = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+                    return `${combat.jourSemaine} ${parseInt(p[2])} ${mois[parseInt(p[1])-1]}`;
+                } catch (e) { return combat.jourSemaine; }
+            }
+            function getDateParts(combat) {
+                if (!combat.date || combat.date.includes('??')) return { day: '??', mon: '???' };
+                try {
+                    const p = combat.date.split('-');
+                    const mois = ['JAN','FÉV','MAR','AVR','MAI','JUI','JUL','AOÛ','SEP','OCT','NOV','DÉC'];
+                    return { day: parseInt(p[2]), mon: mois[parseInt(p[1])-1] };
+                } catch (e) { return { day: '??', mon: '???' }; }
+            }
+            function extraireIdYoutube(url) {
+                if (!url) return null;
+                const m = url.match(/(?:youtu\.be\/|v\/|embed\/|watch\?v=|&v=)([^#&?]{11})/);
+                return m ? m[1] : null;
+            }
+            function escapeHTML(str) {
+                return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+            }
 
-            // ===== TEMPLATES =====
             function petitCombatHTML(p) {
-                if(!p.lutteur1||p.lutteur1==='A confirmer') return '<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist)">📅 À confirmer</div></div>';
-                let v=''; if(p.vainqueur) v=`<span class="petit-winner-badge">🏆 ${p.vainqueur}</span>`;
-                let vid=''; if(p.videoYoutube){ const id=extraireIdYoutube(p.videoYoutube); if(id) vid=`<div class="petit-video-wrapper"><iframe src="https://www.youtube.com/embed/${id}?autoplay=0&rel=0&modestbranding=1&playsinline=1" allowfullscreen></iframe></div>`; }
-                return `<div class="petit-combat-row"><div class="petit-lutteur" data-lutteur="${escapeHTML(p.lutteur1)}">${photoHTML(p.lutteur1,{size:'petit'})}<span class="petit-nom">${p.lutteur1}</span></div><span class="petit-vs">VS</span><div class="petit-lutteur" data-lutteur="${escapeHTML(p.lutteur2)}"><span class="petit-nom">${p.lutteur2}</span>${photoHTML(p.lutteur2,{size:'petit'})}</div>${v}${vid}</div>`;
+                if (!p.lutteur1 || p.lutteur1 === 'A confirmer')
+                    return `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
+                const vainqueurHTML = p.vainqueur ? `<span class="petit-winner-badge">🏆 ${p.vainqueur}</span>` : '';
+                let videoHTML = '';
+                if (p.videoYoutube) {
+                    const vid = extraireIdYoutube(p.videoYoutube);
+                    if (vid) videoHTML = `<div class="petit-video-wrapper"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
+                }
+                return `<div class="petit-combat-row">
+                    <div class="petit-lutteur" data-lutteur="${escapeHTML(p.lutteur1)}">${photoHTML(p.lutteur1, {size:'petit'})}<span class="petit-nom">${p.lutteur1}</span></div>
+                    <span class="petit-vs">VS</span>
+                    <div class="petit-lutteur" data-lutteur="${escapeHTML(p.lutteur2)}"><span class="petit-nom">${p.lutteur2}</span>${photoHTML(p.lutteur2, {size:'petit'})}</div>
+                    ${vainqueurHTML}${videoHTML}
+                </div>`;
             }
-            function carteCombatHTML(c,i) {
-                const isIntl=c.estInternational; const dp=getDateParts(c);
-                const v=(c.vainqueur?`<div class="winner-badge">🏆 Vainqueur : ${c.vainqueur}</div>`:'');
-                const cnt=(c.petitsCombats&&c.petitsCombats.length)?c.petitsCombats.length:0;
-                const petits=cnt?c.petitsCombats.map(p=>petitCombatHTML(p)).join(''):'<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist)">📅 À confirmer</div></div>';
-                return `<div class="combat-item-card" style="animation-delay:${i*0.06}s" data-index="${i}"><div class="card-accent-bar${isIntl?' international':''}"></div><div class="combat-preview"><div class="combat-meta-row"><div class="date-chip"><div class="date-chip-icon"><div class="date-chip-day">${dp.day}</div><div class="date-chip-mon">${dp.mon}</div></div><div class="date-chip-text${isIntl?' international':''}">${formaterDate(c)}</div></div><button class="share-btn" data-action="share" data-index="${i}">📤</button></div><div><span class="combat-lieu">📍 ${c.lieu||'Lieu à confirmer'}</span></div><div class="combat-teams"><div class="team">${photoHTML(c.vedette.lutteur1)}<div class="team-name" data-lutteur="${escapeHTML(c.vedette.lutteur1)}">${c.vedette.lutteur1}</div><div class="team-ecurie">${c.vedette.ecurie1||''}</div></div><div class="vs-badge">VS</div><div class="team">${photoHTML(c.vedette.lutteur2)}<div class="team-name" data-lutteur="${escapeHTML(c.vedette.lutteur2)}">${c.vedette.lutteur2}</div><div class="team-ecurie">${c.vedette.ecurie2||''}</div></div></div>${v}</div><div class="petits-header" data-action="togglePetits" data-index="${i}"><div class="petits-title">🥊 Petits combats ${cnt?`<span class="petits-count">${cnt}</span>`:''}</div><div class="toggle-arrow" id="arrow-${i}">▼</div></div><div class="petits-combats-list" id="petits-list-${i}">${petits}</div></div>`;
+            function carteCombatHTML(combat, index) {
+                const isIntl = combat.estInternational;
+                const dp = getDateParts(combat);
+                const vainqueurHTML = combat.vainqueur ? `<div class="winner-badge">🏆 Vainqueur : ${combat.vainqueur}</div>` : '';
+                const petitsCount = (combat.petitsCombats && combat.petitsCombats.length) ? combat.petitsCombats.length : 0;
+                const petitsHTML = petitsCount ? combat.petitsCombats.map(p => petitCombatHTML(p)).join('') :
+                    `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
+                return `
+                <div class="combat-item-card" style="animation-delay:${index * 0.06}s" data-index="${index}">
+                    <div class="card-accent-bar${isIntl ? ' international' : ''}"></div>
+                    <div class="combat-preview">
+                        <div class="combat-meta-row">
+                            <div class="date-chip">
+                                <div class="date-chip-icon"><div class="date-chip-day">${dp.day}</div><div class="date-chip-mon">${dp.mon}</div></div>
+                                <div class="date-chip-text${isIntl ? ' international' : ''}">${formaterDate(combat)}</div>
+                            </div>
+                            <button class="share-btn" data-action="share" data-index="${index}">📤</button>
+                        </div>
+                        <div><span class="combat-lieu">📍 ${combat.lieu || 'Lieu à confirmer'}</span></div>
+                        <div class="combat-teams">
+                            <div class="team">${photoHTML(combat.vedette.lutteur1)}<div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur1)}">${combat.vedette.lutteur1}</div><div class="team-ecurie">${combat.vedette.ecurie1 || ''}</div></div>
+                            <div class="vs-badge">VS</div>
+                            <div class="team">${photoHTML(combat.vedette.lutteur2)}<div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur2)}">${combat.vedette.lutteur2}</div><div class="team-ecurie">${combat.vedette.ecurie2 || ''}</div></div>
+                        </div>
+                        ${vainqueurHTML}
+                    </div>
+                    <div class="petits-header" data-action="togglePetits" data-index="${index}">
+                        <div class="petits-title">🥊 Petits combats ${petitsCount ? `<span class="petits-count">${petitsCount}</span>` : ''}</div>
+                        <div class="toggle-arrow" id="arrow-${index}">▼</div>
+                    </div>
+                    <div class="petits-combats-list" id="petits-list-${index}">${petitsHTML}</div>
+                </div>`;
             }
 
-            // ===== AFFICHAGE =====
-            function afficherCombats(){ const c=document.getElementById('arene-container'); if(!c)return; if(!state.areneData.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">🗓️</div><div class="empty-text">Aucun combat</div></div>'; return; } c.innerHTML='<div style="height:12px;"></div>'+state.areneData.map((c,i)=>carteCombatHTML(c,i)).join(''); }
-            function afficherLutteurs(){ const c=document.getElementById('lutteurs-container'); if(!c)return; const noms=Object.keys(state.lutteursData).filter(n=>n!=='Secret').sort((a,b)=>(state.lutteursData[b].victoires||0)-(state.lutteursData[a].victoires||0)); if(!noms.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">👤</div><div class="empty-text">Aucun lutteur</div></div>'; return; } c.innerHTML='<div style="height:12px;"></div>'+noms.map((nom,i)=>{ const d=state.lutteursData[nom]; return `<div class="lutteur-card" data-lutteur="${escapeHTML(nom)}" style="animation-delay:${i*0.05}s"><div class="lutteur-rank${i<3?' top3':''}">${i+1}</div><div class="lutteur-photo-card">${photoHTML(nom,{size:'lutteur'}).replace('team-photo','lutteur-photo-card')}</div><div class="lutteur-infos"><div class="lutteur-nom">${nom}</div><div class="lutteur-ecurie">${d.ecurie||''}</div><div class="lutteur-stats"><span class="lutteur-stat-chip v">🏆 ${d.victoires||0}V</span><span class="lutteur-stat-chip d">❌ ${d.defaites||0}D</span><span class="lutteur-stat-chip t">📊 ${d.combats||0}</span></div></div></div>`; }).join(''); }
-            function afficherNews(){ const c=document.getElementById('news-container'); if(!c)return; if(!state.newsData.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">📰</div><div class="empty-text">Aucune actualité</div></div>'; return; } c.innerHTML='<div style="height:12px;"></div>'+state.newsData.map(n=>{ const im=n.image?`<div class="news-image"><img src="${DATA_BASE_URL+n.image}" alt="${n.title}" onerror="this.parentElement.style.display=\'none\'"><div class="news-image-overlay"></div></div>`:''; return `<div class="news-card">${im}<div class="news-content"><div class="news-category">📰 Actualité</div><div class="news-title">${n.title}</div><div class="news-date">📅 ${n.date}</div><div class="news-excerpt">${n.excerpt}</div><div class="news-full">${n.full||''}</div><button class="read-more">Lire la suite →</button></div></div>`; }).join(''); }
-            function afficherMbapatt(){ const c=document.getElementById('mbapatt-container'); if(!c)return; if(!state.mbapattData||!state.mbapattData.length){ c.innerHTML='<div class="empty-message"><div class="empty-icon">🏆</div><div class="empty-text">Aucun tournoi</div></div>'; return; } c.innerHTML='<div style="height:12px;"></div>'+state.mbapattData.map(t=>{ const im=t.image?`<div class="news-image"><img src="${DATA_BASE_URL+t.image}" alt="${t.nom||'Tournoi'}" onerror="this.parentElement.style.display=\'none\'"><div class="news-image-overlay"></div></div>`:''; const parts=t.participants?`<div class="mbapatt-participants">${t.participants.map(p=>`<span class="participant-tag">${p}</span>`).join('')}</div>`:''; return `<div class="news-card">${im}<div class="news-content"><div class="news-category">🏆 Mbapatt</div><div class="news-title">${t.nom||'Sans nom'}</div><div class="news-date">📅 ${t.date||''} · 📍 ${t.lieu||''}</div><div class="news-excerpt">${t.description||''}</div>${parts}</div></div>`; }).join(''); }
+            // --- Affichage ---
+            function afficherCombats() {
+                const container = document.getElementById('arene-container');
+                if (!container) return;
+                if (!state.areneData.length) {
+                    container.innerHTML = '<div class="empty-message"><div class="empty-icon">🗓️</div><div class="empty-text">Aucun combat programmé</div></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="height:12px;"></div>' + state.areneData.map((c, i) => carteCombatHTML(c, i)).join('');
+            }
+            function afficherLutteurs() {
+                const container = document.getElementById('lutteurs-container');
+                if (!container) return;
+                const noms = Object.keys(state.lutteursData).filter(n => n !== 'Secret')
+                    .sort((a, b) => (state.lutteursData[b].victoires || 0) - (state.lutteursData[a].victoires || 0));
+                if (!noms.length) {
+                    container.innerHTML = '<div class="empty-message"><div class="empty-icon">👤</div><div class="empty-text">Aucun lutteur</div></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="height:12px;"></div>' + noms.map((nom, i) => {
+                    const d = state.lutteursData[nom];
+                    const photoClass = 'lutteur-photo-card';
+                    return `<div class="lutteur-card" data-lutteur="${escapeHTML(nom)}" style="animation-delay:${i*0.05}s">
+                        <div class="lutteur-rank${i < 3 ? ' top3' : ''}">${i+1}</div>
+                        <div class="${photoClass}">${photoHTML(nom, {size:'lutteur'}).replace('team-photo', photoClass)}</div>
+                        <div class="lutteur-infos">
+                            <div class="lutteur-nom">${nom}</div>
+                            <div class="lutteur-ecurie">${d.ecurie || ''}</div>
+                            <div class="lutteur-stats">
+                                <span class="lutteur-stat-chip v">🏆 ${d.victoires||0}V</span>
+                                <span class="lutteur-stat-chip d">❌ ${d.defaites||0}D</span>
+                                <span class="lutteur-stat-chip t">📊 ${d.combats||0}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+            function afficherNews() {
+                const container = document.getElementById('news-container');
+                if (!container) return;
+                if (!state.newsData.length) {
+                    container.innerHTML = '<div class="empty-message"><div class="empty-icon">📰</div><div class="empty-text">Aucune actualité</div></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="height:12px;"></div>' + state.newsData.map(n => {
+                    const imgHTML = n.image ? `<div class="news-image"><img src="${DATA_BASE_URL + n.image}" alt="${n.title}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
+                    return `<div class="news-card">${imgHTML}<div class="news-content"><div class="news-category">📰 Actualité</div><div class="news-title">${n.title}</div><div class="news-date">📅 ${n.date}</div><div class="news-excerpt">${n.excerpt}</div><div class="news-full">${n.full||''}</div><button class="read-more">Lire la suite →</button></div></div>`;
+                }).join('');
+            }
+            function afficherMbapatt() {
+                const container = document.getElementById('mbapatt-container');
+                if (!container) return;
+                if (!state.mbapattData || !state.mbapattData.length) {
+                    container.innerHTML = '<div class="empty-message"><div class="empty-icon">🏆</div><div class="empty-text">Aucun tournoi Mbapatt</div></div>';
+                    return;
+                }
+                container.innerHTML = '<div style="height:12px;"></div>' + state.mbapattData.map(t => {
+                    const imgHTML = t.image ? `<div class="news-image"><img src="${DATA_BASE_URL + t.image}" alt="${t.nom||'Tournoi'}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
+                    const participantsHTML = t.participants ? `<div class="mbapatt-participants">${t.participants.map(p => `<span class="participant-tag">${p}</span>`).join('')}</div>` : '';
+                    return `<div class="news-card">${imgHTML}<div class="news-content"><div class="news-category">🏆 Mbapatt</div><div class="news-title">${t.nom||'Tournoi sans nom'}</div><div class="news-date">📅 ${t.date||''} · 📍 ${t.lieu||''}</div><div class="news-excerpt">${t.description||''}</div>${participantsHTML}</div></div>`;
+                }).join('');
+            }
 
-            // ===== DETAIL COMBAT =====
-            function ouvrirDetailCombat(idx){ const c=state.areneData[idx]; if(!c)return; const cid=`combat_${idx}`; const pro=JSON.parse(localStorage.getItem(`pronostics_${cid}`)||'{"lutteur1":0,"lutteur2":0}'); const tot=pro.lutteur1+pro.lutteur2||1; const p1=Math.round((pro.lutteur1/tot)*100); const p2=Math.round((pro.lutteur2/tot)*100); const uv=localStorage.getItem(`vote_${cid}`); const petitsHTML=(c.petitsCombats&&c.petitsCombats.length)?c.petitsCombats.map(p=>petitCombatHTML(p)).join(''):'<p style="text-align:center;color:var(--mist)">📅 À confirmer</p>'; const coms=JSON.parse(localStorage.getItem(`commentaires_${cid}`)||'[]'); const comsHTML=coms.length?coms.map(co=>`<div class="comment-card"><div class="comment-author">${co.auteur} <span class="comment-date">${co.date}</span></div><div style="font-size:14px;color:#4b6358;margin-top:6px;">${co.texte}</div></div>`).join(''):'<p style="text-align:center;color:var(--mist)">Aucun commentaire</p>'; let vidHTML=''; if(c.videoYoutube){ const vid=extraireIdYoutube(c.videoYoutube); if(vid) vidHTML=`<div class="detail-info"><div class="section-title">🎥 Rediffusion</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" allowfullscreen></iframe></div></div>`; } const dc=document.getElementById('detail-content'); dc.innerHTML=`<div class="detail-hero"><button class="detail-back" id="detailBackBtn">←</button><div class="detail-combatants"><div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur1)}">${photoHTML(c.vedette.lutteur1,{size:'detail',dark:true})}<div class="detail-name">${c.vedette.lutteur1}</div><div class="detail-ecurie">${c.vedette.ecurie1||''}</div></div><div class="detail-vs-badge">VS</div><div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur2)}">${photoHTML(c.vedette.lutteur2,{size:'detail',dark:true})}<div class="detail-name">${c.vedette.lutteur2}</div><div class="detail-ecurie">${c.vedette.ecurie2||''}</div></div></div><div style="text-align:center;margin-top:18px;font-family:'Barlow Condensed',sans-serif;color:rgba(255,255,255,.65);text-transform:uppercase;">${formaterDate(c)} · 📍 ${c.lieu}</div></div><div class="detail-info"><div class="section-title">📋 Informations</div><div class="info-row"><span class="info-label">Date</span><span class="info-value">${formaterDate(c)}</span></div><div class="info-row"><span class="info-label">Lieu</span><span class="info-value">${c.lieu}</span></div><div class="info-row"><span class="info-label">Type</span><span class="info-value">${c.vedette.type||'Combat classique'}</span></div></div>${vidHTML}<div class="detail-info"><div class="section-title">🥊 Petits combats</div>${petitsHTML}</div><div class="pronostics-section"><div class="section-title">📊 Pronostics</div><div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur1}</span><span>${p1}% (${pro.lutteur1})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur1" style="width:${p1}%;">${p1}%</div></div></div><div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur2}</span><span>${p2}% (${pro.lutteur2})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur2" style="width:${p2}%;">${p2}%</div></div></div><div class="vote-buttons"><button class="vote-btn ${uv==='lutteur1'?'voted':''}" data-vote="lutteur1">👍 ${c.vedette.lutteur1}</button><button class="vote-btn ${uv==='lutteur2'?'voted':''}" data-vote="lutteur2">👍 ${c.vedette.lutteur2}</button></div></div><div class="commentaires-section"><div class="section-title">💬 Commentaires</div><div class="comment-form"><input class="comment-input" id="commentInput" placeholder="Votre commentaire..."><button class="comment-submit" id="commentSubmit">Envoyer</button></div><div id="commentairesList">${comsHTML}</div></div><button class="btn-primary" id="detailCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>`; document.getElementById('detailBackBtn').addEventListener('click',fermerDetailPage); document.getElementById('detailCloseBtn').addEventListener('click',fermerDetailPage); document.getElementById('commentSubmit').addEventListener('click',()=>{ const inp=document.getElementById('commentInput'); const t=inp.value.trim(); if(!t)return; const coms=JSON.parse(localStorage.getItem(`commentaires_${cid}`)||'[]'); coms.push({auteur:'Anonyme',date:new Date().toLocaleDateString('fr-FR'),texte:t}); localStorage.setItem(`commentaires_${cid}`,JSON.stringify(coms)); ouvrirDetailCombat(idx); }); dc.querySelectorAll('[data-vote]').forEach(b=>{ b.addEventListener('click',function(){ const ch=this.dataset.vote; if(localStorage.getItem(`vote_${cid}`))return; localStorage.setItem(`vote_${cid}`,ch); const p=JSON.parse(localStorage.getItem(`pronostics_${cid}`)||'{"lutteur1":0,"lutteur2":0}'); p[ch]=(p[ch]||0)+1; localStorage.setItem(`pronostics_${cid}`,JSON.stringify(p)); ouvrirDetailCombat(idx); }); }); dc.querySelectorAll('[data-lutteur]').forEach(el=>{ el.addEventListener('click',function(e){ e.stopPropagation(); ouvrirFicheLutteur(this.dataset.lutteur); }); }); document.getElementById('detailPage').classList.add('open'); document.getElementById('detailPage').scrollTop=0; }
-            function fermerDetailPage(){ document.getElementById('detailPage').classList.remove('open'); }
+            // --- Détail combat ---
+            function ouvrirDetailCombat(index) {
+                const c = state.areneData[index];
+                if (!c) return;
+                const combatId = `combat_${index}`;
+                const pronostics = JSON.parse(localStorage.getItem(`pronostics_${combatId}`) || '{"lutteur1":0,"lutteur2":0}');
+                const total = pronostics.lutteur1 + pronostics.lutteur2 || 1;
+                const pct1 = Math.round((pronostics.lutteur1 / total) * 100);
+                const pct2 = Math.round((pronostics.lutteur2 / total) * 100);
+                const userVote = localStorage.getItem(`vote_${combatId}`);
+                const petitsHTML = (c.petitsCombats && c.petitsCombats.length) ? c.petitsCombats.map(p => petitCombatHTML(p)).join('') :
+                    '<p style="color:var(--mist);text-align:center;padding:16px;font-family:Barlow Condensed,sans-serif;font-weight:600;">📅 À confirmer</p>';
+                const commentaires = JSON.parse(localStorage.getItem(`commentaires_${combatId}`) || '[]');
+                const commentairesHTML = commentaires.length ? commentaires.map(co => `<div class="comment-card"><div class="comment-author">${co.auteur} <span class="comment-date">${co.date}</span></div><div style="font-size:14px;color:#4b6358;margin-top:6px;">${co.texte}</div></div>`).join('') :
+                    '<p style="color:var(--mist);text-align:center;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun commentaire</p>';
+                let videoHTML = '';
+                if (c.videoYoutube) {
+                    const vid = extraireIdYoutube(c.videoYoutube);
+                    if (vid) videoHTML = `<div class="detail-info"><div class="section-title">🎥 Rediffusion</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+                }
+                const detailContent = document.getElementById('detail-content');
+                detailContent.innerHTML = `
+                    <div class="detail-hero">
+                        <button class="detail-back" id="detailBackBtn">←</button>
+                        <div class="detail-combatants">
+                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur1)}">${photoHTML(c.vedette.lutteur1, {size:'detail', dark:true})}<div class="detail-name">${c.vedette.lutteur1}</div><div class="detail-ecurie">${c.vedette.ecurie1 || ''}</div></div>
+                            <div class="detail-vs-badge">VS</div>
+                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur2)}">${photoHTML(c.vedette.lutteur2, {size:'detail', dark:true})}<div class="detail-name">${c.vedette.lutteur2}</div><div class="detail-ecurie">${c.vedette.ecurie2 || ''}</div></div>
+                        </div>
+                        <div style="text-align:center;margin-top:18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;">${formaterDate(c)} · 📍 ${c.lieu}</div>
+                    </div>
+                    <div class="detail-info"><div class="section-title">📋 Informations</div><div class="info-row"><span class="info-label">Date</span><span class="info-value">${formaterDate(c)}</span></div><div class="info-row"><span class="info-label">Lieu</span><span class="info-value">${c.lieu}</span></div><div class="info-row"><span class="info-label">Type</span><span class="info-value">${c.vedette.type || 'Combat classique'}</span></div></div>
+                    ${videoHTML}
+                    <div class="detail-info"><div class="section-title">🥊 Petits combats</div>${petitsHTML}</div>
+                    <div class="pronostics-section">
+                        <div class="section-title">📊 Pronostics</div>
+                        <div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur1}</span><span>${pct1}% (${pronostics.lutteur1})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur1" style="width:${pct1}%;">${pct1}%</div></div></div>
+                        <div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur2}</span><span>${pct2}% (${pronostics.lutteur2})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur2" style="width:${pct2}%;">${pct2}%</div></div></div>
+                        <div class="vote-buttons">
+                            <button class="vote-btn ${userVote==='lutteur1'?'voted':''}" data-vote="lutteur1">👍 ${c.vedette.lutteur1}</button>
+                            <button class="vote-btn ${userVote==='lutteur2'?'voted':''}" data-vote="lutteur2">👍 ${c.vedette.lutteur2}</button>
+                        </div>
+                    </div>
+                    <div class="commentaires-section">
+                        <div class="section-title">💬 Commentaires</div>
+                        <div class="comment-form"><input class="comment-input" id="commentInput" placeholder="Votre commentaire..."><button class="comment-submit" id="commentSubmit">Envoyer</button></div>
+                        <div id="commentairesList">${commentairesHTML}</div>
+                    </div>
+                    <button class="btn-primary" id="detailCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>
+                `;
+                document.getElementById('detailBackBtn').addEventListener('click', fermerDetailPage);
+                document.getElementById('detailCloseBtn').addEventListener('click', fermerDetailPage);
+                document.getElementById('commentSubmit').addEventListener('click', function() {
+                    const input = document.getElementById('commentInput');
+                    const texte = input.value.trim();
+                    if (!texte) return;
+                    const commentaires = JSON.parse(localStorage.getItem(`commentaires_${combatId}`) || '[]');
+                    commentaires.push({ auteur: 'Anonyme', date: new Date().toLocaleDateString('fr-FR'), texte });
+                    localStorage.setItem(`commentaires_${combatId}`, JSON.stringify(commentaires));
+                    ouvrirDetailCombat(index);
+                });
+                detailContent.querySelectorAll('[data-vote]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const choix = this.dataset.vote;
+                        if (localStorage.getItem(`vote_${combatId}`)) return;
+                        localStorage.setItem(`vote_${combatId}`, choix);
+                        const p = JSON.parse(localStorage.getItem(`pronostics_${combatId}`) || '{"lutteur1":0,"lutteur2":0}');
+                        p[choix] = (p[choix] || 0) + 1;
+                        localStorage.setItem(`pronostics_${combatId}`, JSON.stringify(p));
+                        ouvrirDetailCombat(index);
+                    });
+                });
+                detailContent.querySelectorAll('[data-lutteur]').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        ouvrirFicheLutteur(this.dataset.lutteur);
+                    });
+                });
+                document.getElementById('detailPage').classList.add('open');
+                document.getElementById('detailPage').scrollTop = 0;
+            }
 
-            // ===== FICHE LUTTEUR =====
-            function ouvrirFicheLutteur(nom){ const d=state.lutteursData[nom]; if(!d)return; const histHTML=(d.historique&&d.historique.length)?d.historique.map(h=>{ const bc=h.resultat==='Victoire'?'victoire':h.resultat==='Défaite'?'defaite':'nul'; return `<div class="historique-item"><span class="historique-date">${h.date||''}</span><span class="historique-adversaire">vs ${h.adversaire||'Inconnu'}</span><span class="resultat-badge ${bc}">${h.resultat||'?'}</span>${h.details?`<span style="font-size:11px;color:var(--mist);width:100%;margin-top:4px;">${h.details}</span>`:''}</div>`; }).join(''):'<div style="text-align:center;color:var(--mist);padding:24px;">Aucun historique</div>'; let vidHTML=''; if(d.videoYoutube){ const vid=extraireIdYoutube(d.videoYoutube); if(vid) vidHTML=`<div class="detail-info"><div class="section-title">🎥 Compilation</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" allowfullscreen></iframe></div></div>`; } document.getElementById('detail-content').innerHTML=`<div class="fiche-sticky-nav"><div class="fiche-sticky-photo">${stickyAvatar(nom)}</div><div class="fiche-sticky-info"><div class="fiche-sticky-nom">${nom}</div><div class="fiche-sticky-ecurie">${d.ecurie||''}</div></div><button class="fiche-sticky-back" id="ficheBackBtn">←</button></div><div class="fiche-photo-full">${ficheAvatarLarge(nom)}<div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie||''}</p></div></div><div class="detail-info"><div class="section-title">📊 Statistiques</div><div class="stat-grid"><div class="stat-item"><div class="stat-value">${d.victoires||0}</div><div class="stat-label">Victoires</div></div><div class="stat-item"><div class="stat-value defeat">${d.defaites||0}</div><div class="stat-label">Défaites</div></div><div class="stat-item"><div class="stat-value draws">${d.nuls||0}</div><div class="stat-label">Nuls</div></div><div class="stat-item"><div class="stat-value">${d.combats||0}</div><div class="stat-label">Total</div></div></div></div><div class="detail-info"><div class="section-title">📋 Historique</div>${histHTML}</div>${vidHTML}<button class="btn-primary" id="ficheCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>`; document.getElementById('ficheBackBtn').addEventListener('click',fermerDetailPage); document.getElementById('ficheCloseBtn').addEventListener('click',fermerDetailPage); document.getElementById('detailPage').classList.add('open'); document.getElementById('detailPage').scrollTop=0; }
+            // --- Fiche lutteur ---
+            function ouvrirFicheLutteur(nom) {
+                const d = state.lutteursData[nom];
+                if (!d) return;
+                const historiqueHTML = (d.historique && d.historique.length) ? d.historique.map(h => {
+                    const bc = h.resultat === 'Victoire' ? 'victoire' : h.resultat === 'Défaite' ? 'defaite' : 'nul';
+                    return `<div class="historique-item"><span class="historique-date">${h.date||''}</span><span class="historique-adversaire">vs ${h.adversaire||'Inconnu'}</span><span class="resultat-badge ${bc}">${h.resultat||'?'}</span>${h.details ? `<span style="font-size:11px;color:var(--mist);width:100%;margin-top:4px;font-family:'Barlow Condensed',sans-serif;">${h.details}</span>` : ''}</div>`;
+                }).join('') : '<div style="text-align:center;color:var(--mist);padding:24px;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun historique</div>';
+                let videoHTML = '';
+                if (d.videoYoutube) {
+                    const vid = extraireIdYoutube(d.videoYoutube);
+                    if (vid) videoHTML = `<div class="detail-info"><div class="section-title">🎥 Compilation</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
+                }
+                document.getElementById('detail-content').innerHTML = `
+                    <div class="fiche-sticky-nav"><div class="fiche-sticky-photo">${stickyAvatar(nom)}</div><div class="fiche-sticky-info"><div class="fiche-sticky-nom">${nom}</div><div class="fiche-sticky-ecurie">${d.ecurie || ''}</div></div><button class="fiche-sticky-back" id="ficheBackBtn">←</button></div>
+                    <div class="fiche-photo-full">${ficheAvatarLarge(nom)}<div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie || ''}</p></div></div>
+                    <div class="detail-info"><div class="section-title">📊 Statistiques</div><div class="stat-grid"><div class="stat-item"><div class="stat-value">${d.victoires||0}</div><div class="stat-label">Victoires</div></div><div class="stat-item"><div class="stat-value defeat">${d.defaites||0}</div><div class="stat-label">Défaites</div></div><div class="stat-item"><div class="stat-value draws">${d.nuls||0}</div><div class="stat-label">Nuls</div></div><div class="stat-item"><div class="stat-value">${d.combats||0}</div><div class="stat-label">Total</div></div></div></div>
+                    <div class="detail-info"><div class="section-title">📋 Historique</div>${historiqueHTML}</div>
+                    ${videoHTML}
+                    <button class="btn-primary" id="ficheCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>
+                `;
+                document.getElementById('ficheBackBtn').addEventListener('click', fermerDetailPage);
+                document.getElementById('ficheCloseBtn').addEventListener('click', fermerDetailPage);
+                document.getElementById('detailPage').classList.add('open');
+                document.getElementById('detailPage').scrollTop = 0;
+            }
 
-            // ===== CHARGEMENT FIREBASE =====
-            function chargerDonneesFirebase(){ db.ref('combats').on('value',snap=>{ const d=snap.val(); state.areneData=d?Object.values(d):[]; afficherCombats(); mettreEnCache(); }); db.ref('lutteurs').on('value',snap=>{ state.lutteursData=snap.val()||{}; state.photos={}; for(const n in state.lutteursData) if(state.lutteursData[n].photo) state.photos[n]=DATA_BASE_URL+state.lutteursData[n].photo; try{localStorage.setItem('lutte_photos_cache',JSON.stringify(state.photos));}catch(e){} afficherLutteurs(); mettreEnCache(); }); db.ref('news').on('value',snap=>{ const d=snap.val(); state.newsData=d?Object.values(d):[]; afficherNews(); mettreEnCache(); }); db.ref('mbapatt').on('value',snap=>{ const d=snap.val(); state.mbapattData=d?Object.values(d):[]; afficherMbapatt(); mettreEnCache(); }); }
-            function mettreEnCache(){ try{localStorage.setItem('lutte_arena_cache',JSON.stringify({areneData:state.areneData,lutteursData:state.lutteursData,newsData:state.newsData,mbapattData:state.mbapattData}));}catch(e){} }
+            function fermerDetailPage() {
+                document.getElementById('detailPage').classList.remove('open');
+            }
 
-            // ===== NAVIGATION =====
-            function toggleDrawer(){ document.getElementById('drawer').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
-            function fermerDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-            function changerPage(p){ state.pageActive=p; document.querySelectorAll('#tabsNav .tab').forEach(t=>t.classList.toggle('active',t.dataset.page===p)); document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active-page')); const el=document.getElementById(`page-${p}`); if(el) el.classList.add('active-page'); fermerDrawer(); }
-            function ouvrirRecherche(){ document.getElementById('searchOverlay').classList.add('open'); document.getElementById('searchInputPopup').focus(); }
-            function fermerRecherche(){ document.getElementById('searchOverlay').classList.remove('open'); }
-            function rechercher(){ const t=document.getElementById('searchInputPopup').value.toLowerCase().trim(); const r=document.getElementById('searchResultsPopup'); if(!t){ r.innerHTML='<div style="padding:40px;text-align:center;color:rgba(255,255,255,.6);">🔍 Tapez pour rechercher…</div>'; return; } const rc=state.areneData.filter(c=>`${c.vedette.lutteur1} ${c.vedette.lutteur2} ${c.lieu}`.toLowerCase().includes(t)); const rl=Object.keys(state.lutteursData).filter(n=>n.toLowerCase().includes(t)); if(!rc.length&&!rl.length){ r.innerHTML='<div style="padding:40px;text-align:center;color:rgba(255,255,255,.6);">😕 Aucun résultat</div>'; return; } let h=''; rc.forEach(c=>{ const i=state.areneData.indexOf(c); h+=`<div class="search-result-item" data-combat="${i}"><div style="font-weight:700;">🥊 ${c.vedette.lutteur1} VS ${c.vedette.lutteur2}</div><div style="font-size:12px;color:var(--mist);">${formaterDate(c)} · ${c.lieu}</div></div>`; }); rl.forEach(n=>{ h+=`<div class="search-result-item" data-lutteur="${escapeHTML(n)}"><div style="font-weight:700;">👤 ${n}</div><div style="font-size:12px;color:var(--mist);">${state.lutteursData[n].ecurie||''}</div></div>`; }); r.innerHTML=h; }
-            function ouvrirCalendrier(){ const d=new Date(); const m=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']; const j=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi']; document.getElementById('calDateNum').textContent=d.getDate(); document.getElementById('calDateMonth').textContent=m[d.getMonth()]+' '+d.getFullYear(); document.getElementById('calDateDay').textContent=j[d.getDay()]; document.getElementById('calendarOverlay').style.display='flex'; }
-            function fermerCalendrier(){ document.getElementById('calendarOverlay').style.display='none'; }
-            function partagerCombat(c){ const t=`🔥 ${c.vedette.lutteur1} 🆚 ${c.vedette.lutteur2} le ${formaterDate(c)} à ${c.lieu}`; window.open(`https://wa.me/?text=${encodeURIComponent(t)}`,'_blank'); }
-            let adminTapCount=0; function ouvrirAdmin(){ adminTapCount++; if(adminTapCount>=5){ const p=prompt('Mot de passe administrateur :'); if(p===ADMIN_PASSWORD) window.location.href=DATA_BASE_URL+'admin/'; adminTapCount=0; } setTimeout(()=>{adminTapCount=0;},2000); }
-            function showContact(){ alert("📞 CONTACT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
-            function showPartenariat(){ alert("🤝 PARTENARIAT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
+            // --- Chargement Firebase + cache ---
+            function chargerDonneesFirebase() {
+                db.ref('combats').on('value', (snap) => {
+                    const data = snap.val();
+                    state.areneData = data ? Object.values(data) : [];
+                    afficherCombats();
+                    mettreEnCache();
+                });
+                db.ref('lutteurs').on('value', (snap) => {
+                    state.lutteursData = snap.val() || {};
+                    state.photos = {};
+                    for (const nom in state.lutteursData) {
+                        if (state.lutteursData[nom].photo) {
+                            state.photos[nom] = DATA_BASE_URL + state.lutteursData[nom].photo;
+                        }
+                    }
+                    try { localStorage.setItem('lutte_photos_cache', JSON.stringify(state.photos)); } catch (e) {}
+                    afficherLutteurs();
+                    mettreEnCache();
+                });
+                db.ref('news').on('value', (snap) => {
+                    const data = snap.val();
+                    state.newsData = data ? Object.values(data) : [];
+                    afficherNews();
+                    mettreEnCache();
+                });
+                db.ref('mbapatt').on('value', (snap) => {
+                    const data = snap.val();
+                    state.mbapattData = data ? Object.values(data) : [];
+                    afficherMbapatt();
+                    mettreEnCache();
+                });
+            }
 
-            // ===== INSTALL PWA =====
-            let deferredPrompt; const installBanner=document.getElementById('installBanner'); window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; if(!window.matchMedia('(display-mode: standalone)').matches) setTimeout(()=>installBanner.classList.add('show'),3000); }); window.addEventListener('appinstalled',()=>{ installBanner.classList.remove('show'); deferredPrompt=null; }); function installerApp(){ if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; installBanner.classList.remove('show'); }); } } function fermerBanniereInstall(){ installBanner.classList.remove('show'); }
+            function mettreEnCache() {
+                try {
+                    localStorage.setItem('lutte_arena_cache', JSON.stringify({
+                        areneData: state.areneData,
+                        lutteursData: state.lutteursData,
+                        newsData: state.newsData,
+                        mbapattData: state.mbapattData
+                    }));
+                } catch (e) {}
+            }
 
-            // ===== EVENTS =====
-            function setupEvents(){ document.getElementById('menuBtn').addEventListener('click',toggleDrawer); document.getElementById('overlay').addEventListener('click',fermerDrawer); document.querySelectorAll('.drawer-menu a[data-page]').forEach(l=>l.addEventListener('click',function(){ changerPage(this.dataset.page); })); document.querySelectorAll('#tabsNav .tab').forEach(t=>t.addEventListener('click',function(){ changerPage(this.dataset.page); })); document.getElementById('searchBtn').addEventListener('click',ouvrirRecherche); document.getElementById('calendarBtn').addEventListener('click',ouvrirCalendrier); document.getElementById('searchCloseBtn').addEventListener('click',fermerRecherche); document.getElementById('searchInputPopup').addEventListener('input',rechercher); document.getElementById('searchResultsPopup').addEventListener('click',function(e){ const it=e.target.closest('.search-result-item'); if(!it)return; fermerRecherche(); if(it.dataset.combat!==undefined){ changerPage('arene'); setTimeout(()=>ouvrirDetailCombat(parseInt(it.dataset.combat)),150); } else if(it.dataset.lutteur){ changerPage('lutteurs'); setTimeout(()=>ouvrirFicheLutteur(it.dataset.lutteur),150); } }); document.getElementById('calendarOverlay').addEventListener('click',fermerCalendrier); document.querySelector('.calendar-card').addEventListener('click',e=>e.stopPropagation()); document.getElementById('calendarCloseBtn').addEventListener('click',fermerCalendrier); document.getElementById('arene-container').addEventListener('click',function(e){ const card=e.target.closest('.combat-item-card'); if(card&&card.dataset.index!==undefined){ if(e.target.closest('.share-btn')||e.target.closest('.team-name')||e.target.closest('.petits-header')||e.target.closest('.petit-lutteur'))return; ouvrirDetailCombat(parseInt(card.dataset.index)); } const sb=e.target.closest('.share-btn'); if(sb&&sb.dataset.index!==undefined){ e.stopPropagation(); const i=parseInt(sb.dataset.index); if(state.areneData[i]) partagerCombat(state.areneData[i]); } const tn=e.target.closest('.team-name'); if(tn&&tn.dataset.lutteur){ e.stopPropagation(); ouvrirFicheLutteur(tn.dataset.lutteur); } const ph=e.target.closest('.petits-header'); if(ph&&ph.dataset.index!==undefined){ e.stopPropagation(); const i=parseInt(ph.dataset.index); const l=document.getElementById(`petits-list-${i}`); const a=document.getElementById(`arrow-${i}`); if(l){ l.classList.toggle('open'); if(a) a.classList.toggle('rotated'); } } const pl=e.target.closest('.petit-lutteur'); if(pl&&pl.dataset.lutteur){ e.stopPropagation(); ouvrirFicheLutteur(pl.dataset.lutteur); } }); document.getElementById('lutteurs-container').addEventListener('click',function(e){ const card=e.target.closest('.lutteur-card'); if(card&&card.dataset.lutteur) ouvrirFicheLutteur(card.dataset.lutteur); }); document.getElementById('news-container').addEventListener('click',function(e){ const btn=e.target.closest('.read-more'); if(btn){ const full=btn.previousElementSibling; if(full&&full.classList.contains('news-full')){ full.style.display='block'; btn.style.display='none'; } } }); document.getElementById('detailPage').addEventListener('click',function(e){ const el=e.target.closest('[data-lutteur]'); if(el&&el.dataset.lutteur){ e.stopPropagation(); ouvrirFicheLutteur(el.dataset.lutteur); } }); document.getElementById('adminLink').addEventListener('click',ouvrirAdmin); document.getElementById('contactMenuBtn').addEventListener('click',()=>{ fermerDrawer(); showContact(); }); document.getElementById('partenariatMenuBtn').addEventListener('click',()=>{ fermerDrawer(); showPartenariat(); }); document.getElementById('notifMenuBtn').addEventListener('click',()=>{ fermerDrawer(); demanderNotifications(); }); document.getElementById('installBtn').addEventListener('click',installerApp); document.getElementById('installBannerClose').addEventListener('click',fermerBanniereInstall); }
+            // --- Navigation ---
+            function toggleDrawer() {
+                document.getElementById('drawer').classList.toggle('open');
+                document.getElementById('overlay').classList.toggle('show');
+            }
+            function fermerDrawer() {
+                document.getElementById('drawer').classList.remove('open');
+                document.getElementById('overlay').classList.remove('show');
+            }
+            function changerPage(page) {
+                state.pageActive = page;
+                document.querySelectorAll('#tabsNav .tab').forEach(tab => tab.classList.toggle('active', tab.dataset.page === page));
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+                const pageEl = document.getElementById(`page-${page}`);
+                if (pageEl) pageEl.classList.add('active-page');
+                fermerDrawer();
+            }
 
-            // ===== INIT =====
-            async function init(){ chargerDonneesFirebase(); setupEvents(); await initPushNotifications(); }
-            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+            // --- Recherche & Calendrier ---
+            function ouvrirRecherche() {
+                document.getElementById('searchOverlay').classList.add('open');
+                document.getElementById('searchInputPopup').focus();
+            }
+            function fermerRecherche() {
+                document.getElementById('searchOverlay').classList.remove('open');
+            }
+            function rechercher() {
+                const terme = document.getElementById('searchInputPopup').value.toLowerCase().trim();
+                const results = document.getElementById('searchResultsPopup');
+                if (!terme) {
+                    results.innerHTML = '<div style="padding:40px;text-align:center;color:rgba(255,255,255,.6);font-family:Barlow Condensed,sans-serif;">🔍 Tapez pour rechercher…</div>';
+                    return;
+                }
+                const combatsTrouves = state.areneData.filter(c => `${c.vedette.lutteur1} ${c.vedette.lutteur2} ${c.lieu}`.toLowerCase().includes(terme));
+                const lutteursTrouves = Object.keys(state.lutteursData).filter(n => n.toLowerCase().includes(terme));
+                if (!combatsTrouves.length && !lutteursTrouves.length) {
+                    results.innerHTML = '<div style="padding:40px;text-align:center;color:rgba(255,255,255,.6);font-family:Barlow Condensed,sans-serif;">😕 Aucun résultat</div>';
+                    return;
+                }
+                let html = '';
+                combatsTrouves.forEach(c => {
+                    const idx = state.areneData.indexOf(c);
+                    html += `<div class="search-result-item" data-combat="${idx}"><div style="font-weight:700;font-family:'Barlow Condensed',sans-serif;">🥊 ${c.vedette.lutteur1} VS ${c.vedette.lutteur2}</div><div style="font-size:12px;color:var(--mist);">${formaterDate(c)} · ${c.lieu}</div></div>`;
+                });
+                lutteursTrouves.forEach(n => {
+                    html += `<div class="search-result-item" data-lutteur="${escapeHTML(n)}"><div style="font-weight:700;font-family:'Barlow Condensed',sans-serif;">👤 ${n}</div><div style="font-size:12px;color:var(--mist);">${state.lutteursData[n].ecurie||''}</div></div>`;
+                });
+                results.innerHTML = html;
+            }
+            function ouvrirCalendrier() {
+                const d = new Date();
+                const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+                const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+                document.getElementById('calDateNum').textContent = d.getDate();
+                document.getElementById('calDateMonth').textContent = mois[d.getMonth()] + ' ' + d.getFullYear();
+                document.getElementById('calDateDay').textContent = jours[d.getDay()];
+                document.getElementById('calendarOverlay').style.display = 'flex';
+            }
+            function fermerCalendrier() {
+                document.getElementById('calendarOverlay').style.display = 'none';
+            }
+
+            // --- Partage ---
+            function partagerCombat(combat) {
+                const texte = `🔥 ${combat.vedette.lutteur1} 🆚 ${combat.vedette.lutteur2} le ${formaterDate(combat)} à ${combat.lieu}`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(texte)}`, '_blank');
+            }
+
+            // --- Admin ---
+            let adminTapCount = 0;
+            function ouvrirAdmin() {
+                adminTapCount++;
+                if (adminTapCount >= 5) {
+                    const p = prompt('Mot de passe administrateur :');
+                    if (p === ADMIN_PASSWORD) window.location.href = DATA_BASE_URL + 'admin/';
+                    adminTapCount = 0;
+                }
+                setTimeout(() => { adminTapCount = 0; }, 2000);
+            }
+
+            // --- Contact ---
+            function showContact() { alert("📞 CONTACT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
+            function showPartenariat() { alert("🤝 PARTENARIAT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
+
+            // --- Installation PWA ---
+            let deferredPrompt;
+            const installBanner = document.getElementById('installBanner');
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (!window.matchMedia('(display-mode: standalone)').matches) {
+                    setTimeout(() => installBanner.classList.add('show'), 3000);
+                }
+            });
+            window.addEventListener('appinstalled', () => {
+                installBanner.classList.remove('show');
+                deferredPrompt = null;
+            });
+            function installerApp() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(() => {
+                        deferredPrompt = null;
+                        installBanner.classList.remove('show');
+                    });
+                }
+            }
+            function fermerBanniereInstall() {
+                installBanner.classList.remove('show');
+            }
+
+            // --- Événements globaux ---
+            function setupEvents() {
+                document.getElementById('menuBtn').addEventListener('click', toggleDrawer);
+                document.getElementById('overlay').addEventListener('click', fermerDrawer);
+                document.querySelectorAll('.drawer-menu a[data-page]').forEach(link => {
+                    link.addEventListener('click', function() { changerPage(this.dataset.page); });
+                });
+                document.querySelectorAll('#tabsNav .tab').forEach(tab => {
+                    tab.addEventListener('click', function() { changerPage(this.dataset.page); });
+                });
+                document.getElementById('searchBtn').addEventListener('click', ouvrirRecherche);
+                document.getElementById('calendarBtn').addEventListener('click', ouvrirCalendrier);
+                document.getElementById('searchCloseBtn').addEventListener('click', fermerRecherche);
+                document.getElementById('searchInputPopup').addEventListener('input', rechercher);
+                document.getElementById('searchResultsPopup').addEventListener('click', function(e) {
+                    const item = e.target.closest('.search-result-item');
+                    if (!item) return;
+                    fermerRecherche();
+                    if (item.dataset.combat !== undefined) {
+                        changerPage('arene');
+                        setTimeout(() => ouvrirDetailCombat(parseInt(item.dataset.combat)), 150);
+                    } else if (item.dataset.lutteur) {
+                        changerPage('lutteurs');
+                        setTimeout(() => ouvrirFicheLutteur(item.dataset.lutteur), 150);
+                    }
+                });
+                document.getElementById('calendarOverlay').addEventListener('click', fermerCalendrier);
+                document.getElementById('calendarOverlay').querySelector('.calendar-card').addEventListener('click', (e) => e.stopPropagation());
+                document.getElementById('calendarCloseBtn').addEventListener('click', fermerCalendrier);
+
+                // Délégation arène
+                document.getElementById('arene-container').addEventListener('click', function(e) {
+                    const card = e.target.closest('.combat-item-card');
+                    if (card && card.dataset.index !== undefined) {
+                        if (e.target.closest('.share-btn') || e.target.closest('.team-name') || e.target.closest('.petits-header') || e.target.closest('.petit-lutteur')) return;
+                        ouvrirDetailCombat(parseInt(card.dataset.index));
+                    }
+                    const shareBtn = e.target.closest('.share-btn');
+                    if (shareBtn && shareBtn.dataset.index !== undefined) {
+                        e.stopPropagation();
+                        const idx = parseInt(shareBtn.dataset.index);
+                        if (state.areneData[idx]) partagerCombat(state.areneData[idx]);
+                    }
+                    const teamName = e.target.closest('.team-name');
+                    if (teamName && teamName.dataset.lutteur) {
+                        e.stopPropagation();
+                        ouvrirFicheLutteur(teamName.dataset.lutteur);
+                    }
+                    const petitsHeader = e.target.closest('.petits-header');
+                    if (petitsHeader && petitsHeader.dataset.index !== undefined) {
+                        e.stopPropagation();
+                        const idx = parseInt(petitsHeader.dataset.index);
+                        const list = document.getElementById(`petits-list-${idx}`);
+                        const arrow = document.getElementById(`arrow-${idx}`);
+                        if (list) { list.classList.toggle('open'); if (arrow) arrow.classList.toggle('rotated'); }
+                    }
+                    const petitLutteur = e.target.closest('.petit-lutteur');
+                    if (petitLutteur && petitLutteur.dataset.lutteur) {
+                        e.stopPropagation();
+                        ouvrirFicheLutteur(petitLutteur.dataset.lutteur);
+                    }
+                });
+
+                document.getElementById('lutteurs-container').addEventListener('click', function(e) {
+                    const card = e.target.closest('.lutteur-card');
+                    if (card && card.dataset.lutteur) ouvrirFicheLutteur(card.dataset.lutteur);
+                });
+
+                document.getElementById('news-container').addEventListener('click', function(e) {
+                    const btn = e.target.closest('.read-more');
+                    if (btn) {
+                        const full = btn.previousElementSibling;
+                        if (full && full.classList.contains('news-full')) {
+                            full.style.display = 'block';
+                            btn.style.display = 'none';
+                        }
+                    }
+                });
+
+                document.getElementById('detailPage').addEventListener('click', function(e) {
+                    const lutteurEl = e.target.closest('[data-lutteur]');
+                    if (lutteurEl && lutteurEl.dataset.lutteur) {
+                        e.stopPropagation();
+                        ouvrirFicheLutteur(lutteurEl.dataset.lutteur);
+                    }
+                });
+
+                document.getElementById('adminLink').addEventListener('click', ouvrirAdmin);
+                document.getElementById('contactMenuBtn').addEventListener('click', () => { fermerDrawer(); showContact(); });
+                document.getElementById('partenariatMenuBtn').addEventListener('click', () => { fermerDrawer(); showPartenariat(); });
+                document.getElementById('notifMenuBtn').addEventListener('click', () => { fermerDrawer(); demanderNotifications(); });
+                document.getElementById('installBtn').addEventListener('click', installerApp);
+                document.getElementById('installBannerClose').addEventListener('click', fermerBanniereInstall);
+            }
+
+            // --- Démarrage ---
+            async function init() {
+                chargerDonneesFirebase();
+                setupEvents();
+
+                // Initialiser les notifications push (uniquement sur l'APK native)
+                initPushNotifications();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
         })();
     </script>
 </body>
