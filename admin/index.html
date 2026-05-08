@@ -356,6 +356,46 @@
         <button class="btn btn-outline" id="btnCancelMbapatt" onclick="annulerEditionMbapatt()" style="display:none;">❌ Annuler la modification</button>
     </div>
 
+    <!-- ==================== IMPORTATION EN MASSE ==================== -->
+    <div class="section">
+        <h2>📥 Importation en masse</h2>
+        <p style="color:var(--mist);font-size:13px;margin-bottom:12px;">
+            Collez vos données ci-dessous puis cliquez sur "Importer".<br>
+            <strong>Format combats :</strong> Lutteur1 | Lutteur2 | Date | Lieu | Écurie1 | Écurie2 | Type<br>
+            <strong>Format lutteurs :</strong> Nom | Écurie | Victoires | Défaites | Nuls | Total combats
+        </p>
+
+        <label>Type de données</label>
+        <select id="importType" onchange="toggleImportFormat()">
+            <option value="combats">🥊 Combats</option>
+            <option value="lutteurs">👤 Lutteurs</option>
+        </select>
+
+        <!-- Format Combats -->
+        <div id="importFormatCombats">
+            <label>Données des combats (1 par ligne)</label>
+            <textarea id="importDataCombats" placeholder="Balla Gaye | Bombardier | 2026-06-15 | Arène Nationale, Dakar | Écurie Gaye | Écurie Mbour | Combat classique
+Yékini | Lac de Guiers | 2026-07-20 | Stade Demba Diop, Dakar | Écurie Yékini | Écurie Guiers | Combat classique
+Modou Lô | Siteu | 2026-08-10 | Paris, France | Rock Énergie | Lansar | International" style="min-height:200px;"></textarea>
+        </div>
+
+        <!-- Format Lutteurs -->
+        <div id="importFormatLutteurs" style="display:none;">
+            <label>Données des lutteurs (1 par ligne)</label>
+            <textarea id="importDataLutteurs" placeholder="Balla Gaye 2 | Guediawaye | 23 | 7 | 0 | 30
+Modou Lô | Rock Énergie | 23 | 4 | 1 | 28
+Franc | Fass | 16 | 0 | 0 | 16
+Sa Thiès | Thiès | 16 | 3 | 0 | 19" style="min-height:200px;"></textarea>
+            <p style="color:var(--mist);font-size:12px;margin-top:4px;">
+                <strong>Format :</strong> Nom | Écurie | Victoires | Défaites | Nuls | Total combats
+            </p>
+        </div>
+
+        <button class="btn" onclick="importerEnMasse()" style="margin-top:12px;">📥 Importer les données</button>
+
+        <div id="importResult" style="margin-top:12px;"></div>
+    </div>
+
     <div class="logout-link"><a href="#" onclick="logout()">🔒 Se déconnecter</a></div>
 </div>
 
@@ -779,6 +819,108 @@ function editerMbapatt(id) {
 }
 
 /* ============================================================
+   IMPORTATION EN MASSE
+   ============================================================ */
+function toggleImportFormat() {
+    const type = document.getElementById('importType').value;
+    document.getElementById('importFormatCombats').style.display = (type === 'combats') ? 'block' : 'none';
+    document.getElementById('importFormatLutteurs').style.display = (type === 'lutteurs') ? 'block' : 'none';
+}
+
+function getJourSemaine(dateStr) {
+    if (!dateStr || dateStr.includes('??')) return 'Date à confirmer';
+    try {
+        const parts = dateStr.split('-');
+        const date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        return jours[date.getDay()];
+    } catch(e) {
+        return 'Date à confirmer';
+    }
+}
+
+async function importerEnMasse() {
+    const type = document.getElementById('importType').value;
+    const resultDiv = document.getElementById('importResult');
+    resultDiv.innerHTML = '<p style="color:var(--saffron);">⏳ Importation en cours...</p>';
+
+    try {
+        if (type === 'combats') {
+            const data = document.getElementById('importDataCombats').value.trim();
+            if (!data) { resultDiv.innerHTML = '<p style="color:#c0392b;">❌ Aucune donnée à importer</p>'; return; }
+
+            const lines = data.split('\n').filter(line => line.trim() !== '');
+            let imported = 0;
+
+            for (const line of lines) {
+                const parts = line.split('|').map(p => p.trim());
+                if (parts.length < 7) continue;
+
+                const combatData = {
+                    type: 'vedette',
+                    date: parts[2],
+                    jourSemaine: getJourSemaine(parts[2]),
+                    lieu: parts[3],
+                    estInternational: parts[6].toLowerCase().includes('international'),
+                    vedette: {
+                        lutteur1: parts[0],
+                        ecurie1: parts[4],
+                        lutteur2: parts[1],
+                        ecurie2: parts[5],
+                        type: parts[6] || 'Combat classique'
+                    },
+                    petitsCombats: [],
+                    vainqueur: '',
+                    videoYoutube: ''
+                };
+
+                const combatId = `combat_${Date.now()}_${imported}`;
+                await db.ref('combats/' + combatId).set(combatData);
+                imported++;
+            }
+
+            resultDiv.innerHTML = `<p style="color:#065f46;">✅ ${imported} combats importés avec succès !</p>`;
+
+        } else if (type === 'lutteurs') {
+            const data = document.getElementById('importDataLutteurs').value.trim();
+            if (!data) { resultDiv.innerHTML = '<p style="color:#c0392b;">❌ Aucune donnée à importer</p>'; return; }
+
+            const lines = data.split('\n').filter(line => line.trim() !== '');
+            let imported = 0;
+
+            for (const line of lines) {
+                const parts = line.split('|').map(p => p.trim());
+                if (parts.length < 6) continue;
+
+                const lutteurData = {
+                    ecurie: parts[1],
+                    victoires: parseInt(parts[2]) || 0,
+                    defaites: parseInt(parts[3]) || 0,
+                    nuls: parseInt(parts[4]) || 0,
+                    combats: parseInt(parts[5]) || 0,
+                    sansVerdict: 0,
+                    photo: '',
+                    videoYoutube: '',
+                    historique: []
+                };
+
+                const nom = parts[0].replace(/\//g, '_');
+                await db.ref('lutteurs/' + nom).set(lutteurData);
+                imported++;
+            }
+
+            resultDiv.innerHTML = `<p style="color:#065f46;">✅ ${imported} lutteurs importés avec succès !</p>`;
+        }
+    } catch (e) {
+        resultDiv.innerHTML = `<p style="color:#c0392b;">❌ Erreur : ${e.message}</p>`;
+    }
+
+    // Rafraîchir les listes
+    chargerCombats();
+    chargerLutteurs();
+}
+
+/* ============================================================
    INITIALISATION
    ============================================================ */
 function chargerTout() {
@@ -789,6 +931,7 @@ function chargerTout() {
 }
 
 toggleCombatForm();
+toggleImportFormat();
 </script>
 </body>
 </html>
