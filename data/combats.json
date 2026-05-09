@@ -1,227 +1,232 @@
-[
-    
-    {
-        "id": 2,
-        "date": "2026-04-26",
-        "jourSemaine": "Dimanche",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Liss Ndiago",
-            "lutteur2": "Diop 2",
-            "ecurie1": "Diamageune",
-            "ecurie2": "Yeumbeul",
-            "type": "Combat important"
-        },
-        "vainqueur": "Diop 2",
-        "videoYoutube": "https://youtu.be/rTUlVmEiP-A?si=gFNZGd761jMvldZw",
-        "petitsCombats": [
-            {
-                "lutteur1": "A confirmer",
-                "lutteur2": "A confirmer",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": false
+{
+  "combat_1": {
+    "date": "2026-04-26",
+    "jourSemaine": "Dimanche",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Liss Ndiago",
+      "photo1": "images/lutteurs/liss_ndiago.jpg",
+      "ecurie1": "Diamageune",
+      "lutteur2": "Diop 2",
+      "photo2": "images/lutteurs/diop_2.webp",
+      "ecurie2": "Yeumbeul",
+      "type": "Combat important"
     },
-    {
-        "id": 3,
-        "date": "2026-05-02",
-        "jourSemaine": "Samedi",
-        "lieu": "Paris, France",
-        "estInternational": true,
-        "vedette": {
-            "lutteur1": "Siteu",
-            "lutteur2": "Gris Bordeaux",
-            "ecurie1": "Lansar",
-            "ecurie2": "Fass",
-            "type": "Combat international"
-        },
-        "vainqueur": "Gris Bordeaux",
-        "videoYoutube": "https://youtu.be/eEoTFPYyNsk?si=AIfaP9k240dkCAN4",
-        "petitsCombats": [
-            {
-                "lutteur1": "Moussa Ndoye",
-                "lutteur2": "Gris 2",
-                "vainqueur": "",
-                "videoYoutube": ""
-            },
-            {
-                "lutteur1": "Bou Siteu",
-                "lutteur2": "Ousmane Toucouleur",
-                "vainqueur": "",
-                "videoYoutube": ""
-            },
-            {
-                "lutteur1": "Ordinateur",
-                "lutteur2": "Obeuly",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": true
-    },
-    {
-        "id": 4,
-        "date": "2026-06-07",
-        "jourSemaine": "Dimanche",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Reug Reug",
-            "lutteur2": "Boy Niang 2",
-            "ecurie1": "Thiaroye",
-            "ecurie2": "Pikine",
-            "type": "Combat vedette"
-        },
+    "vainqueur": "Diop 2",
+    "videoYoutube": "https://youtu.be/rTUlVmEiP-A?si=gFNZGd761jMvldZw",
+    "petitsCombats": [
+      {
+        "lutteur1": "A confirmer",
+        "lutteur2": "A confirmer",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "A confirmer",
-                "lutteur2": "A confirmer",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": true
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  },
+  "combat_2": {
+    "date": "2026-05-02",
+    "jourSemaine": "Samedi",
+    "lieu": "Paris, France",
+    "estInternational": true,
+    "vedette": {
+      "lutteur1": "Siteu",
+      "photo1": "images/lutteurs/siteu.jpg",
+      "ecurie1": "Lansar",
+      "lutteur2": "Gris Bordeaux",
+      "photo2": "images/lutteurs/Gris-Bordeaux-Fass.jpeg",
+      "ecurie2": "Fass",
+      "type": "Combat international"
     },
-    {
-        "id": 5,
-        "date": "2026-06-14",
-        "jourSemaine": "Dimanche",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Prince",
-            "lutteur2": "Lac 2",
-            "ecurie1": "Pikine",
-            "ecurie2": "Guediawaye",
-            "type": "Combat important"
-        },
+    "vainqueur": "Gris Bordeaux",
+    "videoYoutube": "https://youtu.be/eEoTFPYyNsk?si=AIfaP9k240dkCAN4",
+    "petitsCombats": [
+      {
+        "lutteur1": "Moussa Ndoye",
+        "lutteur2": "Gris 2",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "Fils de BM",
-                "lutteur2": "Diekh Diam",
-                "vainqueur": "",
-                "videoYoutube": ""
-            },
-            {
-                "lutteur1": "Fils de Mbaye Gueye",
-                "lutteur2": "Nandy Fall",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": false
+        "videoYoutube": ""
+      },
+      {
+        "lutteur1": "Bou Siteu",
+        "lutteur2": "Ousmane Toucouleur",
+        "vainqueur": "",
+        "videoYoutube": ""
+      },
+      {
+        "lutteur1": "Ordinateur",
+        "lutteur2": "Obeuly",
+        "vainqueur": "",
+        "videoYoutube": ""
+      }
+    ]
+  },
+  "combat_3": {
+    "date": "2026-06-07",
+    "jourSemaine": "Dimanche",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Reug Reug",
+      "photo1": "images/lutteurs/reugreug.jpg",
+      "ecurie1": "Thiaroye",
+      "lutteur2": "Boy Niang 2",
+      "photo2": "images/lutteurs/boy_niang_2.webp",
+      "ecurie2": "Pikine",
+      "type": "Combat vedette"
     },
-    {
-        "id": 6,
-        "date": "2026-06-27",
-        "jourSemaine": "Samedi",
-        "lieu": "Toronto, Canada",
-        "estInternational": true,
-        "vedette": {
-            "lutteur1": "Talfa",
-            "lutteur2": "Lac Rose",
-            "ecurie1": "A confirmer",
-            "ecurie2": "A confirmer",
-            "type": "Combat international"
-        },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "A confirmer",
+        "lutteur2": "A confirmer",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "Mbaye Gouy Gui",
-                "lutteur2": "Bakary Sakho",
-                "vainqueur": "",
-                "videoYoutube": ""
-            },
-            {
-                "lutteur1": "Pape Ndoye",
-                "lutteur2": "Sokh Bou Ndaw",
-                "vainqueur": "",
-                "videoYoutube": ""
-            },
-            {
-                "lutteur1": "Goro Sock",
-                "lutteur2": "Sokh",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": true
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  },
+  "combat_4": {
+    "date": "2026-06-14",
+    "jourSemaine": "Dimanche",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Prince",
+      "photo1": "images/lutteurs/prince.jpg",
+      "ecurie1": "Pikine",
+      "lutteur2": "Lac 2",
+      "photo2": "images/lutteurs/lac-2.webp",
+      "ecurie2": "Guediawaye",
+      "type": "Combat important"
     },
-    {
-        "id": 7,
-        "date": "2026-07-??",
-        "jourSemaine": "Juillet 2026",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Mbaye Gouy Gui",
-            "lutteur2": "Niang Mballo",
-            "ecurie1": "Baol",
-            "ecurie2": "Parcelle",
-            "type": "Combat important"
-        },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "Fils de BM",
+        "lutteur2": "Diekh Diam",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "A confirmer",
-                "lutteur2": "A confirmer",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": false
+        "videoYoutube": ""
+      },
+      {
+        "lutteur1": "Fils de Mbaye Gueye",
+        "lutteur2": "Nandy Fall",
+        "vainqueur": "",
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  },
+  "combat_5": {
+    "date": "2026-06-27",
+    "jourSemaine": "Samedi",
+    "lieu": "Toronto, Canada",
+    "estInternational": true,
+    "vedette": {
+      "lutteur1": "Talfa",
+      "photo1": "images/lutteurs/talfa.jpg",
+      "ecurie1": "",
+      "lutteur2": "Lac Rose",
+      "photo2": "images/lutteurs/lacrose.jpg",
+      "ecurie2": "",
+      "type": "Combat international"
     },
-    {
-        "id": 8,
-        "date": "2026-08-??",
-        "jourSemaine": "Août 2026",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Balla Gaye 2",
-            "lutteur2": "Secret",
-            "ecurie1": "Guediawaye",
-            "ecurie2": "A confirmer",
-            "type": "Super combat"
-        },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "Mbaye Gouy Gui",
+        "lutteur2": "Bakary Sakho",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "A confirmer",
-                "lutteur2": "A confirmer",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": true
+        "videoYoutube": ""
+      },
+      {
+        "lutteur1": "Pape Ndoye",
+        "lutteur2": "Sokh Bou Ndaw",
+        "vainqueur": "",
+        "videoYoutube": ""
+      },
+      {
+        "lutteur1": "Goro Sock",
+        "lutteur2": "Sokh",
+        "vainqueur": "",
+        "videoYoutube": ""
+      }
+    ]
+  },
+  "combat_6": {
+    "date": "2026-07-??",
+    "jourSemaine": "Juillet 2026",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Mbaye Gouy Gui",
+      "photo1": "images/lutteurs/mbaye-gouye-gui.jpg",
+      "ecurie1": "Baol",
+      "lutteur2": "Niang Mballo",
+      "photo2": "images/lutteurs/niang_mballo.webp",
+      "ecurie2": "Parcelle",
+      "type": "Combat important"
     },
-    {
-        "id": 9,
-        "date": "2026-05-10",
-        "jourSemaine": "Dimanche",
-        "lieu": "Arène Nationale",
-        "vedette": {
-            "lutteur1": "Zarco",
-            "lutteur2": "BB Diene",
-            "ecurie1": "",
-            "ecurie2": "",
-            "type": "Combat important"
-        },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "A confirmer",
+        "lutteur2": "A confirmer",
         "vainqueur": "",
-        "videoYoutube": "",
-        "petitsCombats": [
-            {
-                "lutteur1": "Diol Walo",
-                "lutteur2": "Boy Sadio",
-                "vainqueur": "",
-                "videoYoutube": ""
-            }
-        ],
-        "estGrandCombat": false
-    }
-]
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  },
+  "combat_7": {
+    "date": "2026-08-??",
+    "jourSemaine": "Août 2026",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Balla Gaye 2",
+      "photo1": "images/lutteurs/balla_gaye_2.jpeg",
+      "ecurie1": "Guediawaye",
+      "lutteur2": "Secret",
+      "photo2": "",
+      "ecurie2": "",
+      "type": "Super combat"
+    },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "A confirmer",
+        "lutteur2": "A confirmer",
+        "vainqueur": "",
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  },
+  "combat_8": {
+    "date": "2026-05-10",
+    "jourSemaine": "Dimanche",
+    "lieu": "Arène Nationale",
+    "vedette": {
+      "lutteur1": "Zarco",
+      "photo1": "images/lutteurs/zarko.webp",
+      "ecurie1": "",
+      "lutteur2": "BB Diene",
+      "photo2": "images/lutteurs/bebe diene zarco.jpg",
+      "ecurie2": "",
+      "type": "Combat important"
+    },
+    "vainqueur": "",
+    "videoYoutube": "",
+    "petitsCombats": [
+      {
+        "lutteur1": "Diol Walo",
+        "lutteur2": "Boy Sadio",
+        "vainqueur": "",
+        "videoYoutube": ""
+      }
+    ],
+    "estInternational": false
+  }
+}
