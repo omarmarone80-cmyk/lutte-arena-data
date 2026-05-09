@@ -6,7 +6,7 @@
     "sansVerdict": 0,
     "combats": 28,
     "ecurie": "Rock Énergie",
-    "photo": "images/lutteurs/Modou Lo.webp",
+    "photo": "photos/Modou Lo.webp",
     "videoYoutube": "https://youtu.be/pmu1ZcA0SPA?si=VuYSPflnKtq-I7qU",
     "historique": [
       {"adversaire": "Pape Sène", "resultat": "Victoire"},
@@ -46,7 +46,7 @@
     "sansVerdict": 0,
     "combats": 30,
     "ecurie": "Guediawaye",
-    "photo": "images/lutteurs/balla_gaye_2.jpeg",
+    "photo": "photos/balla_gaye_2.jpeg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Samba Laobé", "resultat": "Victoire"},
@@ -88,7 +88,7 @@
     "sansVerdict": 0,
     "combats": 16,
     "ecurie": "Fass",
-    "photo": "images/lutteurs/franc.webp",
+    "photo": "photos/franc.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Gueidje Bamboulane", "resultat": "Victoire"},
@@ -116,7 +116,7 @@
     "sansVerdict": 0,
     "combats": 19,
     "ecurie": "Thiès",
-    "photo": "images/lutteurs/sa-thies.jpg",
+    "photo": "photos/sa-thies.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Boy Diouf", "resultat": "Victoire"},
@@ -147,7 +147,7 @@
     "sansVerdict": 2,
     "combats": 18,
     "ecurie": "Thiaroye",
-    "photo": "images/lutteurs/reugreug.jpg",
+    "photo": "photos/reugreug.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Inconnu", "resultat": "Victoire"},
@@ -177,7 +177,7 @@
     "sansVerdict": 0,
     "combats": 18,
     "ecurie": "Pikine",
-    "photo": "images/lutteurs/amabalde_1.webp",
+    "photo": "photos/amabalde_1.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Oussou Ndiaye", "resultat": "Victoire"},
@@ -207,7 +207,7 @@
     "sansVerdict": 0,
     "combats": 19,
     "ecurie": "Pikine",
-    "photo": "images/lutteurs/boy_niang_2.webp",
+    "photo": "photos/boy_niang_2.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Akon", "resultat": "Victoire"},
@@ -238,7 +238,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "Fass Benno",
-    "photo": "images/lutteurs/ada_fass.png",
+    "photo": "photos/ada_fass.png",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Ardo", "resultat": "Victoire"},
@@ -266,7 +266,7 @@
     "sansVerdict": 0,
     "combats": 14,
     "ecurie": "Yeumbeul",
-    "photo": "images/lutteurs/diop_2.webp",
+    "photo": "photos/diop_2.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Cheikh Walo", "resultat": "Victoire"},
@@ -292,7 +292,7 @@
     "sansVerdict": 1,
     "combats": 20,
     "ecurie": "Lansar",
-    "photo": "images/lutteurs/siteu.jpg",
+    "photo": "photos/siteu.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Mbaye", "resultat": "Victoire"},
@@ -323,7 +323,7 @@
     "sansVerdict": 0,
     "combats": 26,
     "ecurie": "Tysinger",
-    "photo": "images/lutteurs/eumeu_sene.webp",
+    "photo": "photos/eumeu_sene.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Ouza Sow", "resultat": "Victoire"},
@@ -361,7 +361,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "Diamageune",
-    "photo": "images/lutteurs/liss_ndiago.jpg",
+    "photo": "photos/liss_ndiago.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Boy Paul", "resultat": "Victoire"},
@@ -388,7 +388,7 @@
     "sansVerdict": 0,
     "combats": 10,
     "ecurie": "Pikine",
-    "photo": "images/lutteurs/prince.jpg",
+    "photo": "photos/prince.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Lac 2", "resultat": "Défaite"},
@@ -410,7 +410,7 @@
     "sansVerdict": 2,
     "combats": 25,
     "ecurie": "Fass",
-    "photo": "images/lutteurs/Gris-Bordeaux-Fass.jpeg",
+    "photo": "photos/Gris-Bordeaux-Fass.jpeg",
     "videoYoutube": "",
     "historique": []
   },
@@ -421,7 +421,7 @@
     "sansVerdict": 0,
     "combats": 18,
     "ecurie": "Baol",
-    "photo": "images/lutteurs/mbaye-gouye-gui.jpg",
+    "photo": "photos/mbaye-gouye-gui.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -432,7 +432,7 @@
     "sansVerdict": 0,
     "combats": 10,
     "ecurie": "Parcelle",
-    "photo": "images/lutteurs/niang_mballo.webp",
+    "photo": "photos/niang_mballo.webp",
     "videoYoutube": "",
     "historique": []
   },
@@ -443,7 +443,7 @@
     "sansVerdict": 1,
     "combats": 21,
     "ecurie": "Guediawaye",
-    "photo": "images/lutteurs/lac-2.webp",
+    "photo": "photos/lac-2.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Mansour Diop 2", "resultat": "Victoire"},
@@ -475,7 +475,7 @@
     "sansVerdict": 0,
     "combats": 19,
     "ecurie": "",
-    "photo": "images/lutteurs/moussa_ndoye.jpg",
+    "photo": "photos/moussa_ndoye.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -486,7 +486,7 @@
     "sansVerdict": 0,
     "combats": 11,
     "ecurie": "Fass",
-    "photo": "images/lutteurs/gris2.jpg",
+    "photo": "photos/gris2.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -497,7 +497,7 @@
     "sansVerdict": 1,
     "combats": 16,
     "ecurie": "",
-    "photo": "images/lutteurs/bousiteu.jpg",
+    "photo": "photos/bousiteu.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -508,7 +508,7 @@
     "sansVerdict": 0,
     "combats": 0,
     "ecurie": "",
-    "photo": "images/lutteurs/ousmane_toucouleur.jpg",
+    "photo": "photos/ousmane_toucouleur.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -519,7 +519,7 @@
     "sansVerdict": 0,
     "combats": 5,
     "ecurie": "",
-    "photo": "images/lutteurs/ordinateur.jpg",
+    "photo": "photos/ordinateur.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -530,7 +530,7 @@
     "sansVerdict": 0,
     "combats": 0,
     "ecurie": "",
-    "photo": "images/lutteurs/obeuly.jpg",
+    "photo": "photos/obeuly.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -541,7 +541,7 @@
     "sansVerdict": 0,
     "combats": 10,
     "ecurie": "",
-    "photo": "images/lutteurs/talfa.jpg",
+    "photo": "photos/talfa.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Sokh Bou Ndaw", "resultat": "Victoire"},
@@ -562,7 +562,7 @@
     "sansVerdict": 0,
     "combats": 18,
     "ecurie": "",
-    "photo": "images/lutteurs/lacrose.jpg",
+    "photo": "photos/lacrose.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -573,7 +573,7 @@
     "sansVerdict": 0,
     "combats": 1,
     "ecurie": "",
-    "photo": "images/lutteurs/bakarysakho.jpg",
+    "photo": "photos/bakarysakho.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -584,7 +584,7 @@
     "sansVerdict": 0,
     "combats": 0,
     "ecurie": "",
-    "photo": "images/lutteurs/papendoye.jpg",
+    "photo": "photos/papendoye.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -595,7 +595,7 @@
     "sansVerdict": 0,
     "combats": 0,
     "ecurie": "Falaye",
-    "photo": "images/lutteurs/sokhboundaw.jpg",
+    "photo": "photos/sokhboundaw.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -606,7 +606,7 @@
     "sansVerdict": 0,
     "combats": 13,
     "ecurie": "",
-    "photo": "images/lutteurs/gorasokh.jpg",
+    "photo": "photos/gorasokh.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -617,7 +617,7 @@
     "sansVerdict": 0,
     "combats": 18,
     "ecurie": "",
-    "photo": "images/lutteurs/sokh.png",
+    "photo": "photos/sokh.png",
     "videoYoutube": "",
     "historique": []
   },
@@ -639,7 +639,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "",
-    "photo": "images/lutteurs/zarko.webp",
+    "photo": "photos/zarko.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Ada Fass", "resultat": "Victoire"},
@@ -667,7 +667,7 @@
     "sansVerdict": 0,
     "combats": 11,
     "ecurie": "",
-    "photo": "images/lutteurs/bebe diene zarco.jpg",
+    "photo": "photos/bebe diene zarco.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Gackou 2", "resultat": "Victoire"},
@@ -689,7 +689,7 @@
     "sansVerdict": 0,
     "combats": 10,
     "ecurie": "",
-    "photo": "images/lutteurs/fils de BM.jfif",
+    "photo": "photos/fils de BM.jfif",
     "videoYoutube": "",
     "historique": []
   },
@@ -700,7 +700,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/diekh-diam.jpg",
+    "photo": "photos/diekh-diam.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -711,7 +711,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/fils de mbaye gueye.jpg",
+    "photo": "photos/fils de mbaye gueye.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -722,7 +722,7 @@
     "sansVerdict": 0,
     "combats": 26,
     "ecurie": "",
-    "photo": "images/lutteurs/ndandy-fall-1.jpg",
+    "photo": "photos/ndandy-fall-1.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -733,7 +733,7 @@
     "sansVerdict": 0,
     "combats": 4,
     "ecurie": "",
-    "photo": "images/lutteurs/diol walo.jfif",
+    "photo": "photos/diol walo.jfif",
     "videoYoutube": "",
     "historique": []
   },
@@ -744,7 +744,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/boy_sadio.jpg",
+    "photo": "photos/boy_sadio.jpg",
     "videoYoutube": "",
     "historique": []
   },
@@ -755,7 +755,7 @@
     "sansVerdict": 0,
     "combats": 24,
     "ecurie": "",
-    "photo": "images/lutteurs/thiatou yoff.jfif",
+    "photo": "photos/thiatou yoff.jfif",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Buldozer", "resultat": "Victoire"},
@@ -791,7 +791,7 @@
     "sansVerdict": 0,
     "combats": 13,
     "ecurie": "",
-    "photo": "images/lutteurs/Thiatou-Daouda-Fall.webp",
+    "photo": "photos/Thiatou-Daouda-Fall.webp",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Domou Yoff", "resultat": "Victoire"},
@@ -816,7 +816,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/petit lo.jpg",
+    "photo": "photos/petit lo.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Brise de Mer 2", "resultat": "Victoire"},
@@ -836,7 +836,7 @@
     "sansVerdict": 0,
     "combats": 11,
     "ecurie": "",
-    "photo": "images/lutteurs/niang bou ndaw.jpeg",
+    "photo": "photos/niang bou ndaw.jpeg",
     "videoYoutube": "",
     "historique": []
   },
@@ -847,7 +847,7 @@
     "sansVerdict": 0,
     "combats": 12,
     "ecurie": "",
-    "photo": "images/lutteurs/doudou sane.jpeg",
+    "photo": "photos/doudou sane.jpeg",
     "videoYoutube": "",
     "historique": []
   },
@@ -858,7 +858,7 @@
     "sansVerdict": 0,
     "combats": 16,
     "ecurie": "",
-    "photo": "images/lutteurs/mor kangkang.jfif",
+    "photo": "photos/mor kangkang.jfif",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Diop 2", "resultat": "Victoire"},
@@ -883,7 +883,7 @@
     "sansVerdict": 0,
     "combats": 21,
     "ecurie": "Balla Gaye",
-    "photo": "images/lutteurs/youssou ndour.jfif",
+    "photo": "photos/youssou ndour.jfif",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Talfa", "resultat": "Victoire"},
@@ -915,7 +915,7 @@
     "sansVerdict": 0,
     "combats": 17,
     "ecurie": "",
-    "photo": "images/lutteurs/quench boy.jfif",
+    "photo": "photos/quench boy.jfif",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Lac Rose", "resultat": "Victoire"},
@@ -944,7 +944,7 @@
     "sansVerdict": 0,
     "combats": 24,
     "ecurie": "Songane Guèye",
-    "photo": "images/lutteurs/domou ndangou.jpg",
+    "photo": "photos/domou ndangou.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Youssou Ndour", "resultat": "Victoire"},
@@ -980,7 +980,7 @@
     "sansVerdict": 0,
     "combats": 7,
     "ecurie": "Boy Niang",
-    "photo": "images/lutteurs/zambala.jpg",
+    "photo": "photos/zambala.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Boy Faye", "resultat": "Victoire"},
@@ -999,7 +999,7 @@
     "sansVerdict": 0,
     "combats": 13,
     "ecurie": "Grand Médine",
-    "photo": "images/lutteurs/tapha mbeur.jfif",
+    "photo": "photos/tapha mbeur.jfif",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Siteu Bou Gor", "resultat": "Victoire"},
@@ -1024,7 +1024,7 @@
     "sansVerdict": 0,
     "combats": 21,
     "ecurie": "Baol",
-    "photo": "images/lutteurs/tapha-tine.jpg",
+    "photo": "photos/tapha-tine.jpg",
     "videoYoutube": "",
     "historique": [
       {"adversaire": "Eumeu Sene", "resultat": "Victoire"},

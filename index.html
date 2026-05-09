@@ -10,11 +10,9 @@
     <meta name="theme-color" content="#0b3d2e">
     <meta name="description" content="Lutte SN - L'Arène des Champions - Calendrier 2026">
     <title>Lutte SN · L'Arène des Champions</title>
-    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <style>
@@ -33,6 +31,11 @@
             --sh-gold:0 6px 24px rgba(245,166,35,0.30);
             --r-sm: 10px; --r-md: 18px; --r-lg: 26px; --r-xl: 36px;
             --safe-top: env(safe-area-inset-top, 0px); --safe-bot: env(safe-area-inset-bottom, 0px);
+
+            --photo-border: 3px solid rgba(255,255,255,0.9);
+            --photo-shadow: 0 4px 20px rgba(11,61,46,0.18), 0 0 0 2px rgba(245,166,35,0.25);
+            --photo-bg: linear-gradient(135deg, #e8f4ef 0%, #d4eae1 100%);
+            --photo-bg-dark: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
         }
         *,*::before,*::after{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
         body{
@@ -47,6 +50,7 @@
         @keyframes spin{ to{transform:rotate(360deg)} }
         @keyframes shimmer{ 0%{background-position:-600px 0} 100%{background-position:600px 0} }
         @keyframes flameDance{ 0%,100%{transform:scaleY(1) skewX(0deg)} 50%{transform:scaleY(1.04) skewX(1.5deg)} }
+        @keyframes photoReveal{ from{opacity:0;transform:scale(0.92)} to{opacity:1;transform:scale(1)} }
 
         body::before{
             content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
@@ -54,7 +58,6 @@
             opacity:0.6;
         }
 
-        /* Composants réutilisés */
         .refresh-indicator{position:fixed;top:0;left:0;width:100%;height:0;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;transition:height .3s;overflow:hidden;z-index:500;padding-top:var(--safe-top);}
         .refresh-indicator.active{height:calc(56px + var(--safe-top));}
         .refresh-spinner{width:20px;height:20px;border:3px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin-right:10px;}
@@ -99,8 +102,307 @@
         .page{display:none;animation:slideUp .4s ease-out;}
         .page.active-page{display:block;}
 
-        /* Cartes de combat */
-        .combat-list{padding:0 0 8px;}
+        /* ============================================================
+           PHOTOS AMÉLIORÉES — plus claires, centrées, mises en valeur
+        ============================================================ */
+
+        /* Photo team (carte de combat principale) */
+        .team-photo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--photo-bg);
+            border: 3px solid white;
+            box-shadow: var(--photo-shadow);
+            position: relative;
+            margin: 0 auto;
+            flex-shrink: 0;
+            transition: all 0.35s cubic-bezier(.34,1.56,.64,1);
+        }
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            animation: photoReveal 0.4s ease-out;
+        }
+        .team-photo:active {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(11,61,46,0.28), 0 0 0 3px var(--saffron);
+        }
+
+        /* Encadrement doré autour des photos de la vedette */
+        .combat-teams .team:first-child .team-photo {
+            border-color: #fff;
+            box-shadow: 0 4px 20px rgba(11,61,46,0.18), 0 0 0 3px rgba(245,166,35,0.35);
+        }
+        .combat-teams .team:last-child .team-photo {
+            border-color: #fff;
+            box-shadow: 0 4px 20px rgba(232,69,10,0.18), 0 0 0 3px rgba(232,69,10,0.25);
+        }
+
+        /* Zone team centrée */
+        .combat-teams {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .team {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        /* Nom et écurie centrés */
+        .team-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            text-align: center;
+            cursor: pointer;
+            letter-spacing: .3px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            transition: all .2s;
+            line-height: 1.2;
+            color: var(--ink);
+        }
+        .team-name:active { color: var(--forest-lite); background: var(--sand); }
+        .team-ecurie {
+            font-size: 11px;
+            color: var(--forest-lite);
+            font-weight: 700;
+            font-family: 'Barlow Condensed', sans-serif;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: -6px;
+        }
+
+        /* Silhouette avatar améliorée — fond dégradé pastel */
+        .avatar-silhouette {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #e2f0eb, #c8e0d5);
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-silhouette svg { width: 58%; height: 58%; opacity: 0.55; }
+        .avatar-silhouette.dark {
+            background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+        }
+        .avatar-silhouette.dark svg { opacity: 0.6; }
+
+        /* Petite photo (petits combats) */
+        .petit-photo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--photo-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2.5px solid white;
+            box-shadow: 0 2px 10px rgba(11,61,46,0.15), 0 0 0 1.5px rgba(245,166,35,0.2);
+        }
+        .petit-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+        /* Photo dans la liste lutteurs */
+        .lutteur-photo-card {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: var(--photo-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 3px solid white;
+            box-shadow: 0 4px 18px rgba(11,61,46,0.16), 0 0 0 2px rgba(245,166,35,0.2);
+        }
+        .lutteur-photo-card img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+        /* Photo dans la page détail combat */
+        .detail-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--photo-bg-dark);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3.5px solid rgba(255,255,255,0.85);
+            box-shadow: 0 8px 36px rgba(0,0,0,.3), 0 0 0 3px rgba(245,166,35,0.3);
+        }
+        .detail-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+        /* Grande photo fiche lutteur - bannière pleine largeur */
+        .fiche-photo-full {
+            width: 100%;
+            height: 320px;
+            position: relative;
+            overflow: hidden;
+        }
+        .fiche-photo-full img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        .fiche-photo-fallback {
+            width: 100%;
+            height: 100%;
+            background: var(--grad-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Overlay dégradé en bas pour lisibilité du texte */
+        .fiche-photo-full::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.6));
+            z-index: 2;
+            pointer-events: none;
+        }
+        .fiche-nom-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 3;
+        }
+        .fiche-nom-overlay h2 {
+            font-family:'Bebas Neue',sans-serif;
+            font-size:30px;
+            letter-spacing:2px;
+            color:#fff;
+            text-shadow:0 2px 12px rgba(0,0,0,.4);
+        }
+        .fiche-nom-overlay p {
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:14px;
+            font-weight:700;
+            letter-spacing:2px;
+            text-transform:uppercase;
+            color:var(--saffron);
+            margin-top:4px;
+        }
+
+        /* Photo sticky nav fiche */
+        .fiche-sticky-photo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2.5px solid rgba(255,255,255,.5);
+            overflow: hidden;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,.15);
+            box-shadow: 0 2px 12px rgba(0,0,0,.25);
+        }
+        .fiche-sticky-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+        /* ============================================================
+           CARTE DE COMBAT — zone team améliorée avec fond dégradé léger
+        ============================================================ */
+        .combat-teams-wrapper {
+            background: linear-gradient(180deg, rgba(11,61,46,0.03) 0%, rgba(245,166,35,0.04) 100%);
+            border-radius: 16px;
+            padding: 18px 10px 14px;
+            margin: 0 -4px;
+        }
+
+        /* ============================================================
+           TOGGLE PETITS COMBATS — FIX + design amélioré
+        ============================================================ */
+        .petits-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            cursor: pointer;
+            border-top: 1.5px solid var(--border-col);
+            background: linear-gradient(90deg, #f5f9f6, var(--sand));
+            transition: background .2s;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .petits-header:active { background: var(--border-col); }
+        .petits-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .petits-count {
+            background: var(--forest-mid);
+            color: #fff;
+            border-radius: 20px;
+            padding: 2px 9px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .toggle-arrow {
+            font-size: 16px;
+            color: var(--saffron);
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+            display: inline-block;
+            line-height: 1;
+        }
+        .toggle-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .petits-combats-list {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            background: var(--chalk);
+            transition: max-height 0.4s cubic-bezier(.4,0,.2,1), padding 0.3s;
+        }
+        .petits-combats-list.open {
+            max-height: 2000px;
+            padding: 0 16px 16px;
+        }
+
+        /* ============================================================
+           RESTE DES STYLES
+        ============================================================ */
         .combat-item-card{background:var(--chalk);margin:0 14px 18px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border-col);box-shadow:var(--sh-md);transition:all .3s;animation:slideUp .5s ease-out backwards;}
         .combat-item-card:active{transform:translateY(-3px);box-shadow:var(--sh-lg);}
         .card-accent-bar{height:4px;background:var(--grad-fire);}
@@ -116,40 +418,19 @@
         .share-btn{background:var(--sand);border:none;cursor:pointer;padding:8px 12px;border-radius:12px;font-size:16px;color:var(--mist);transition:all .2s;}
         .share-btn:active{background:var(--border-col);transform:scale(.9);}
         .combat-lieu{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--mist);letter-spacing:.3px;background:var(--sand);padding:5px 12px;border-radius:20px;margin-bottom:18px;}
-        .combat-teams{display:flex;align-items:center;justify-content:space-between;gap:12px;}
-        .team{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;}
-        .team-photo{width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid var(--chalk);box-shadow:var(--sh-md);background:#edf2ef;position:relative;transition:all .3s;}
-        .team-photo::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:3px solid var(--saffron);opacity:0;transition:opacity .3s;}
-        .team-photo:active::after{opacity:1;}
-        .team-photo img{width:100%;height:100%;object-fit:cover;}
-        .team-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-align:center;cursor:pointer;letter-spacing:.3px;padding:4px 8px;border-radius:8px;transition:all .2s;}
-        .team-name:active{color:var(--forest-lite);background:var(--sand);}
-        .team-ecurie{font-size:11px;color:var(--forest-lite);font-weight:600;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;text-transform:uppercase;}
-        .vs-badge{width:52px;height:52px;border-radius:50%;background:var(--grad-fire);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:#fff;box-shadow:var(--sh-fire);flex-shrink:0;animation:flameDance 3s ease-in-out infinite;}
+        .vs-badge{width:56px;height:56px;border-radius:50%;background:var(--grad-fire);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:#fff;box-shadow:var(--sh-fire);flex-shrink:0;animation:flameDance 3s ease-in-out infinite;margin-top:6px;}
         .winner-badge{display:inline-flex;align-items:center;gap:6px;background:var(--grad-gold);color:#fff;padding:7px 18px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px;margin-top:14px;box-shadow:var(--sh-gold);}
         .petit-winner-badge{background:#fef3c7;color:#b45309;padding:3px 12px;border-radius:12px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;}
 
-        /* Petits combats */
-        .petits-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;border-top:1.5px solid var(--border-col);background:var(--sand);transition:background .2s;}
-        .petits-header:active{background:var(--border-col);}
-        .petits-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--mist);text-transform:uppercase;display:flex;align-items:center;gap:8px;letter-spacing:1.5px;}
-        .petits-count{background:var(--forest-mid);color:#fff;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;}
-        .toggle-arrow{font-size:14px;color:var(--saffron);transition:transform .3s;}
-        .toggle-arrow.rotated{transform:rotate(180deg);}
-        .petits-combats-list{padding:0 16px 16px;display:none;background:var(--chalk);}
-        .petits-combats-list.open{display:block;animation:slideUp .3s ease-out;}
         .petit-combat-row{display:flex;align-items:center;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--border-col);gap:8px;}
         .petit-combat-row:last-child{border-bottom:none;}
         .petit-lutteur{display:flex;align-items:center;gap:8px;flex:1;cursor:pointer;padding:6px 8px;border-radius:10px;transition:all .2s;min-width:0;}
         .petit-lutteur:active{background:var(--sand);}
-        .petit-photo{width:38px;height:38px;border-radius:50%;background:#edf2ef;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:2px solid var(--chalk);box-shadow:var(--sh-sm);}
-        .petit-photo img{width:100%;height:100%;object-fit:cover;}
         .petit-nom{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.2px;}
         .petit-vs{background:var(--forest);color:var(--saffron);padding:4px 12px;border-radius:20px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;flex-shrink:0;}
         .petit-video-wrapper{display:block;margin-top:10px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;background:#000;width:100%;}
         .petit-video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;}
 
-        /* Page détail */
         .detail-page{position:fixed;inset:0;background:var(--sand);z-index:1000;overflow-y:auto;transform:translateX(105%);transition:transform .4s cubic-bezier(.25,.8,.25,1);padding-top:var(--safe-top);}
         .detail-page.open{transform:none;}
         .detail-hero{background:var(--grad-dark);padding:20px 20px 32px;position:relative;overflow:hidden;}
@@ -159,8 +440,6 @@
         .detail-combatants{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;padding:0 8px;}
         .detail-team{flex:1;text-align:center;cursor:pointer;transition:all .3s;}
         .detail-team:active{transform:scale(.95);}
-        .detail-photo{width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.15);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:3px solid rgba(255,255,255,0.3);box-shadow:0 8px 32px rgba(0,0,0,.25);}
-        .detail-photo img{width:100%;height:100%;object-fit:cover;}
         .detail-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:.3px;}
         .detail-ecurie{font-size:12px;opacity:.7;margin-top:3px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--saffron);}
         .detail-vs-badge{background:var(--grad-fire);padding:10px 18px;border-radius:30px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;box-shadow:var(--sh-fire);flex-shrink:0;}
@@ -192,22 +471,12 @@
         .comment-author{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--forest);letter-spacing:.3px;}
         .comment-date{font-size:11px;color:var(--mist);margin-left:8px;}
 
-        /* Fiche lutteur */
         .fiche-sticky-nav{position:sticky;top:0;z-index:9;background:var(--forest);padding:14px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);padding-top:calc(14px + var(--safe-top));}
-        .fiche-sticky-photo{width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.4);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);}
-        .fiche-sticky-photo img{width:100%;height:100%;object-fit:cover;}
         .fiche-sticky-info{flex:1;min-width:0;}
         .fiche-sticky-nom{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:#fff;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
         .fiche-sticky-ecurie{font-size:11px;color:var(--saffron);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.5px;text-transform:uppercase;}
         .fiche-sticky-back{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;width:38px;height:38px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
         .fiche-sticky-back:active{background:rgba(255,255,255,.35);}
-        .fiche-photo-full{width:100%;height:310px;background:var(--grad-dark);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
-        .fiche-photo-full::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center bottom, rgba(245,166,35,.15) 0%, transparent 70%);}
-        .fiche-photo-full img{width:160px;height:160px;border-radius:50%;object-fit:cover;border:5px solid rgba(255,255,255,.25);box-shadow:0 10px 48px rgba(0,0,0,.4);}
-        .fiche-avatar-large{width:160px;height:160px;border-radius:50%;border:5px solid rgba(255,255,255,.2);box-shadow:0 10px 48px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(255,255,255,.1);}
-        .fiche-nom-overlay{position:absolute;bottom:20px;left:0;right:0;text-align:center;color:#fff;}
-        .fiche-nom-overlay h2{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;text-shadow:0 2px 12px rgba(0,0,0,.4);}
-        .fiche-nom-overlay p{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--saffron);margin-top:4px;}
         .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;}
         .stat-item{background:var(--sand);padding:16px 6px;border-radius:16px;border:1.5px solid var(--border-col);}
         .stat-value{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--forest);letter-spacing:1px;}
@@ -222,13 +491,10 @@
         .resultat-badge.defaite{background:#fee2e2;color:#991b1b;}
         .resultat-badge.nul{background:#fef3c7;color:#92400e;}
 
-        /* Lutteurs */
         .lutteur-card{background:var(--chalk);margin:0 14px 14px;border-radius:var(--r-md);padding:18px;border:1.5px solid var(--border-col);display:flex;align-items:center;gap:18px;cursor:pointer;box-shadow:var(--sh-sm);transition:all .3s;animation:slideRight .4s ease-out backwards;}
         .lutteur-card:active{transform:translateY(-3px) scale(1.01);box-shadow:var(--sh-lg);}
         .lutteur-rank{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--border-col);letter-spacing:1px;min-width:32px;text-align:center;}
         .lutteur-rank.top3{color:var(--saffron);}
-        .lutteur-photo-card{width:80px;height:80px;border-radius:50%;background:#edf2ef;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:3px solid var(--chalk);box-shadow:var(--sh-md);}
-        .lutteur-photo-card img{width:100%;height:100%;object-fit:cover;}
         .lutteur-infos{flex:1;min-width:0;}
         .lutteur-nom{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px;color:var(--ink);letter-spacing:.3px;}
         .lutteur-ecurie{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--forest-lite);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
@@ -238,7 +504,6 @@
         .lutteur-stat-chip.d{background:#fee2e2;color:#991b1b;}
         .lutteur-stat-chip.t{background:var(--sand);color:var(--mist);}
 
-        /* News / Mbapatt */
         .news-card{background:var(--chalk);margin:0 14px 18px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border-col);box-shadow:var(--sh-md);}
         .news-image{width:100%;height:200px;background:#e0e8e4;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
         .news-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
@@ -255,7 +520,6 @@
         .mbapatt-participants{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
         .participant-tag{background:var(--sand);border:1.5px solid var(--border-col);padding:5px 14px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.3px;}
 
-        /* Overlays */
         .search-overlay{position:fixed;inset:0;background:rgba(11,61,46,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:3000;display:none;flex-direction:column;padding-top:var(--safe-top);}
         .search-overlay.open{display:flex;}
         .search-header{padding:20px;display:flex;gap:12px;align-items:center;}
@@ -298,19 +562,12 @@
 
         .btn-primary{background:var(--grad-hero);color:#fff;border:none;border-radius:16px;padding:16px 24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;cursor:pointer;font-size:16px;letter-spacing:.5px;width:100%;transition:all .3s;box-shadow:var(--sh-md);}
         .btn-primary:active{transform:scale(.97);opacity:.9;}
-
-        .avatar-silhouette{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#edf2ef;position:relative;overflow:hidden;}
-        .avatar-silhouette svg{width:65%;height:65%;opacity:1;}
-        .avatar-silhouette.dark{background:rgba(255,255,255,0.12);}
-        .avatar-silhouette.dark svg{opacity:.75;}
     </style>
 </head>
 <body>
 
-    <!-- Indicateur de refresh -->
     <div class="refresh-indicator" id="refreshIndicator"><div id="refreshContent"></div></div>
 
-    <!-- Bannière d'installation PWA -->
     <div class="install-banner" id="installBanner">
         <button class="install-banner-close" id="installBannerClose">✕</button>
         <div class="install-banner-text">
@@ -320,10 +577,8 @@
         <button class="install-banner-btn" id="installBtn">Installer</button>
     </div>
 
-    <!-- Menu hamburger -->
     <div class="menu-btn" id="menuBtn">☰</div>
 
-    <!-- Drawer -->
     <div class="drawer" id="drawer">
         <div class="drawer-header">
             <div class="drawer-logo">LUTTE SN</div>
@@ -341,7 +596,6 @@
     </div>
     <div class="overlay" id="overlay"></div>
 
-    <!-- Header -->
     <header class="site-header">
         <div class="header-top">
             <div class="header-brand">
@@ -360,7 +614,6 @@
         </div>
     </header>
 
-    <!-- Tabs -->
     <nav class="tabs-wrapper">
         <div class="tabs" id="tabsNav">
             <div class="tab active" data-page="arene">🏟️ Arène</div>
@@ -370,7 +623,6 @@
         </div>
     </nav>
 
-    <!-- Pages -->
     <main>
         <div id="page-arene" class="page active-page"><div class="combat-list" id="arene-container"></div></div>
         <div id="page-lutteurs" class="page"><div class="combat-list" id="lutteurs-container"></div></div>
@@ -380,10 +632,8 @@
 
     <footer>© 2026 Lutte SN · La Référence</footer>
 
-    <!-- Page détail -->
     <div id="detailPage" class="detail-page"><div id="detail-content"></div></div>
 
-    <!-- Overlay recherche -->
     <div id="searchOverlay" class="search-overlay">
         <div class="search-header">
             <input type="text" class="search-input-popup" id="searchInputPopup" placeholder="Rechercher un combat ou lutteur..." autocomplete="off">
@@ -392,7 +642,6 @@
         <div class="search-results" id="searchResultsPopup"></div>
     </div>
 
-    <!-- Overlay calendrier -->
     <div id="calendarOverlay" class="calendar-overlay">
         <div class="calendar-card">
             <span class="calendar-emoji">📅</span>
@@ -403,15 +652,13 @@
         </div>
     </div>
 
-    <!-- Bouton admin -->
     <div class="admin-link" id="adminLink">⚙️</div>
 
     <script>
         (function() {
             'use strict';
 
-            // --- Configuration ---
-            const APP_VERSION = '8.2.0'; // mise à jour
+            const APP_VERSION = '8.4.0';
             const DATA_BASE_URL = 'https://omarmarone80-cmyk.github.io/lutte-arena-data/';
             const ADMIN_PASSWORD = 'lutte2026';
 
@@ -425,11 +672,9 @@
                 appId: "1:1018458333769:web:a4eb3983c4e71c3cdcd598"
             };
 
-            // --- Initialisation Firebase ---
             firebase.initializeApp(firebaseConfig);
             const db = firebase.database();
 
-            // --- État global ---
             const state = {
                 areneData: [],
                 lutteursData: {},
@@ -440,106 +685,81 @@
             };
 
             // ============================================================
-            // 🔔 NOTIFICATIONS FCM (Firebase Cloud Messaging)
+            // NOTIFICATIONS
             // ============================================================
             async function initPushNotifications() {
-                // Ne s'exécute que dans l'APK native
-                if (typeof window.Capacitor === 'undefined' || !window.Capacitor.isNative) {
-                    console.log('🌐 Mode Web, pas de push natif');
-                    return;
-                }
+                if (typeof window.Capacitor === 'undefined' || !window.Capacitor.isNative) return;
                 try {
                     const PushNotifications = window.Capacitor.Plugins.PushNotifications;
-                    if (!PushNotifications) {
-                        console.warn('❌ Plugin Push introuvable');
-                        return;
-                    }
+                    if (!PushNotifications) return;
                     const perm = await PushNotifications.requestPermissions();
-                    if (perm.receive === 'granted') {
-                        await PushNotifications.register();
-                        console.log('✅ FCM enregistré');
-                    } else {
-                        console.warn('❌ Permission refusée');
-                    }
-
-                    PushNotifications.addListener('pushNotificationReceived', (notification) => {
-                        console.log('📩 Notification reçue :', notification.title);
-                    });
-
-                    PushNotifications.addListener('pushNotificationActionPerformed', (action) => {
-                        console.log('👉 Notification cliquée');
-                    });
-                } catch (e) {
-                    console.error('Erreur init push:', e);
-                }
+                    if (perm.receive === 'granted') await PushNotifications.register();
+                    PushNotifications.addListener('pushNotificationReceived', (n) => console.log('📩', n.title));
+                    PushNotifications.addListener('pushNotificationActionPerformed', () => console.log('👉 Cliqué'));
+                } catch (e) { console.error('Erreur push:', e); }
             }
 
-            // Fonction publique appelée par le menu "Alertes combat"
             function demanderNotifications() {
                 if (typeof window.Capacitor !== 'undefined' && window.Capacitor.isNative) {
                     const PushNotifications = window.Capacitor.Plugins.PushNotifications;
-                    if (!PushNotifications) {
-                        alert('❌ Plugin introuvable');
-                        return;
-                    }
+                    if (!PushNotifications) { alert('❌ Plugin introuvable'); return; }
                     PushNotifications.requestPermissions().then(perm => {
-                        if (perm.receive === 'granted') {
-                            PushNotifications.register();
-                            alert('✅ Notifications activées !');
-                        } else {
-                            alert('❌ Permission refusée. Veuillez autoriser dans les paramètres Android.');
-                        }
+                        if (perm.receive === 'granted') { PushNotifications.register(); alert('✅ Notifications activées !'); }
+                        else alert('❌ Permission refusée.');
                     }).catch(e => alert('❌ Erreur : ' + e.message));
                 } else {
-                    alert('🔔 Les notifications push sont disponibles dans la version Android de l\'application. Installez l\'APK pour les activer.');
+                    alert('🔔 Les notifications push sont disponibles dans la version Android de l\'application.');
                 }
             }
 
-            // --- Silhouettes, photos, dates, templates, affichage, etc. (inchangés) ---
+            // ============================================================
+            // SILHOUETTES & PHOTOS
+            // ============================================================
             function silhouetteSVG(dark) {
-                const c = dark ? 'rgba(255,255,255,0.75)' : '#94a3b8';
-                return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="22" r="17" fill="${c}"/><rect x="42" y="37" width="16" height="8" rx="3" fill="${c}"/><path d="M24 53 C24 42 28 47 50 47 C72 47 76 42 76 53 L80 93 C80 105 76 112 50 112 C24 112 20 105 20 93 Z" fill="${c}"/><path d="M26 55 C22 68 19 78 18 86 C17 93 23 94 26 88 C29 78 29 69 31 62 Z" fill="${c}"/><path d="M74 55 C78 68 81 78 82 86 C83 93 77 94 74 88 C71 78 71 69 69 62 Z" fill="${c}"/></svg>`;
+                const c = dark ? 'rgba(255,255,255,0.8)' : '#7ba898';
+                return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="22" r="17" fill="${c}"/>
+                    <rect x="42" y="37" width="16" height="8" rx="3" fill="${c}"/>
+                    <path d="M24 53 C24 42 28 47 50 47 C72 47 76 42 76 53 L80 93 C80 105 76 112 50 112 C24 112 20 105 20 93 Z" fill="${c}"/>
+                    <path d="M26 55 C22 68 19 78 18 86 C17 93 23 94 26 88 C29 78 29 69 31 62 Z" fill="${c}"/>
+                    <path d="M74 55 C78 68 81 78 82 86 C83 93 77 94 74 88 C71 78 71 69 69 62 Z" fill="${c}"/>
+                </svg>`;
             }
             function genSilhouette(dark) {
-                const cls = dark ? 'avatar-silhouette dark' : 'avatar-silhouette';
-                return `<div class="${cls}">${silhouetteSVG(dark)}</div>`;
+                return `<div class="avatar-silhouette${dark ? ' dark' : ''}">${silhouetteSVG(dark)}</div>`;
             }
 
             function getPhotoURL(nom) {
                 if (!nom || nom === 'A confirmer') return null;
-                if (nom.startsWith('http')) return nom; // déjà une URL complète
+                if (nom.startsWith('http')) return nom;
                 return state.photos[nom] || null;
             }
+
             function photoHTML(nom, opts = {}) {
                 const { size = 'team', dark = false } = opts;
                 if (!nom || nom === 'A confirmer') {
-                    const sz = size === 'petit' ? '14px' : size === 'detail' ? '36px' : '22px';
-                    return `<div class="${size}-photo" style="font-size:${sz};font-weight:700;color:#94a3b8;">?</div>`;
+                    return `<div class="${size}-photo">${genSilhouette(dark)}</div>`;
                 }
                 const url = getPhotoURL(nom);
+                const fallback = genSilhouette(dark).replace(/"/g, '&quot;');
                 if (url) {
-                    const fallback = genSilhouette(dark).replace(/"/g, '&quot;');
-                    return `<div class="${size}-photo"><img src="${url}" alt="${nom}" loading="lazy" onerror="this.parentElement.innerHTML='${fallback}';"></div>`;
+                    return `<div class="${size}-photo"><img src="${url}" alt="${escapeHTML(nom)}" loading="lazy" onerror="this.parentElement.innerHTML='${fallback}';"></div>`;
                 }
                 return `<div class="${size}-photo">${genSilhouette(dark)}</div>`;
             }
-            function ficheAvatarLarge(nom) {
-                const url = getPhotoURL(nom);
-                if (url) {
-                    const fallback = `<div class="fiche-avatar-large">${genSilhouette(true).replace(/"/g, '&quot;')}</div>`;
-                    return `<img src="${url}" alt="${nom}" onerror="this.parentElement.innerHTML='${fallback}';">`;
-                }
-                return `<div class="fiche-avatar-large">${genSilhouette(true)}</div>`;
-            }
+
             function stickyAvatar(nom) {
                 const url = getPhotoURL(nom);
                 if (url) {
                     const fallback = genSilhouette(true).replace(/"/g, '&quot;');
-                    return `<img src="${url}" alt="${nom}" onerror="this.parentElement.innerHTML='${fallback}';">`;
+                    return `<img src="${url}" alt="${escapeHTML(nom)}" onerror="this.parentElement.innerHTML='${fallback}';">`;
                 }
                 return genSilhouette(true);
             }
 
+            // ============================================================
+            // UTILITAIRES
+            // ============================================================
             function formaterDate(combat) {
                 if (!combat.date) return combat.jourSemaine || 'Date à confirmer';
                 if (combat.date.includes('??')) return combat.jourSemaine;
@@ -566,6 +786,9 @@
                 return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
             }
 
+            // ============================================================
+            // TEMPLATES HTML
+            // ============================================================
             function petitCombatHTML(p) {
                 if (!p.lutteur1 || p.lutteur1 === 'A confirmer')
                     return `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
@@ -582,41 +805,64 @@
                     ${vainqueurHTML}${videoHTML}
                 </div>`;
             }
+
             function carteCombatHTML(combat, index) {
                 const isIntl = combat.estInternational;
                 const dp = getDateParts(combat);
-                const vainqueurHTML = combat.vainqueur ? `<div class="winner-badge">🏆 Vainqueur : ${combat.vainqueur}</div>` : '';
+                const vainqueurHTML = combat.vainqueur
+                    ? `<div style="text-align:center;margin-top:14px;"><div class="winner-badge">🏆 Vainqueur : ${combat.vainqueur}</div></div>`
+                    : '';
                 const petitsCount = (combat.petitsCombats && combat.petitsCombats.length) ? combat.petitsCombats.length : 0;
-                const petitsHTML = petitsCount ? combat.petitsCombats.map(p => petitCombatHTML(p)).join('') :
-                    `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
+                const petitsHTML = petitsCount
+                    ? combat.petitsCombats.map(p => petitCombatHTML(p)).join('')
+                    : `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
+
                 return `
                 <div class="combat-item-card" style="animation-delay:${index * 0.06}s" data-index="${index}">
                     <div class="card-accent-bar${isIntl ? ' international' : ''}"></div>
                     <div class="combat-preview">
                         <div class="combat-meta-row">
                             <div class="date-chip">
-                                <div class="date-chip-icon"><div class="date-chip-day">${dp.day}</div><div class="date-chip-mon">${dp.mon}</div></div>
+                                <div class="date-chip-icon">
+                                    <div class="date-chip-day">${dp.day}</div>
+                                    <div class="date-chip-mon">${dp.mon}</div>
+                                </div>
                                 <div class="date-chip-text${isIntl ? ' international' : ''}">${formaterDate(combat)}</div>
                             </div>
                             <button class="share-btn" data-action="share" data-index="${index}">📤</button>
                         </div>
                         <div><span class="combat-lieu">📍 ${combat.lieu || 'Lieu à confirmer'}</span></div>
-                        <div class="combat-teams">
-                            <div class="team">${photoHTML(combat.vedette.lutteur1)}<div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur1)}">${combat.vedette.lutteur1}</div><div class="team-ecurie">${combat.vedette.ecurie1 || ''}</div></div>
-                            <div class="vs-badge">VS</div>
-                            <div class="team">${photoHTML(combat.vedette.lutteur2)}<div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur2)}">${combat.vedette.lutteur2}</div><div class="team-ecurie">${combat.vedette.ecurie2 || ''}</div></div>
+                        <div class="combat-teams-wrapper">
+                            <div class="combat-teams">
+                                <div class="team">
+                                    ${photoHTML(combat.vedette.lutteur1)}
+                                    <div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur1)}">${combat.vedette.lutteur1}</div>
+                                    <div class="team-ecurie">${combat.vedette.ecurie1 || ''}</div>
+                                </div>
+                                <div class="vs-badge">VS</div>
+                                <div class="team">
+                                    ${photoHTML(combat.vedette.lutteur2)}
+                                    <div class="team-name" data-lutteur="${escapeHTML(combat.vedette.lutteur2)}">${combat.vedette.lutteur2}</div>
+                                    <div class="team-ecurie">${combat.vedette.ecurie2 || ''}</div>
+                                </div>
+                            </div>
                         </div>
                         ${vainqueurHTML}
                     </div>
                     <div class="petits-header" data-action="togglePetits" data-index="${index}">
-                        <div class="petits-title">🥊 Petits combats ${petitsCount ? `<span class="petits-count">${petitsCount}</span>` : ''}</div>
-                        <div class="toggle-arrow" id="arrow-${index}">▼</div>
+                        <div class="petits-title">
+                            🥊 Petits combats
+                            ${petitsCount ? `<span class="petits-count">${petitsCount}</span>` : ''}
+                        </div>
+                        <span class="toggle-arrow" id="arrow-${index}">▼</span>
                     </div>
                     <div class="petits-combats-list" id="petits-list-${index}">${petitsHTML}</div>
                 </div>`;
             }
 
-            // --- Affichage ---
+            // ============================================================
+            // AFFICHAGE
+            // ============================================================
             function afficherCombats() {
                 const container = document.getElementById('arene-container');
                 if (!container) return;
@@ -626,6 +872,7 @@
                 }
                 container.innerHTML = '<div style="height:12px;"></div>' + state.areneData.map((c, i) => carteCombatHTML(c, i)).join('');
             }
+
             function afficherLutteurs() {
                 const container = document.getElementById('lutteurs-container');
                 if (!container) return;
@@ -637,10 +884,9 @@
                 }
                 container.innerHTML = '<div style="height:12px;"></div>' + noms.map((nom, i) => {
                     const d = state.lutteursData[nom];
-                    const photoClass = 'lutteur-photo-card';
                     return `<div class="lutteur-card" data-lutteur="${escapeHTML(nom)}" style="animation-delay:${i*0.05}s">
                         <div class="lutteur-rank${i < 3 ? ' top3' : ''}">${i+1}</div>
-                        <div class="${photoClass}">${photoHTML(nom, {size:'lutteur'}).replace('team-photo', photoClass)}</div>
+                        <div class="lutteur-photo-card">${photoHTML(nom, {size:'lutteur'}).replace(/<div class="lutteur-photo">/, '').replace(/<\/div>$/, '')}</div>
                         <div class="lutteur-infos">
                             <div class="lutteur-nom">${nom}</div>
                             <div class="lutteur-ecurie">${d.ecurie || ''}</div>
@@ -653,6 +899,7 @@
                     </div>`;
                 }).join('');
             }
+
             function afficherNews() {
                 const container = document.getElementById('news-container');
                 if (!container) return;
@@ -661,10 +908,11 @@
                     return;
                 }
                 container.innerHTML = '<div style="height:12px;"></div>' + state.newsData.map(n => {
-                    const imgHTML = n.image ? `<div class="news-image"><img src="${DATA_BASE_URL + n.image}" alt="${n.title}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
+                    const imgHTML = n.image ? `<div class="news-image"><img src="${DATA_BASE_URL + n.image}" alt="${escapeHTML(n.title)}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
                     return `<div class="news-card">${imgHTML}<div class="news-content"><div class="news-category">📰 Actualité</div><div class="news-title">${n.title}</div><div class="news-date">📅 ${n.date}</div><div class="news-excerpt">${n.excerpt}</div><div class="news-full">${n.full||''}</div><button class="read-more">Lire la suite →</button></div></div>`;
                 }).join('');
             }
+
             function afficherMbapatt() {
                 const container = document.getElementById('mbapatt-container');
                 if (!container) return;
@@ -673,13 +921,15 @@
                     return;
                 }
                 container.innerHTML = '<div style="height:12px;"></div>' + state.mbapattData.map(t => {
-                    const imgHTML = t.image ? `<div class="news-image"><img src="${DATA_BASE_URL + t.image}" alt="${t.nom||'Tournoi'}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
+                    const imgHTML = t.image ? `<div class="news-image"><img src="${DATA_BASE_URL + t.image}" alt="${escapeHTML(t.nom||'Tournoi')}" loading="lazy" onerror="this.parentElement.style.display='none';"><div class="news-image-overlay"></div></div>` : '';
                     const participantsHTML = t.participants ? `<div class="mbapatt-participants">${t.participants.map(p => `<span class="participant-tag">${p}</span>`).join('')}</div>` : '';
                     return `<div class="news-card">${imgHTML}<div class="news-content"><div class="news-category">🏆 Mbapatt</div><div class="news-title">${t.nom||'Tournoi sans nom'}</div><div class="news-date">📅 ${t.date||''} · 📍 ${t.lieu||''}</div><div class="news-excerpt">${t.description||''}</div>${participantsHTML}</div></div>`;
                 }).join('');
             }
 
-            // --- Détail combat ---
+            // ============================================================
+            // DÉTAIL COMBAT
+            // ============================================================
             function ouvrirDetailCombat(index) {
                 const c = state.areneData[index];
                 if (!c) return;
@@ -689,11 +939,13 @@
                 const pct1 = Math.round((pronostics.lutteur1 / total) * 100);
                 const pct2 = Math.round((pronostics.lutteur2 / total) * 100);
                 const userVote = localStorage.getItem(`vote_${combatId}`);
-                const petitsHTML = (c.petitsCombats && c.petitsCombats.length) ? c.petitsCombats.map(p => petitCombatHTML(p)).join('') :
-                    '<p style="color:var(--mist);text-align:center;padding:16px;font-family:Barlow Condensed,sans-serif;font-weight:600;">📅 À confirmer</p>';
+                const petitsHTML = (c.petitsCombats && c.petitsCombats.length)
+                    ? c.petitsCombats.map(p => petitCombatHTML(p)).join('')
+                    : '<p style="color:var(--mist);text-align:center;padding:16px;font-family:Barlow Condensed,sans-serif;font-weight:600;">📅 À confirmer</p>';
                 const commentaires = JSON.parse(localStorage.getItem(`commentaires_${combatId}`) || '[]');
-                const commentairesHTML = commentaires.length ? commentaires.map(co => `<div class="comment-card"><div class="comment-author">${co.auteur} <span class="comment-date">${co.date}</span></div><div style="font-size:14px;color:#4b6358;margin-top:6px;">${co.texte}</div></div>`).join('') :
-                    '<p style="color:var(--mist);text-align:center;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun commentaire</p>';
+                const commentairesHTML = commentaires.length
+                    ? commentaires.map(co => `<div class="comment-card"><div class="comment-author">${co.auteur} <span class="comment-date">${co.date}</span></div><div style="font-size:14px;color:#4b6358;margin-top:6px;">${co.texte}</div></div>`).join('')
+                    : '<p style="color:var(--mist);text-align:center;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun commentaire</p>';
                 let videoHTML = '';
                 if (c.videoYoutube) {
                     const vid = extraireIdYoutube(c.videoYoutube);
@@ -704,19 +956,38 @@
                     <div class="detail-hero">
                         <button class="detail-back" id="detailBackBtn">←</button>
                         <div class="detail-combatants">
-                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur1)}">${photoHTML(c.vedette.lutteur1, {size:'detail', dark:true})}<div class="detail-name">${c.vedette.lutteur1}</div><div class="detail-ecurie">${c.vedette.ecurie1 || ''}</div></div>
+                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur1)}">
+                                ${photoHTML(c.vedette.lutteur1, {size:'detail', dark:true})}
+                                <div class="detail-name">${c.vedette.lutteur1}</div>
+                                <div class="detail-ecurie">${c.vedette.ecurie1 || ''}</div>
+                            </div>
                             <div class="detail-vs-badge">VS</div>
-                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur2)}">${photoHTML(c.vedette.lutteur2, {size:'detail', dark:true})}<div class="detail-name">${c.vedette.lutteur2}</div><div class="detail-ecurie">${c.vedette.ecurie2 || ''}</div></div>
+                            <div class="detail-team" data-lutteur="${escapeHTML(c.vedette.lutteur2)}">
+                                ${photoHTML(c.vedette.lutteur2, {size:'detail', dark:true})}
+                                <div class="detail-name">${c.vedette.lutteur2}</div>
+                                <div class="detail-ecurie">${c.vedette.ecurie2 || ''}</div>
+                            </div>
                         </div>
                         <div style="text-align:center;margin-top:18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;">${formaterDate(c)} · 📍 ${c.lieu}</div>
                     </div>
-                    <div class="detail-info"><div class="section-title">📋 Informations</div><div class="info-row"><span class="info-label">Date</span><span class="info-value">${formaterDate(c)}</span></div><div class="info-row"><span class="info-label">Lieu</span><span class="info-value">${c.lieu}</span></div><div class="info-row"><span class="info-label">Type</span><span class="info-value">${c.vedette.type || 'Combat classique'}</span></div></div>
+                    <div class="detail-info">
+                        <div class="section-title">📋 Informations</div>
+                        <div class="info-row"><span class="info-label">Date</span><span class="info-value">${formaterDate(c)}</span></div>
+                        <div class="info-row"><span class="info-label">Lieu</span><span class="info-value">${c.lieu}</span></div>
+                        <div class="info-row"><span class="info-label">Type</span><span class="info-value">${c.vedette.type || 'Combat classique'}</span></div>
+                    </div>
                     ${videoHTML}
                     <div class="detail-info"><div class="section-title">🥊 Petits combats</div>${petitsHTML}</div>
                     <div class="pronostics-section">
                         <div class="section-title">📊 Pronostics</div>
-                        <div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur1}</span><span>${pct1}% (${pronostics.lutteur1})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur1" style="width:${pct1}%;">${pct1}%</div></div></div>
-                        <div class="pronostic-bar"><div class="pronostic-nom"><span>${c.vedette.lutteur2}</span><span>${pct2}% (${pronostics.lutteur2})</span></div><div class="pronostic-track"><div class="pronostic-fill lutteur2" style="width:${pct2}%;">${pct2}%</div></div></div>
+                        <div class="pronostic-bar">
+                            <div class="pronostic-nom"><span>${c.vedette.lutteur1}</span><span>${pct1}% (${pronostics.lutteur1})</span></div>
+                            <div class="pronostic-track"><div class="pronostic-fill lutteur1" style="width:${pct1}%;">${pct1}%</div></div>
+                        </div>
+                        <div class="pronostic-bar">
+                            <div class="pronostic-nom"><span>${c.vedette.lutteur2}</span><span>${pct2}% (${pronostics.lutteur2})</span></div>
+                            <div class="pronostic-track"><div class="pronostic-fill lutteur2" style="width:${pct2}%;">${pct2}%</div></div>
+                        </div>
                         <div class="vote-buttons">
                             <button class="vote-btn ${userVote==='lutteur1'?'voted':''}" data-vote="lutteur1">👍 ${c.vedette.lutteur1}</button>
                             <button class="vote-btn ${userVote==='lutteur2'?'voted':''}" data-vote="lutteur2">👍 ${c.vedette.lutteur2}</button>
@@ -724,7 +995,10 @@
                     </div>
                     <div class="commentaires-section">
                         <div class="section-title">💬 Commentaires</div>
-                        <div class="comment-form"><input class="comment-input" id="commentInput" placeholder="Votre commentaire..."><button class="comment-submit" id="commentSubmit">Envoyer</button></div>
+                        <div class="comment-form">
+                            <input class="comment-input" id="commentInput" placeholder="Votre commentaire...">
+                            <button class="comment-submit" id="commentSubmit">Envoyer</button>
+                        </div>
                         <div id="commentairesList">${commentairesHTML}</div>
                     </div>
                     <button class="btn-primary" id="detailCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>
@@ -752,32 +1026,63 @@
                     });
                 });
                 detailContent.querySelectorAll('[data-lutteur]').forEach(el => {
-                    el.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        ouvrirFicheLutteur(this.dataset.lutteur);
-                    });
+                    el.addEventListener('click', function(e) { e.stopPropagation(); ouvrirFicheLutteur(this.dataset.lutteur); });
                 });
                 document.getElementById('detailPage').classList.add('open');
                 document.getElementById('detailPage').scrollTop = 0;
             }
 
-            // --- Fiche lutteur ---
+            // ============================================================
+            // FICHE LUTTEUR — BANNIÈRE PLEINE LARGEUR
+            // ============================================================
             function ouvrirFicheLutteur(nom) {
                 const d = state.lutteursData[nom];
                 if (!d) return;
-                const historiqueHTML = (d.historique && d.historique.length) ? d.historique.map(h => {
-                    const bc = h.resultat === 'Victoire' ? 'victoire' : h.resultat === 'Défaite' ? 'defaite' : 'nul';
-                    return `<div class="historique-item"><span class="historique-date">${h.date||''}</span><span class="historique-adversaire">vs ${h.adversaire||'Inconnu'}</span><span class="resultat-badge ${bc}">${h.resultat||'?'}</span>${h.details ? `<span style="font-size:11px;color:var(--mist);width:100%;margin-top:4px;font-family:'Barlow Condensed',sans-serif;">${h.details}</span>` : ''}</div>`;
-                }).join('') : '<div style="text-align:center;color:var(--mist);padding:24px;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun historique</div>';
+                const historiqueHTML = (d.historique && d.historique.length)
+                    ? d.historique.map(h => {
+                        const bc = h.resultat === 'Victoire' ? 'victoire' : h.resultat === 'Défaite' ? 'defaite' : 'nul';
+                        return `<div class="historique-item"><span class="historique-date">${h.date||''}</span><span class="historique-adversaire">vs ${h.adversaire||'Inconnu'}</span><span class="resultat-badge ${bc}">${h.resultat||'?'}</span>${h.details ? `<span style="font-size:11px;color:var(--mist);width:100%;margin-top:4px;font-family:'Barlow Condensed',sans-serif;">${h.details}</span>` : ''}</div>`;
+                    }).join('')
+                    : '<div style="text-align:center;color:var(--mist);padding:24px;font-family:Barlow Condensed,sans-serif;font-weight:600;">Aucun historique</div>';
                 let videoHTML = '';
                 if (d.videoYoutube) {
                     const vid = extraireIdYoutube(d.videoYoutube);
                     if (vid) videoHTML = `<div class="detail-info"><div class="section-title">🎥 Compilation</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&modestbranding=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>`;
                 }
+
+                // Bannière pleine largeur avec photo ou fallback
+                const photoURL = getPhotoURL(nom);
+                let banniereHTML = '';
+                if (photoURL) {
+                    banniereHTML = `
+                        <img src="${photoURL}" alt="${escapeHTML(nom)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="fiche-photo-fallback" style="display:none;">${genSilhouette(true)}</div>`;
+                } else {
+                    banniereHTML = `<div class="fiche-photo-fallback" style="display:flex;">${genSilhouette(true)}</div>`;
+                }
+
                 document.getElementById('detail-content').innerHTML = `
-                    <div class="fiche-sticky-nav"><div class="fiche-sticky-photo">${stickyAvatar(nom)}</div><div class="fiche-sticky-info"><div class="fiche-sticky-nom">${nom}</div><div class="fiche-sticky-ecurie">${d.ecurie || ''}</div></div><button class="fiche-sticky-back" id="ficheBackBtn">←</button></div>
-                    <div class="fiche-photo-full">${ficheAvatarLarge(nom)}<div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie || ''}</p></div></div>
-                    <div class="detail-info"><div class="section-title">📊 Statistiques</div><div class="stat-grid"><div class="stat-item"><div class="stat-value">${d.victoires||0}</div><div class="stat-label">Victoires</div></div><div class="stat-item"><div class="stat-value defeat">${d.defaites||0}</div><div class="stat-label">Défaites</div></div><div class="stat-item"><div class="stat-value draws">${d.nuls||0}</div><div class="stat-label">Nuls</div></div><div class="stat-item"><div class="stat-value">${d.combats||0}</div><div class="stat-label">Total</div></div></div></div>
+                    <div class="fiche-sticky-nav">
+                        <div class="fiche-sticky-photo">${stickyAvatar(nom)}</div>
+                        <div class="fiche-sticky-info">
+                            <div class="fiche-sticky-nom">${nom}</div>
+                            <div class="fiche-sticky-ecurie">${d.ecurie || ''}</div>
+                        </div>
+                        <button class="fiche-sticky-back" id="ficheBackBtn">←</button>
+                    </div>
+                    <div class="fiche-photo-full">
+                        ${banniereHTML}
+                        <div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie || ''}</p></div>
+                    </div>
+                    <div class="detail-info">
+                        <div class="section-title">📊 Statistiques</div>
+                        <div class="stat-grid">
+                            <div class="stat-item"><div class="stat-value">${d.victoires||0}</div><div class="stat-label">Victoires</div></div>
+                            <div class="stat-item"><div class="stat-value defeat">${d.defaites||0}</div><div class="stat-label">Défaites</div></div>
+                            <div class="stat-item"><div class="stat-value draws">${d.nuls||0}</div><div class="stat-label">Nuls</div></div>
+                            <div class="stat-item"><div class="stat-value">${d.combats||0}</div><div class="stat-label">Total</div></div>
+                        </div>
+                    </div>
                     <div class="detail-info"><div class="section-title">📋 Historique</div>${historiqueHTML}</div>
                     ${videoHTML}
                     <button class="btn-primary" id="ficheCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>
@@ -792,7 +1097,9 @@
                 document.getElementById('detailPage').classList.remove('open');
             }
 
-            // --- Chargement Firebase + cache ---
+            // ============================================================
+            // FIREBASE — avec re-affichage arène après chargement photos
+            // ============================================================
             function chargerDonneesFirebase() {
                 db.ref('combats').on('value', (snap) => {
                     const data = snap.val();
@@ -810,6 +1117,7 @@
                     }
                     try { localStorage.setItem('lutte_photos_cache', JSON.stringify(state.photos)); } catch (e) {}
                     afficherLutteurs();
+                    afficherCombats();  // ✅ Correction : met à jour les photos dans l'arène
                     mettreEnCache();
                 });
                 db.ref('news').on('value', (snap) => {
@@ -837,7 +1145,9 @@
                 } catch (e) {}
             }
 
-            // --- Navigation ---
+            // ============================================================
+            // NAVIGATION
+            // ============================================================
             function toggleDrawer() {
                 document.getElementById('drawer').classList.toggle('open');
                 document.getElementById('overlay').classList.toggle('show');
@@ -855,14 +1165,14 @@
                 fermerDrawer();
             }
 
-            // --- Recherche & Calendrier ---
+            // ============================================================
+            // RECHERCHE & CALENDRIER
+            // ============================================================
             function ouvrirRecherche() {
                 document.getElementById('searchOverlay').classList.add('open');
                 document.getElementById('searchInputPopup').focus();
             }
-            function fermerRecherche() {
-                document.getElementById('searchOverlay').classList.remove('open');
-            }
+            function fermerRecherche() { document.getElementById('searchOverlay').classList.remove('open'); }
             function rechercher() {
                 const terme = document.getElementById('searchInputPopup').value.toLowerCase().trim();
                 const results = document.getElementById('searchResultsPopup');
@@ -895,17 +1205,13 @@
                 document.getElementById('calDateDay').textContent = jours[d.getDay()];
                 document.getElementById('calendarOverlay').style.display = 'flex';
             }
-            function fermerCalendrier() {
-                document.getElementById('calendarOverlay').style.display = 'none';
-            }
+            function fermerCalendrier() { document.getElementById('calendarOverlay').style.display = 'none'; }
 
-            // --- Partage ---
             function partagerCombat(combat) {
                 const texte = `🔥 ${combat.vedette.lutteur1} 🆚 ${combat.vedette.lutteur2} le ${formaterDate(combat)} à ${combat.lieu}`;
                 window.open(`https://wa.me/?text=${encodeURIComponent(texte)}`, '_blank');
             }
 
-            // --- Admin ---
             let adminTapCount = 0;
             function ouvrirAdmin() {
                 adminTapCount++;
@@ -917,11 +1223,9 @@
                 setTimeout(() => { adminTapCount = 0; }, 2000);
             }
 
-            // --- Contact ---
             function showContact() { alert("📞 CONTACT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
             function showPartenariat() { alert("🤝 PARTENARIAT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
 
-            // --- Installation PWA ---
             let deferredPrompt;
             const installBanner = document.getElementById('installBanner');
             window.addEventListener('beforeinstallprompt', (e) => {
@@ -931,24 +1235,35 @@
                     setTimeout(() => installBanner.classList.add('show'), 3000);
                 }
             });
-            window.addEventListener('appinstalled', () => {
-                installBanner.classList.remove('show');
-                deferredPrompt = null;
-            });
+            window.addEventListener('appinstalled', () => { installBanner.classList.remove('show'); deferredPrompt = null; });
             function installerApp() {
                 if (deferredPrompt) {
                     deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then(() => {
-                        deferredPrompt = null;
-                        installBanner.classList.remove('show');
-                    });
+                    deferredPrompt.userChoice.then(() => { deferredPrompt = null; installBanner.classList.remove('show'); });
                 }
             }
-            function fermerBanniereInstall() {
-                installBanner.classList.remove('show');
+            function fermerBanniereInstall() { installBanner.classList.remove('show'); }
+
+            // ============================================================
+            // TOGGLE PETITS COMBATS
+            // ============================================================
+            function togglePetitsCombats(index) {
+                const list = document.getElementById(`petits-list-${index}`);
+                const arrow = document.getElementById(`arrow-${index}`);
+                if (!list) return;
+                const isOpen = list.classList.contains('open');
+                if (isOpen) {
+                    list.classList.remove('open');
+                    if (arrow) arrow.classList.remove('open');
+                } else {
+                    list.classList.add('open');
+                    if (arrow) arrow.classList.add('open');
+                }
             }
 
-            // --- Événements globaux ---
+            // ============================================================
+            // ÉVÉNEMENTS
+            // ============================================================
             function setupEvents() {
                 document.getElementById('menuBtn').addEventListener('click', toggleDrawer);
                 document.getElementById('overlay').addEventListener('click', fermerDrawer);
@@ -978,36 +1293,37 @@
                 document.getElementById('calendarOverlay').querySelector('.calendar-card').addEventListener('click', (e) => e.stopPropagation());
                 document.getElementById('calendarCloseBtn').addEventListener('click', fermerCalendrier);
 
-                // Délégation arène
                 document.getElementById('arene-container').addEventListener('click', function(e) {
-                    const card = e.target.closest('.combat-item-card');
-                    if (card && card.dataset.index !== undefined) {
-                        if (e.target.closest('.share-btn') || e.target.closest('.team-name') || e.target.closest('.petits-header') || e.target.closest('.petit-lutteur')) return;
-                        ouvrirDetailCombat(parseInt(card.dataset.index));
-                    }
                     const shareBtn = e.target.closest('.share-btn');
                     if (shareBtn && shareBtn.dataset.index !== undefined) {
                         e.stopPropagation();
                         const idx = parseInt(shareBtn.dataset.index);
                         if (state.areneData[idx]) partagerCombat(state.areneData[idx]);
+                        return;
                     }
                     const teamName = e.target.closest('.team-name');
                     if (teamName && teamName.dataset.lutteur) {
                         e.stopPropagation();
                         ouvrirFicheLutteur(teamName.dataset.lutteur);
+                        return;
                     }
                     const petitsHeader = e.target.closest('.petits-header');
                     if (petitsHeader && petitsHeader.dataset.index !== undefined) {
                         e.stopPropagation();
-                        const idx = parseInt(petitsHeader.dataset.index);
-                        const list = document.getElementById(`petits-list-${idx}`);
-                        const arrow = document.getElementById(`arrow-${idx}`);
-                        if (list) { list.classList.toggle('open'); if (arrow) arrow.classList.toggle('rotated'); }
+                        togglePetitsCombats(parseInt(petitsHeader.dataset.index));
+                        return;
                     }
                     const petitLutteur = e.target.closest('.petit-lutteur');
                     if (petitLutteur && petitLutteur.dataset.lutteur) {
                         e.stopPropagation();
                         ouvrirFicheLutteur(petitLutteur.dataset.lutteur);
+                        return;
+                    }
+                    const card = e.target.closest('.combat-item-card');
+                    if (card && card.dataset.index !== undefined) {
+                        if (!e.target.closest('.petits-combats-list')) {
+                            ouvrirDetailCombat(parseInt(card.dataset.index));
+                        }
                     }
                 });
 
@@ -1043,12 +1359,12 @@
                 document.getElementById('installBannerClose').addEventListener('click', fermerBanniereInstall);
             }
 
-            // --- Démarrage ---
+            // ============================================================
+            // DÉMARRAGE
+            // ============================================================
             async function init() {
                 chargerDonneesFirebase();
                 setupEvents();
-
-                // Initialiser les notifications push (uniquement sur l'APK native)
                 initPushNotifications();
             }
 
@@ -1060,4 +1376,4 @@
         })();
     </script>
 </body>
-</html>s
+</html>
