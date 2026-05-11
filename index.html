@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -349,9 +349,36 @@
         .empty-text { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; }
         .btn-primary { background:var(--grad-hero); color:#fff; border:none; border-radius:16px; padding:16px 24px; font-family:'Barlow Condensed',sans-serif; font-weight:700; cursor:pointer; font-size:16px; letter-spacing:.5px; width:100%; transition:opacity .2s; box-shadow:var(--sh-md); }
         .btn-primary:active { opacity:.88; }
+
+        /* ===== PULL TO REFRESH ===== */
+        #ptr-indicator {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: var(--forest);
+            color: var(--saffron);
+            border-radius: 0 0 30px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s, top 0.3s;
+            pointer-events: none;
+        }
+        #ptr-indicator.spinning {
+            animation: spin 0.8s linear infinite;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Pull-to-refresh indicator -->
+    <div id="ptr-indicator">↻</div>
 
     <div class="install-banner" id="installBanner">
         <button class="install-banner-close" id="installBannerClose">✕</button>
@@ -605,19 +632,16 @@
             if (typeof dateStr === 'number') { const d = new Date(dateStr); return isNaN(d) ? null : d; }
             const s = String(dateStr).trim();
             if (s.includes('?')) return null;
-            // YYYY-MM-DD
             if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
                 const p = s.split('T')[0].split('-');
                 const d = new Date(+p[0], +p[1]-1, +p[2]);
                 return isNaN(d) ? null : d;
             }
-            // DD/MM/YYYY
             if (/^\d{2}\/\d{2}\/\d{4}$/.test(s)) {
                 const p = s.split('/');
                 const d = new Date(+p[2], +p[1]-1, +p[0]);
                 return isNaN(d) ? null : d;
             }
-            // DD-MM-YYYY
             if (/^\d{2}-\d{2}-\d{4}$/.test(s)) {
                 const p = s.split('-');
                 const d = new Date(+p[2], +p[1]-1, +p[0]);
@@ -871,7 +895,6 @@
                 afficherMbapatt();
             }
 
-            // ✅ .once() — lecture unique, pas de listener permanent
             try {
                 const [snapCombats, snapLutteurs, snapNews, snapMbapatt] = await Promise.all([
                     db.ref('combats').once('value'),
@@ -885,7 +908,6 @@
                 state.newsData     = snapNews.val()     ? Object.values(snapNews.val())     : [];
                 state.mbapattData  = snapMbapatt.val()  ? Object.values(snapMbapatt.val())  : [];
 
-                // Construire index photos
                 state.photos = {};
                 for (const nom in state.lutteursData) {
                     if (state.lutteursData[nom].photo) {
@@ -893,7 +915,6 @@
                     }
                 }
 
-                // Sauvegarder en IndexedDB
                 await IDB.set(CACHE_KEY, {
                     areneData:    state.areneData,
                     lutteursData: state.lutteursData,
@@ -902,7 +923,6 @@
                 });
                 await IDB.set(PHOTOS_KEY, state.photos);
 
-                // Afficher les données fraîches
                 afficherCombats();
                 afficherLutteurs();
                 afficherNews();
@@ -1183,6 +1203,63 @@
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; installBanner.classList.remove('show'); });
         }
+
+        /* =====================================================
+           PULL TO REFRESH
+        ===================================================== */
+        (function() {
+            const ptrIndicator = document.getElementById('ptr-indicator');
+            let touchStartY = 0;
+            let pullDistance = 0;
+            let refreshing = false;
+            const threshold = 80; // distance minimale à tirer
+
+            document.addEventListener('touchstart', function(e) {
+                if (window.scrollY === 0) {
+                    touchStartY = e.touches[0].clientY;
+                    pullDistance = 0;
+                }
+            }, {passive: false});
+
+            document.addEventListener('touchmove', function(e) {
+                if (refreshing) return;
+                if (window.scrollY === 0) {
+                    pullDistance = e.touches[0].clientY - touchStartY;
+                    if (pullDistance > 20) {
+                        e.preventDefault(); // empêche le défilement de la page
+                        const opacity = Math.min(pullDistance / threshold, 1);
+                        ptrIndicator.style.top = Math.min(pullDistance * 0.5, 50) + 'px';
+                        ptrIndicator.style.opacity = opacity;
+                        if (pullDistance > threshold) {
+                            ptrIndicator.classList.add('spinning');
+                        } else {
+                            ptrIndicator.classList.remove('spinning');
+                        }
+                    }
+                }
+            }, {passive: false});
+
+            document.addEventListener('touchend', async function(e) {
+                if (refreshing) return;
+                if (pullDistance > threshold && window.scrollY === 0) {
+                    refreshing = true;
+                    ptrIndicator.style.top = '30px';
+                    ptrIndicator.classList.add('spinning');
+                    ptrIndicator.style.opacity = '1';
+                    try {
+                        await chargerDonnees(); // recharge les données
+                    } catch (err) {
+                        console.error('Refresh failed', err);
+                    }
+                    refreshing = false;
+                }
+                // Reset
+                ptrIndicator.style.top = '0px';
+                ptrIndicator.style.opacity = '0';
+                ptrIndicator.classList.remove('spinning');
+                pullDistance = 0;
+            });
+        })();
 
         /* =====================================================
            ÉVÉNEMENTS
