@@ -254,7 +254,7 @@
             <div><label>👤 Lutteur 2</label><input type="text" id="cL2" placeholder="Nom du lutteur 2"></div>
         </div>
 
-        <!-- Nouveaux champs pour les écuries des petits combats -->
+        <!-- Champs écurie pour les petits combats -->
         <div id="ecuriesPetitRow" style="display:none;">
             <div class="row">
                 <div><label>🏠 Écurie 1 (petit)</label><input type="text" id="cE1Petit" placeholder="Écurie"></div>
@@ -262,6 +262,7 @@
             </div>
         </div>
 
+        <!-- Champs pour combat vedette -->
         <div id="vedetteFields">
             <div class="row">
                 <div><label>🏠 Écurie 1</label><input type="text" id="cE1" placeholder="Écurie"></div>
@@ -512,7 +513,7 @@ function viderFormulaireCombat() {
 function annulerEditionCombat() { viderFormulaireCombat(); }
 
 /* ============================================================
-   AJOUTER / MODIFIER UN COMBAT (gère aussi les petits)
+   AJOUTER / MODIFIER UN COMBAT (vedette ou petit)
    ============================================================ */
 function ajouterCombat() {
     const editId = document.getElementById('cEditId').value;
@@ -583,7 +584,7 @@ function ajouterCombat() {
 }
 
 /* ============================================================
-   CHARGER & ÉDITER LES COMBATS (avec affichage des petits)
+   CHARGER & ÉDITER LES COMBATS (avec affichage et suppression des petits)
    ============================================================ */
 function chargerCombats() {
     db.ref('combats').on('value', (snapshot) => {
@@ -603,7 +604,10 @@ function chargerCombats() {
                         combat.petitsCombats.forEach((p, idx) => {
                             petitsHtml += `<div style="display:flex; align-items:center; justify-content:space-between; background:var(--sand); border-radius:8px; padding:6px 10px; margin:4px 0;">
                                 <span style="font-size:13px;">🥊 ${p.lutteur1} vs ${p.lutteur2}</span>
-                                <button class="btn-icon btn-small" onclick="editerPetitCombat('${id}', ${idx})" title="Modifier ce petit combat">✏️</button>
+                                <div style="display:flex; gap:4px;">
+                                    <button class="btn-icon btn-small" onclick="editerPetitCombat('${id}', ${idx})" title="Modifier ce petit combat">✏️</button>
+                                    <button class="btn-icon btn-small" style="color:#c0392b;" onclick="supprimerPetitCombat('${id}', ${idx})" title="Supprimer ce petit combat">🗑️</button>
+                                </div>
                             </div>`;
                         });
                         petitsHtml += '</div>';
@@ -620,7 +624,6 @@ function chargerCombats() {
                         </div>
                     </div>`;
                 } else {
-                    // Les petits combats ne devraient pas exister à la racine, mais on les affiche au cas où
                     html += `<div class="item-row"><div><strong><span class="type-badge petit">Petit</span> ${nom}</strong><small>${details}</small></div><div class="item-actions"><button class="btn-icon" style="color:#c0392b;" onclick="supprimerItem('combats','${id}',chargerCombats)" title="Supprimer">🗑️</button></div></div>`;
                 }
                 count++;
@@ -660,7 +663,6 @@ function editerCombat(id) {
     window.scrollTo({ top: document.getElementById('combatsList').offsetTop - 20, behavior: 'smooth' });
 }
 
-// Nouvelle fonction pour éditer un petit combat directement depuis la liste
 function editerPetitCombat(parentId, index) {
     db.ref(`combats/${parentId}`).once('value', (snap) => {
         const combat = snap.val();
@@ -681,6 +683,20 @@ function editerPetitCombat(parentId, index) {
         document.getElementById('btnSaveCombat').textContent = '💾 Enregistrer les modifications';
         document.getElementById('btnCancelCombat').style.display = 'block';
         window.scrollTo({ top: document.getElementById('combatsList').offsetTop - 20, behavior: 'smooth' });
+    });
+}
+
+function supprimerPetitCombat(parentId, index) {
+    if (!confirm('🗑️ Supprimer ce petit combat ?')) return;
+    db.ref(`combats/${parentId}/petitsCombats`).once('value', snap => {
+        let petits = snap.val() || [];
+        if (index < 0 || index >= petits.length) return;
+        petits.splice(index, 1);
+        db.ref(`combats/${parentId}/petitsCombats`).set(petits)
+            .then(() => {
+                afficherSucces('✅ Petit combat supprimé');
+                chargerCombats();
+            });
     });
 }
 
