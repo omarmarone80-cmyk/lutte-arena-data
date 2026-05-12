@@ -8,7 +8,6 @@
     <title>Admin · Lutte SN</title>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -178,7 +177,7 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             font-size: 14px;
             transition: background 0.15s;
         }
@@ -186,7 +185,7 @@
         .item-row:hover { background: var(--sand); }
         .item-row strong { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; letter-spacing: 0.3px; }
         .item-row small { color: var(--mist); font-size: 12px; display: block; margin-top: 2px; font-weight: 500; }
-        .item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .item-actions { display: flex; gap: 6px; flex-shrink: 0; margin-left: 12px; }
         .type-badge {
             font-size: 10px; font-weight: 700; text-transform: uppercase;
             letter-spacing: 1px; padding: 3px 10px; border-radius: 20px;
@@ -251,13 +250,16 @@
         </div>
 
         <div class="row">
-            <div><label>📸 Photo Lutteur 1</label><input type="text" id="cPhoto1" placeholder="fichier.jpg"></div>
-            <div><label>📸 Photo Lutteur 2</label><input type="text" id="cPhoto2" placeholder="fichier.jpg"></div>
-        </div>
-
-        <div class="row">
             <div><label>👤 Lutteur 1</label><input type="text" id="cL1" placeholder="Nom du lutteur 1"></div>
             <div><label>👤 Lutteur 2</label><input type="text" id="cL2" placeholder="Nom du lutteur 2"></div>
+        </div>
+
+        <!-- Nouveaux champs pour les écuries des petits combats -->
+        <div id="ecuriesPetitRow" style="display:none;">
+            <div class="row">
+                <div><label>🏠 Écurie 1 (petit)</label><input type="text" id="cE1Petit" placeholder="Écurie"></div>
+                <div><label>🏠 Écurie 2 (petit)</label><input type="text" id="cE2Petit" placeholder="Écurie"></div>
+            </div>
         </div>
 
         <div id="vedetteFields">
@@ -477,6 +479,7 @@ function toggleCombatForm() {
     const type = document.getElementById('cTypeCombat').value;
     document.getElementById('parentCombatDiv').style.display = (type === 'petit') ? 'block' : 'none';
     document.getElementById('vedetteFields').style.display = (type === 'petit') ? 'none' : 'block';
+    document.getElementById('ecuriesPetitRow').style.display = (type === 'petit') ? 'block' : 'none';
     if (type === 'petit') chargerListeVedettePourSelect();
 }
 
@@ -495,7 +498,7 @@ function chargerListeVedettePourSelect() {
 
 function viderFormulaireCombat() {
     document.getElementById('cEditId').value = '';
-    ['cTypeCombat','cPhoto1','cPhoto2','cL1','cL2','cE1','cE2','cDate','cJour','cLieu','cVainqueur','cVideo'].forEach(id => {
+    ['cTypeCombat','cL1','cL2','cE1Petit','cE2Petit','cE1','cE2','cDate','cJour','cLieu','cVainqueur','cVideo'].forEach(id => {
         if (id === 'cTypeCombat') document.getElementById(id).value = 'vedette';
         else if (id === 'cIntl') document.getElementById(id).value = 'false';
         else document.getElementById(id).value = '';
@@ -509,7 +512,7 @@ function viderFormulaireCombat() {
 function annulerEditionCombat() { viderFormulaireCombat(); }
 
 /* ============================================================
-   AJOUTER / MODIFIER UN COMBAT
+   AJOUTER / MODIFIER UN COMBAT (gère aussi les petits)
    ============================================================ */
 function ajouterCombat() {
     const editId = document.getElementById('cEditId').value;
@@ -523,21 +526,33 @@ function ajouterCombat() {
         if (!parentId) { alert('❌ Choisissez un combat vedette parent'); return; }
         const petitCombat = {
             lutteur1: l1, lutteur2: l2,
+            ecurie1: document.getElementById('cE1Petit').value.trim(),
+            ecurie2: document.getElementById('cE2Petit').value.trim(),
             vainqueur: document.getElementById('cVainqueur').value.trim(),
             videoYoutube: document.getElementById('cVideo').value.trim() ? `https://www.youtube.com/watch?v=${document.getElementById('cVideo').value.trim()}` : ''
         };
+
         db.ref(`combats/${parentId}/petitsCombats`).once('value', (snap) => {
             let petits = snap.val() || [];
-            if (editId) {
-                const idx = parseInt(editId.replace('petit_', ''));
-                if (!isNaN(idx) && idx < petits.length) petits[idx] = petitCombat;
-            } else { petits.push(petitCombat); }
+            if (editId && editId.startsWith('petit_')) {
+                const parts = editId.split('_');
+                const idx = parseInt(parts[2]);
+                if (!isNaN(idx) && idx < petits.length) {
+                    petits[idx] = petitCombat;
+                } else {
+                    alert('❌ Petit combat introuvable pour modification.');
+                    return;
+                }
+            } else {
+                petits.push(petitCombat);
+            }
             db.ref(`combats/${parentId}/petitsCombats`).set(petits)
                 .then(() => { afficherSucces(editId ? '✅ Petit combat modifié' : '✅ Petit combat ajouté'); viderFormulaireCombat(); chargerCombats(); });
         });
         return;
     }
 
+    // Combat vedette
     const combatData = {
         type: 'vedette',
         date: document.getElementById('cDate').value.trim(),
@@ -568,7 +583,7 @@ function ajouterCombat() {
 }
 
 /* ============================================================
-   CHARGER & ÉDITER LES COMBATS
+   CHARGER & ÉDITER LES COMBATS (avec affichage des petits)
    ============================================================ */
 function chargerCombats() {
     db.ref('combats').on('value', (snapshot) => {
@@ -578,10 +593,36 @@ function chargerCombats() {
         if (data) {
             Object.entries(data).forEach(([id, combat]) => {
                 allVedetteCombats.push({ id, ...combat });
-                const typeBadge = combat.type === 'petit' ? '<span class="type-badge petit">Petit</span>' : '<span class="type-badge vedette">Vedette</span>';
                 const nom = combat.type === 'petit' ? `${combat.lutteur1 || '?'} vs ${combat.lutteur2 || '?'}` : `${combat.vedette?.lutteur1 || '?'} vs ${combat.vedette?.lutteur2 || '?'}`;
                 const details = combat.type !== 'petit' ? `${combat.jourSemaine || ''} · ${combat.lieu || ''}` : 'Rattaché à un combat vedette';
-                html += `<div class="item-row"><div><strong>${typeBadge} ${nom}</strong><small>${details}</small></div><div class="item-actions"><button class="btn-icon" onclick="editerCombat('${id}')" title="Modifier">✏️</button><button class="btn-icon" style="color:#c0392b;" onclick="supprimerItem('combats','${id}',chargerCombats)" title="Supprimer">🗑️</button></div></div>`;
+                
+                if (combat.type !== 'petit') {
+                    let petitsHtml = '';
+                    if (combat.petitsCombats && combat.petitsCombats.length > 0) {
+                        petitsHtml = '<div style="margin-top:8px; padding-left:20px;">';
+                        combat.petitsCombats.forEach((p, idx) => {
+                            petitsHtml += `<div style="display:flex; align-items:center; justify-content:space-between; background:var(--sand); border-radius:8px; padding:6px 10px; margin:4px 0;">
+                                <span style="font-size:13px;">🥊 ${p.lutteur1} vs ${p.lutteur2}</span>
+                                <button class="btn-icon btn-small" onclick="editerPetitCombat('${id}', ${idx})" title="Modifier ce petit combat">✏️</button>
+                            </div>`;
+                        });
+                        petitsHtml += '</div>';
+                    }
+                    html += `<div class="item-row">
+                        <div>
+                            <strong><span class="type-badge vedette">Vedette</span> ${nom}</strong>
+                            <small>${details}</small>
+                            ${petitsHtml}
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-icon" onclick="editerCombat('${id}')" title="Modifier">✏️</button>
+                            <button class="btn-icon" style="color:#c0392b;" onclick="supprimerItem('combats','${id}',chargerCombats)" title="Supprimer">🗑️</button>
+                        </div>
+                    </div>`;
+                } else {
+                    // Les petits combats ne devraient pas exister à la racine, mais on les affiche au cas où
+                    html += `<div class="item-row"><div><strong><span class="type-badge petit">Petit</span> ${nom}</strong><small>${details}</small></div><div class="item-actions"><button class="btn-icon" style="color:#c0392b;" onclick="supprimerItem('combats','${id}',chargerCombats)" title="Supprimer">🗑️</button></div></div>`;
+                }
                 count++;
             });
         } else { html = '<div class="item-row" style="justify-content:center;color:var(--mist);">Aucun combat</div>'; }
@@ -617,6 +658,30 @@ function editerCombat(id) {
     document.getElementById('btnSaveCombat').textContent = '💾 Enregistrer les modifications';
     document.getElementById('btnCancelCombat').style.display = 'block';
     window.scrollTo({ top: document.getElementById('combatsList').offsetTop - 20, behavior: 'smooth' });
+}
+
+// Nouvelle fonction pour éditer un petit combat directement depuis la liste
+function editerPetitCombat(parentId, index) {
+    db.ref(`combats/${parentId}`).once('value', (snap) => {
+        const combat = snap.val();
+        if (!combat || !combat.petitsCombats || index >= combat.petitsCombats.length) return;
+        const petit = combat.petitsCombats[index];
+        
+        document.getElementById('cEditId').value = `petit_${parentId}_${index}`;
+        document.getElementById('cTypeCombat').value = 'petit';
+        toggleCombatForm();
+        document.getElementById('cL1').value = petit.lutteur1 || '';
+        document.getElementById('cL2').value = petit.lutteur2 || '';
+        document.getElementById('cE1Petit').value = petit.ecurie1 || '';
+        document.getElementById('cE2Petit').value = petit.ecurie2 || '';
+        document.getElementById('cVainqueur').value = petit.vainqueur || '';
+        document.getElementById('cVideo').value = extraireIdYoutube(petit.videoYoutube || '');
+        document.getElementById('cParentCombat').value = parentId;
+        
+        document.getElementById('btnSaveCombat').textContent = '💾 Enregistrer les modifications';
+        document.getElementById('btnCancelCombat').style.display = 'block';
+        window.scrollTo({ top: document.getElementById('combatsList').offsetTop - 20, behavior: 'smooth' });
+    });
 }
 
 /* ============================================================
@@ -705,7 +770,6 @@ function editerLutteur(nom) {
         document.getElementById('lOriginalNom').value = nom;
         document.getElementById('lNom').value = nom;
         document.getElementById('lEcurie').value = d.ecurie || '';
-        // Enlever le préfixe pour l'édition, le préfixe sera rajouté à la sauvegarde
         let photo = d.photo || '';
         if (photo.startsWith('images/lutteurs/')) photo = photo.replace('images/lutteurs/', '');
         document.getElementById('lPhoto').value = photo;
