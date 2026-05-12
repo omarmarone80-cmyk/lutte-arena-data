@@ -10,10 +10,8 @@
     <meta name="theme-color" content="#0b3d2e">
     <meta name="description" content="Lutte SN - L'Arène des Champions - Calendrier 2026">
 
-    <!-- ✅ SÉCURITÉ PLAY STORE -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval';">
 
-    <!-- ✅ PWA INSTALLATION -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
 
@@ -34,7 +32,6 @@
             --grad-fire: linear-gradient(135deg, #e8450a 0%, #f5a623 100%);
             --grad-gold: linear-gradient(135deg, #f5a623 0%, #e8a000 100%);
             --grad-dark: linear-gradient(160deg, #0e1c14 0%, #145c42 100%);
-            /* ✅ Shadows réduites pour Android bas de gamme */
             --sh-sm:  0 2px 6px rgba(11,61,46,0.07);
             --sh-md:  0 4px 16px rgba(11,61,46,0.10);
             --sh-lg:  0 10px 32px rgba(11,61,46,0.14);
@@ -55,7 +52,6 @@
             opacity:0; animation:fadeIn .4s ease forwards;
         }
 
-        /* ✅ content-visibility pour performance scroll */
         img { content-visibility:auto; }
 
         @keyframes fadeIn    { to{opacity:1} }
@@ -72,12 +68,10 @@
             opacity:.5;
         }
 
-        /* ===== MENU BTN ===== */
         .menu-btn { position:fixed; top:calc(16px + var(--safe-top)); left:16px; width:48px; height:48px; background:var(--chalk); border-radius:16px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:101; font-size:20px; color:var(--forest); box-shadow:var(--sh-md); border:1.5px solid var(--border-col); transition:transform .2s; }
         .menu-btn:active { transform:scale(.93); }
 
-        /* ===== DRAWER ===== */
-        .overlay { position:fixed; inset:0; background:rgba(11,61,46,0.5); /* ✅ blur réduit à 4px */ backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); z-index:1999; display:none; }
+        .overlay { position:fixed; inset:0; background:rgba(11,61,46,0.5); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); z-index:1999; display:none; }
         .overlay.show { display:block; }
         .drawer { position:fixed; top:0; left:-310px; width:300px; height:100%; background:var(--chalk); z-index:2000; transition:left .35s cubic-bezier(.25,.8,.25,1); box-shadow:var(--sh-lg); border-radius:0 28px 28px 0; padding-top:var(--safe-top); overflow-y:auto; }
         .drawer.open { left:0; }
@@ -90,7 +84,6 @@
         .drawer-menu li a:active { background:var(--sand); border-right-color:var(--saffron); color:var(--forest); }
         .drawer-menu .icon-circle { width:40px; height:40px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:18px; background:var(--sand); flex-shrink:0; }
 
-        /* ===== HEADER ===== */
         .site-header { position:relative; background:var(--grad-hero); padding:calc(24px + var(--safe-top)) 16px 0; overflow:hidden; }
         .site-header::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 50%,rgba(245,166,35,.15) 0%,transparent 65%); }
         .header-top { display:flex; align-items:center; justify-content:space-between; padding:0 8px 0 68px; position:relative; z-index:2; }
@@ -98,14 +91,13 @@
         .header-brand h1 { font-family:'Bebas Neue',sans-serif; font-size:38px; letter-spacing:3px; color:var(--chalk); line-height:1; text-shadow:0 2px 8px rgba(0,0,0,.25); }
         .tagline { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:var(--saffron); margin-top:2px; }
         .header-actions { display:flex; gap:8px; }
-        .icon-btn { background:rgba(255,255,255,.15); /* ✅ blur réduit */ backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,.25); font-size:17px; cursor:pointer; padding:11px; border-radius:14px; color:#fff; transition:transform .2s; }
+        .icon-btn { background:rgba(255,255,255,.15); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,.25); font-size:17px; cursor:pointer; padding:11px; border-radius:14px; color:#fff; transition:transform .2s; }
         .icon-btn:active { background:rgba(255,255,255,.3); transform:scale(.94); }
         .header-vs-strip { display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 0 0; position:relative; z-index:2; }
         .vs-strip-dot { width:6px; height:6px; border-radius:50%; background:var(--saffron); opacity:.7; }
         .vs-strip-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent); }
         .vs-strip-label { font-family:'Bebas Neue',sans-serif; font-size:11px; letter-spacing:4px; color:rgba(255,255,255,.5); }
 
-        /* ===== TABS ===== */
         .tabs-wrapper { background:var(--grad-hero); padding:0 16px 16px; position:relative; z-index:2; }
         .tabs { display:flex; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); padding:5px; gap:4px; border-radius:16px; }
         .tab { flex:1; text-align:center; padding:12px 6px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:.5px; text-transform:uppercase; cursor:pointer; color:rgba(255,255,255,.6); border-radius:12px; transition:all .25s; }
@@ -115,7 +107,6 @@
         .page { display:none; animation:slideUp .35s ease-out; }
         .page.active-page { display:block; }
 
-        /* ===== PHOTOS ===== */
         .team-photo { width:90px; height:90px; border-radius:50%; display:flex; align-items:center; justify-content:center; overflow:hidden; background:var(--photo-bg); border:3px solid white; box-shadow:var(--sh-md); position:relative; margin:0 auto; flex-shrink:0; transition:transform .3s cubic-bezier(.34,1.56,.64,1); }
         .team-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; }
         .team-photo:active { transform:scale(1.07); }
@@ -145,7 +136,6 @@
         .fiche-sticky-photo { width:48px; height:48px; border-radius:50%; border:2.5px solid rgba(255,255,255,.5); overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.15); }
         .fiche-sticky-photo img { width:100%; height:100%; object-fit:cover; object-position:center top; }
 
-        /* ===== CARTES COMBAT ===== */
         .combat-teams-wrapper { background:linear-gradient(180deg,rgba(11,61,46,.03) 0%,rgba(245,166,35,.04) 100%); border-radius:16px; padding:18px 10px 14px; margin:0 -4px; }
         .combat-teams { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
         .team { flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
@@ -154,7 +144,6 @@
         .team-ecurie { font-size:11px; color:var(--forest-lite); font-weight:700; font-family:'Barlow Condensed',sans-serif; letter-spacing:.5px; text-transform:uppercase; margin-top:-6px; }
 
         .combat-item-card { background:var(--chalk); margin:0 14px 18px; border-radius:var(--r-lg); overflow:hidden; border:1.5px solid var(--border-col); box-shadow:var(--sh-md); animation:slideUp .45s ease-out backwards; }
-        /* ✅ Animation ouverture fluide au clic */
         .combat-item-card.tapped { transform:scale(.98); opacity:.95; transition:transform .15s, opacity .15s; }
         .card-accent-bar { height:4px; background:var(--grad-fire); }
         .card-accent-bar.international { background:linear-gradient(90deg,#6366f1,#a855f7,#ec4899); }
@@ -173,7 +162,6 @@
         .winner-badge { display:inline-flex; align-items:center; gap:6px; background:var(--grad-gold); color:#fff; padding:7px 18px; border-radius:20px; font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:.5px; margin-top:14px; box-shadow:var(--sh-gold); }
         .petit-winner-badge { background:#fef3c7; color:#b45309; padding:3px 12px; border-radius:12px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:4px; white-space:nowrap; }
 
-        /* ===== TOGGLE PETITS ===== */
         .petits-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; border-top:1.5px solid var(--border-col); background:linear-gradient(90deg,#f5f9f6,var(--sand)); transition:background .2s; user-select:none; -webkit-user-select:none; }
         .petits-header:active { background:var(--border-col); }
         .petits-title { display:flex; align-items:center; gap:8px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:var(--mist); text-transform:uppercase; letter-spacing:1.5px; }
@@ -183,7 +171,6 @@
         .petits-combats-list { padding:0; max-height:0; overflow:hidden; background:var(--chalk); transition:max-height .4s cubic-bezier(.4,0,.2,1), padding .3s; }
         .petits-combats-list.open { max-height:2000px; padding:0 16px 16px; }
 
-        /* ===== PETITS COMBATS ===== */
         .petit-combat-row { display:flex; align-items:center; flex-wrap:wrap; padding:12px 0; border-bottom:1px solid var(--border-col); gap:8px; }
         .petit-combat-row:last-child { border-bottom:none; }
         .petit-lutteur { display:flex; align-items:center; gap:8px; flex:1; cursor:pointer; padding:6px 8px; border-radius:10px; transition:background .2s; min-width:0; }
@@ -193,7 +180,6 @@
         .petit-video-wrapper { display:block; margin-top:10px; position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; background:#000; width:100%; }
         .petit-video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:12px; }
 
-        /* ===== SKELETON LOADERS ENRICHIS ===== */
         .skeleton-card { background:var(--chalk); margin:0 14px 18px; border-radius:var(--r-lg); overflow:hidden; border:1.5px solid var(--border-col); padding:20px; }
         .skel { background:linear-gradient(90deg,#e8edf2 25%,#f5f8f5 50%,#e8edf2 75%); background-size:600px 100%; animation:shimmer 1.6s infinite; border-radius:8px; }
         .skel-bar { height:4px; width:100%; margin:-20px -20px 20px; border-radius:0; }
@@ -209,10 +195,8 @@
         .skel-ecurie { height:10px; width:60%; }
         .skel-vs { width:56px; height:56px; border-radius:50%; margin-top:6px; flex-shrink:0; }
 
-        /* ===== PAGE DÉTAIL ===== */
         .detail-page { position:fixed; inset:0; background:var(--sand); z-index:1000; overflow-y:auto; transform:translateX(105%); transition:transform .38s cubic-bezier(.25,.8,.25,1); padding-top:var(--safe-top); }
         .detail-page.open { transform:none; }
-        /* ✅ Animation scaleIn sur ouverture */
         .detail-page.open .detail-hero { animation:scaleIn .3s ease-out; }
 
         .detail-hero { background:var(--grad-dark); padding:20px 20px 32px; position:relative; overflow:hidden; }
@@ -254,7 +238,6 @@
         .comment-author { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; color:var(--forest); }
         .comment-date { font-size:11px; color:var(--mist); margin-left:8px; }
 
-        /* ===== FICHE LUTTEUR ===== */
         .fiche-sticky-nav { position:sticky; top:0; z-index:9; background:var(--forest); padding:14px 20px; display:flex; align-items:center; gap:14px; box-shadow:0 4px 16px rgba(0,0,0,.25); padding-top:calc(14px + var(--safe-top)); }
         .fiche-sticky-info { flex:1; min-width:0; }
         .fiche-sticky-nom { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:18px; color:#fff; letter-spacing:.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -277,7 +260,6 @@
         .resultat-badge.defaite { background:#fee2e2; color:#991b1b; }
         .resultat-badge.nul { background:#fef3c7; color:#92400e; }
 
-        /* ===== LUTTEURS ===== */
         .lutteur-card { background:var(--chalk); margin:0 14px 14px; border-radius:var(--r-md); padding:18px; border:1.5px solid var(--border-col); display:flex; align-items:center; gap:18px; cursor:pointer; box-shadow:var(--sh-sm); transition:transform .25s; animation:slideRight .35s ease-out backwards; }
         .lutteur-card:active { transform:translateY(-2px) scale(1.01); box-shadow:var(--sh-lg); }
         .lutteur-rank { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--border-col); letter-spacing:1px; min-width:32px; text-align:center; }
@@ -291,7 +273,6 @@
         .lutteur-stat-chip.d { background:#fee2e2; color:#991b1b; }
         .lutteur-stat-chip.t { background:var(--sand); color:var(--mist); }
 
-        /* ===== NEWS / MBAPATT ===== */
         .news-card { background:var(--chalk); margin:0 14px 18px; border-radius:var(--r-lg); overflow:hidden; border:1.5px solid var(--border-col); box-shadow:var(--sh-md); }
         .news-image { width:100%; height:200px; background:#e0e8e4; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
         .news-image img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
@@ -307,8 +288,7 @@
         .mbapatt-participants { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
         .participant-tag { background:var(--sand); border:1.5px solid var(--border-col); padding:5px 14px; border-radius:20px; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; color:var(--ink); }
 
-        /* ===== RECHERCHE ===== */
-        .search-overlay { position:fixed; inset:0; background:rgba(11,61,46,.75); /* ✅ blur réduit */ backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:3000; display:none; flex-direction:column; padding-top:var(--safe-top); }
+        .search-overlay { position:fixed; inset:0; background:rgba(11,61,46,.75); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:3000; display:none; flex-direction:column; padding-top:var(--safe-top); }
         .search-overlay.open { display:flex; }
         .search-header { padding:20px; display:flex; gap:12px; align-items:center; }
         .search-input-popup { flex:1; padding:16px 20px; border-radius:18px; border:2px solid rgba(255,255,255,.2); background:rgba(255,255,255,.95); font-size:16px; outline:none; font-family:'Barlow',sans-serif; }
@@ -317,7 +297,6 @@
         .search-result-item { background:var(--chalk); padding:16px 20px; border-radius:16px; margin-bottom:10px; cursor:pointer; border:1.5px solid var(--border-col); }
         .search-result-item:active { transform:scale(.98); background:var(--sand); }
 
-        /* ===== CALENDRIER ===== */
         .calendar-overlay { position:fixed; inset:0; background:rgba(11,61,46,.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:3000; display:none; align-items:center; justify-content:center; padding-top:var(--safe-top); }
         .calendar-card { background:var(--chalk); border-radius:var(--r-xl); padding:36px; text-align:center; width:85%; max-width:360px; box-shadow:var(--sh-lg); }
         .calendar-emoji { font-size:56px; margin-bottom:12px; display:block; }
@@ -326,11 +305,9 @@
         .calendar-weekday { font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--forest-lite); font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-top:6px; }
         .calendar-close { background:var(--grad-hero); color:#fff; border:none; padding:15px 32px; border-radius:18px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:.5px; margin-top:24px; cursor:pointer; }
 
-        /* ===== VIDEO ===== */
         .video-container { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:var(--r-md); margin-top:12px; background:#000; box-shadow:var(--sh-md); }
         .video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:var(--r-md); }
 
-        /* ===== INSTALL BANNER ===== */
         .install-banner { position:fixed; bottom:calc(80px + var(--safe-bot)); left:14px; right:14px; background:var(--grad-dark); color:#fff; padding:18px 20px; border-radius:var(--r-md); display:none; align-items:center; gap:14px; z-index:400; box-shadow:var(--sh-lg); animation:slideUp .4s ease-out; }
         .install-banner.show { display:flex; }
         .install-banner-text strong { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; display:block; margin-bottom:3px; }
@@ -339,7 +316,6 @@
         .install-banner-btn { background:var(--saffron); color:var(--forest); border:none; padding:11px 18px; border-radius:12px; font-family:'Barlow Condensed',sans-serif; font-weight:700; cursor:pointer; font-size:14px; white-space:nowrap; }
         .install-banner-close { background:rgba(255,255,255,.15); border:none; color:#fff; width:32px; height:32px; border-radius:10px; cursor:pointer; font-size:16px; flex-shrink:0; }
 
-        /* ===== ADMIN & FOOTER ===== */
         .admin-link { position:fixed; bottom:calc(24px + var(--safe-bot)); right:20px; width:50px; height:50px; background:var(--grad-hero); border-radius:16px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:20px; box-shadow:var(--sh-lg); z-index:100; cursor:pointer; opacity:.3; transition:opacity .3s; }
         .admin-link:active { opacity:.8; }
         footer { text-align:center; font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--mist); padding:28px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; }
@@ -350,7 +326,7 @@
         .btn-primary { background:var(--grad-hero); color:#fff; border:none; border-radius:16px; padding:16px 24px; font-family:'Barlow Condensed',sans-serif; font-weight:700; cursor:pointer; font-size:16px; letter-spacing:.5px; width:100%; transition:opacity .2s; box-shadow:var(--sh-md); }
         .btn-primary:active { opacity:.88; }
 
-        /* ===== PULL TO REFRESH ===== */
+        /* Pull-to-refresh */
         #ptr-indicator {
             position: fixed;
             top: 0;
@@ -469,9 +445,6 @@
     (function () {
         'use strict';
 
-        /* =====================================================
-           CONFIG
-        ===================================================== */
         const DATA_BASE_URL   = 'https://omarmarone80-cmyk.github.io/lutte-arena-data/';
         const ADMIN_PASSWORD  = 'lutte2026';
         const CACHE_KEY       = 'lutte_v9_cache';
@@ -490,9 +463,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        /* =====================================================
-           ✅ IndexedDB — remplace localStorage pour le cache
-        ===================================================== */
         const IDB = (() => {
             let _db = null;
             function open() {
@@ -529,9 +499,6 @@
             return { get, set };
         })();
 
-        /* =====================================================
-           STATE
-        ===================================================== */
         const state = {
             areneData:    [],
             lutteursData: {},
@@ -542,18 +509,12 @@
             loaded:       { combats:false, lutteurs:false, news:false, mbapatt:false }
         };
 
-        /* =====================================================
-           ✅ SERVICE WORKER
-        ===================================================== */
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').catch(() => {});
             });
         }
 
-        /* =====================================================
-           NOTIFICATIONS
-        ===================================================== */
         async function initPushNotifications() {
             if (typeof window.Capacitor === 'undefined' || !window.Capacitor.isNative) return;
             try {
@@ -578,9 +539,6 @@
             }
         }
 
-        /* =====================================================
-           SVG SILHOUETTE
-        ===================================================== */
         function silhouetteSVG(dark) {
             const c = dark ? 'rgba(255,255,255,0.8)' : '#7ba898';
             return `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
@@ -595,9 +553,6 @@
             return `<div class="avatar-silhouette${dark ? ' dark' : ''}">${silhouetteSVG(dark)}</div>`;
         }
 
-        /* =====================================================
-           PHOTOS
-        ===================================================== */
         function getPhotoURL(nom) {
             if (!nom || nom === 'A confirmer') return null;
             return state.photos[nom] || null;
@@ -624,9 +579,6 @@
             return genSilhouette(true);
         }
 
-        /* =====================================================
-           ✅ PARSE DATE — tous formats
-        ===================================================== */
         function parseDate(dateStr) {
             if (!dateStr) return null;
             if (typeof dateStr === 'number') { const d = new Date(dateStr); return isNaN(d) ? null : d; }
@@ -668,9 +620,6 @@
             return { day: d.getDate(), mon: MOIS_COURT[d.getMonth()] };
         }
 
-        /* =====================================================
-           UTILITAIRES
-        ===================================================== */
         function esc(str) {
             return String(str)
                 .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -682,9 +631,6 @@
             return m ? m[1] : null;
         }
 
-        /* =====================================================
-           SKELETON LOADERS ENRICHIS
-        ===================================================== */
         function skeletonCard() {
             return `<div class="skeleton-card">
                 <div class="skel skel-bar"></div>
@@ -716,9 +662,6 @@
             if (el) el.innerHTML = '<div style="height:12px;"></div>' + skeletonCard().repeat(count);
         }
 
-        /* =====================================================
-           TEMPLATES
-        ===================================================== */
         function petitCombatHTML(p) {
             if (!p.lutteur1 || p.lutteur1 === 'A confirmer')
                 return `<div class="petit-combat-row"><div style="text-align:center;width:100%;color:var(--mist);font-family:'Barlow Condensed',sans-serif;font-weight:600;">📅 À confirmer</div></div>`;
@@ -785,9 +728,18 @@
             </div>`;
         }
 
-        /* =====================================================
-           ✅ AFFICHAGE — DocumentFragment pour perf
-        ===================================================== */
+        /** Nouvelle fonction de tri des combats par date (les plus proches en premier) */
+        function trierCombatsParDate() {
+            state.areneData.sort((a, b) => {
+                const dateA = parseDate(a.date);
+                const dateB = parseDate(b.date);
+                if (!dateA && !dateB) return 0;       // les deux sans date : ordre inchangé
+                if (!dateA) return 1;                 // a sans date => après
+                if (!dateB) return -1;                // b sans date => a avant
+                return dateA - dateB;                 // ordre chronologique croissant
+            });
+        }
+
         function afficherCombats() {
             const container = document.getElementById('arene-container');
             if (!container) return;
@@ -871,24 +823,19 @@
             }).join('');
         }
 
-        /* =====================================================
-           ✅ FIREBASE — once() au lieu de on()
-        ===================================================== */
         async function chargerDonnees() {
-            // Afficher skeletons pendant le chargement
             afficherSkeletons('arene-container', 3);
 
-            // Charger depuis le cache IndexedDB d'abord (chargement immédiat)
             const cached = await IDB.get(CACHE_KEY);
             if (cached) {
                 state.areneData    = cached.areneData    || [];
                 state.lutteursData = cached.lutteursData || {};
                 state.newsData     = cached.newsData     || [];
                 state.mbapattData  = cached.mbapattData  || [];
-                // Charger les photos en cache
                 const photos = await IDB.get(PHOTOS_KEY);
                 if (photos) state.photos = photos;
-                // Affichage immédiat depuis cache
+
+                trierCombatsParDate();          // ← tri après le cache
                 afficherCombats();
                 afficherLutteurs();
                 afficherNews();
@@ -923,6 +870,7 @@
                 });
                 await IDB.set(PHOTOS_KEY, state.photos);
 
+                trierCombatsParDate();          // ← tri après Firebase
                 afficherCombats();
                 afficherLutteurs();
                 afficherNews();
@@ -937,9 +885,6 @@
             }
         }
 
-        /* =====================================================
-           DÉTAIL COMBAT
-        ===================================================== */
         function ouvrirDetailCombat(index) {
             const c = state.areneData[index];
             if (!c) return;
@@ -1038,9 +983,6 @@
             dp.scrollTop = 0;
         }
 
-        /* =====================================================
-           FICHE LUTTEUR
-        ===================================================== */
         function ouvrirFicheLutteur(nom) {
             const d = state.lutteursData[nom];
             if (!d) return;
@@ -1094,9 +1036,6 @@
             document.getElementById('detailPage').classList.remove('open');
         }
 
-        /* =====================================================
-           NAVIGATION
-        ===================================================== */
         function toggleDrawer() {
             document.getElementById('drawer').classList.toggle('open');
             document.getElementById('overlay').classList.toggle('show');
@@ -1114,9 +1053,6 @@
             fermerDrawer();
         }
 
-        /* =====================================================
-           RECHERCHE & CALENDRIER
-        ===================================================== */
         function ouvrirRecherche() { document.getElementById('searchOverlay').classList.add('open'); document.getElementById('searchInputPopup').focus(); }
         function fermerRecherche() { document.getElementById('searchOverlay').classList.remove('open'); }
         function rechercher() {
@@ -1142,9 +1078,6 @@
         }
         function fermerCalendrier() { document.getElementById('calendarOverlay').style.display='none'; }
 
-        /* =====================================================
-           ✅ PARTAGE — compatible Capacitor & Android
-        ===================================================== */
         async function partagerCombat(combat) {
             const texte = `🔥 ${combat.vedette.lutteur1} 🆚 ${combat.vedette.lutteur2} le ${formaterDate(combat)} à ${combat.lieu} | Lutte SN`;
             try {
@@ -1160,9 +1093,6 @@
             }
         }
 
-        /* =====================================================
-           TOGGLE PETITS COMBATS
-        ===================================================== */
         function togglePetitsCombats(index) {
             const list  = document.getElementById(`petits-list-${index}`);
             const arrow = document.getElementById(`arrow-${index}`);
@@ -1172,9 +1102,6 @@
             if (arrow) arrow.classList.toggle('open', !open);
         }
 
-        /* =====================================================
-           ADMIN & DIVERS
-        ===================================================== */
         let adminTaps = 0;
         function ouvrirAdmin() {
             if (++adminTaps >= 5) {
@@ -1187,9 +1114,6 @@
         function showContact()     { alert("📞 CONTACT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
         function showPartenariat() { alert("🤝 PARTENARIAT\n📧 omarmarone80@gmail.com\n📱 +221 76 181 59 48"); }
 
-        /* =====================================================
-           PWA INSTALL
-        ===================================================== */
         let deferredPrompt;
         const installBanner = document.getElementById('installBanner');
         window.addEventListener('beforeinstallprompt', e => {
@@ -1204,15 +1128,13 @@
             deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; installBanner.classList.remove('show'); });
         }
 
-        /* =====================================================
-           PULL TO REFRESH
-        ===================================================== */
+        // ========= PULL TO REFRESH =========
         (function() {
             const ptrIndicator = document.getElementById('ptr-indicator');
             let touchStartY = 0;
             let pullDistance = 0;
             let refreshing = false;
-            const threshold = 80; // distance minimale à tirer
+            const threshold = 80;
 
             document.addEventListener('touchstart', function(e) {
                 if (window.scrollY === 0) {
@@ -1226,7 +1148,7 @@
                 if (window.scrollY === 0) {
                     pullDistance = e.touches[0].clientY - touchStartY;
                     if (pullDistance > 20) {
-                        e.preventDefault(); // empêche le défilement de la page
+                        e.preventDefault();
                         const opacity = Math.min(pullDistance / threshold, 1);
                         ptrIndicator.style.top = Math.min(pullDistance * 0.5, 50) + 'px';
                         ptrIndicator.style.opacity = opacity;
@@ -1247,13 +1169,12 @@
                     ptrIndicator.classList.add('spinning');
                     ptrIndicator.style.opacity = '1';
                     try {
-                        await chargerDonnees(); // recharge les données
+                        await chargerDonnees();
                     } catch (err) {
                         console.error('Refresh failed', err);
                     }
                     refreshing = false;
                 }
-                // Reset
                 ptrIndicator.style.top = '0px';
                 ptrIndicator.style.opacity = '0';
                 ptrIndicator.classList.remove('spinning');
@@ -1261,9 +1182,6 @@
             });
         })();
 
-        /* =====================================================
-           ÉVÉNEMENTS
-        ===================================================== */
         function setupEvents() {
             document.getElementById('menuBtn').addEventListener('click', toggleDrawer);
             document.getElementById('overlay').addEventListener('click', fermerDrawer);
@@ -1284,7 +1202,6 @@
             document.getElementById('calendarOverlay').querySelector('.calendar-card').addEventListener('click', e=>e.stopPropagation());
             document.getElementById('calendarCloseBtn').addEventListener('click', fermerCalendrier);
 
-            // ✅ Animation tapped sur carte
             document.getElementById('arene-container').addEventListener('click', function(e) {
                 const shareBtn = e.target.closest('.share-btn');
                 if (shareBtn && shareBtn.dataset.index !== undefined) {
@@ -1327,9 +1244,6 @@
             document.getElementById('installBannerClose').addEventListener('click',()=>installBanner.classList.remove('show'));
         }
 
-        /* =====================================================
-           INIT
-        ===================================================== */
         async function init() {
             setupEvents();
             await chargerDonnees();
