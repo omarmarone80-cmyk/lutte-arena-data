@@ -349,12 +349,53 @@
         #ptr-indicator.spinning {
             animation: spin 0.8s linear infinite;
         }
+
+        /* Overlay photo plein écran */
+        #photoFullscreen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #photoFullscreen.show {
+            display: flex;
+        }
+        #photoFullscreen img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+        }
+        #photoFullscreenClose {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10001;
+        }
     </style>
 </head>
 <body>
 
     <!-- Pull-to-refresh indicator -->
     <div id="ptr-indicator">↻</div>
+
+    <!-- Overlay photo plein écran -->
+    <div id="photoFullscreen">
+        <img id="photoFullscreenImg" src="" alt="Photo lutteur">
+        <button id="photoFullscreenClose">✕</button>
+    </div>
 
     <div class="install-banner" id="installBanner">
         <button class="install-banner-close" id="installBannerClose">✕</button>
@@ -728,15 +769,14 @@
             </div>`;
         }
 
-        /** Nouvelle fonction de tri des combats par date (les plus proches en premier) */
         function trierCombatsParDate() {
             state.areneData.sort((a, b) => {
                 const dateA = parseDate(a.date);
                 const dateB = parseDate(b.date);
-                if (!dateA && !dateB) return 0;       // les deux sans date : ordre inchangé
-                if (!dateA) return 1;                 // a sans date => après
-                if (!dateB) return -1;                // b sans date => a avant
-                return dateA - dateB;                 // ordre chronologique croissant
+                if (!dateA && !dateB) return 0;
+                if (!dateA) return 1;
+                if (!dateB) return -1;
+                return dateA - dateB;
             });
         }
 
@@ -835,7 +875,7 @@
                 const photos = await IDB.get(PHOTOS_KEY);
                 if (photos) state.photos = photos;
 
-                trierCombatsParDate();          // ← tri après le cache
+                trierCombatsParDate();
                 afficherCombats();
                 afficherLutteurs();
                 afficherNews();
@@ -870,7 +910,7 @@
                 });
                 await IDB.set(PHOTOS_KEY, state.photos);
 
-                trierCombatsParDate();          // ← tri après Firebase
+                trierCombatsParDate();
                 afficherCombats();
                 afficherLutteurs();
                 afficherNews();
@@ -907,6 +947,7 @@
                 if (vid) vidH = `<div class="detail-info"><div class="section-title">🎥 Rediffusion</div><div class="video-container"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=0&rel=0&playsinline=1" frameborder="0" allowfullscreen loading="lazy"></iframe></div></div>`;
             }
 
+            // Suppression du bloc Informations (date, lieu, type) car déjà affiché dans le hero
             document.getElementById('detail-content').innerHTML = `
                 <div class="detail-hero">
                     <button class="detail-back" id="detailBackBtn">←</button>
@@ -924,12 +965,6 @@
                         </div>
                     </div>
                     <div style="text-align:center;margin-top:18px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;">${formaterDate(c)} · 📍 ${c.lieu}</div>
-                </div>
-                <div class="detail-info">
-                    <div class="section-title">📋 Informations</div>
-                    <div class="info-row"><span class="info-label">Date</span><span class="info-value">${formaterDate(c)}</span></div>
-                    <div class="info-row"><span class="info-label">Lieu</span><span class="info-value">${c.lieu}</span></div>
-                    <div class="info-row"><span class="info-label">Type</span><span class="info-value">${c.vedette.type||'Combat classique'}</span></div>
                 </div>
                 ${vidH}
                 <div class="detail-info"><div class="section-title">🥊 Petits combats</div>${petitsH}</div>
@@ -1012,7 +1047,10 @@
                     </div>
                     <button class="fiche-sticky-back" id="ficheBackBtn">←</button>
                 </div>
-                <div class="fiche-photo-full">${bannH}<div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie||''}</p></div></div>
+                <div class="fiche-photo-full" id="fichePhotoFull" style="cursor:pointer;">
+                    ${bannH}
+                    <div class="fiche-nom-overlay"><h2>${nom}</h2><p>${d.ecurie||''}</p></div>
+                </div>
                 <div class="detail-info">
                     <div class="section-title">📊 Statistiques</div>
                     <div class="stat-grid">
@@ -1027,6 +1065,21 @@
                 <button class="btn-primary" id="ficheCloseBtn" style="margin:16px;width:calc(100% - 32px);">← Retour</button>`;
             document.getElementById('ficheBackBtn').addEventListener('click',fermerDetailPage);
             document.getElementById('ficheCloseBtn').addEventListener('click',fermerDetailPage);
+
+            // Clic sur la photo pour ouvrir en plein écran
+            const photoFullDiv = document.getElementById('fichePhotoFull');
+            if (photoFullDiv) {
+                photoFullDiv.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    if (img && img.src) {
+                        const overlay = document.getElementById('photoFullscreen');
+                        const overlayImg = document.getElementById('photoFullscreenImg');
+                        overlayImg.src = img.src;
+                        overlay.classList.add('show');
+                    }
+                });
+            }
+
             const dp = document.getElementById('detailPage');
             dp.classList.add('open');
             dp.scrollTop = 0;
@@ -1234,6 +1287,18 @@
             document.getElementById('detailPage').addEventListener('click', e => {
                 const el = e.target.closest('[data-lutteur]');
                 if (el && el.dataset.lutteur) { e.stopPropagation(); ouvrirFicheLutteur(el.dataset.lutteur); }
+            });
+
+            // Fermeture overlay photo plein écran
+            const photoFullscreen = document.getElementById('photoFullscreen');
+            document.getElementById('photoFullscreenClose').addEventListener('click', function(e) {
+                e.stopPropagation();
+                photoFullscreen.classList.remove('show');
+            });
+            photoFullscreen.addEventListener('click', function(e) {
+                if (e.target === photoFullscreen) {
+                    photoFullscreen.classList.remove('show');
+                }
             });
 
             document.getElementById('adminLink').addEventListener('click', ouvrirAdmin);
